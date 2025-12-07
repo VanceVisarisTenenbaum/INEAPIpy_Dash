@@ -7,7 +7,7 @@ Created on Sat Dec  6 17:20:54 2025
 """
 
 from dash import Dash, html
-import Components.VarValPairsBox as VVPB
+import Components.SelectionBox as SB
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
     app = Dash()
 
     app.layout = html.Div(
-        children=[VVPB.VarValPairBoxComponent(1)]
+        children=[SB.SelectionBoxComponent(1)]
     )
     app.run(debug=True)
     return None

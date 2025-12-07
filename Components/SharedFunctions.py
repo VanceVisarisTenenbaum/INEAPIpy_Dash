@@ -17,7 +17,7 @@ from dash import dcc, html
 # Cargamos todas las variables que se mantendrán constantes mientras se este
 # usando el servidor.
 
-INE = W.EasyINEAPIClientSync(mode='py')
+INE = W.EasyINEAPIClientSync(mode='py', print_url=True)
 
 """
 La mayoría de los metadatos de la API del INE no se van a actualizar con
@@ -35,4 +35,46 @@ SERVER_MEMORY = {
 }
 
 
+"""
+Definimos un almacenamiento que se generará una única vez y se utilizará para
+memoizar el uso que le de el usuario y sera únicamente válido mientras dure
+la sesión.
+"""
 
+SESSION_STORAGE = dcc.Store(**{'id': 'SessionStorage',
+                               'storage_type': 'session'})
+
+
+"""
+Definimos una serie de componentes sencillos que se utilizarán en el resto
+de componentes.
+"""
+
+def LabelInput(label, inputComponent, style='top'):
+
+    if style == 'top':
+        component = html.Div(
+            children=[html.Span(label), inputComponent],
+            style={'display': 'flex',
+                   'alignItems': 'center',
+                   'marginBottom': '20px'}
+        )
+    elif style == 'side':
+        component = html.Div(
+            children=[html.Span(label), inputComponent],
+            style={'display': 'block', 'marginTop': '20px'}
+        )
+    else:
+        raise ValueError('style can only be "top" or "side"')
+    return component
+
+
+"""
+Definimos algunos estilos reutilizables.
+"""
+
+SELECT_INPUT_STYLE = {
+    'width': '250px',
+    'height': '50px',
+    'padding': '6px'
+}

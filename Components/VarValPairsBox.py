@@ -6,8 +6,8 @@ Created on Sun Dec  7 18:32:31 2025
 @author: mano
 """
 
-from dash import html, dcc
-#from .SharedFunctions import INE
+from dash import html, dcc, Input, Output, State, callback
+from .SharedFunctions import INE, LabelInput, SELECT_INPUT_STYLE
 
 """
 This file contains a fuction that creates a Component that will allow the user
@@ -26,20 +26,17 @@ becomes a param.
 
 def SelectComponent(list_of_labels_values, name, op_id, row_number):
     """Returns a select for variables or values."""
-    options = [{'label': '', 'value': 'None'}]
-    options.extend(list_of_labels_values)
+    options = list_of_labels_values
 
     # Adds initial empty value
-    component = dcc.Dropdown(
+    inputComponent = dcc.Dropdown(
         options=options,
-        value='None',  # Default value
+        value=None,  # Default value is empty
         **{'id': str(name) + 'Select_' + str(op_id) + '_' + str(row_number)},
-        style={
-            'width': '250px',
-            'height': '50px',
-            'padding': '6px'
-        }
+        style=SELECT_INPUT_STYLE
     )
+
+    component = LabelInput(name, inputComponent, 'top')
     return component
 
 
@@ -59,29 +56,12 @@ def VarValPair(var_comp, val_comp, op_id, row_number):
     return component
 
 
-# BORRAR CUANDO YA NO SE USE
 
-sample = [
-    {'label': 'test ' + str(i), 'value': i}
-    for i in range(10)
-]
-
-childrens_sample = [
-    VarValPair(
-        SelectComponent(sample, 'Var', 1, i),
-        SelectComponent(sample, 'Val', 1, i),
-        1, i
-    )
-    for i in range(10)
-]
-
-# FIN DE LO QUE HAY QUE BORRAR
-
-def VarValPairBoxComponent(op_id):
+def VarValPairBoxComponent(op_id, row_number):
     """Caja con pares Variable-Valor separados en filas."""
     component = html.Div(
-        children=childrens_sample,
-        **{'id': 'VarValBox' + str(op_id)},
+        children=[],
+        **{'id': 'VarValBox' + str(op_id) + '_' + str(row_number)},
         style={
             "display": "flex",
             "flexDirection": "column",
@@ -100,6 +80,20 @@ def VarValPairBoxComponent(op_id):
 #
 #
 # Añadimos los event listeners
+'''
+@callback(
+    Output('SessionStorage', 'data'),
+    Input('OPERATION SELECT BOX ID', 'value'),
+    State('SessionStorage', 'data')
+)
+def store_variables(op_id, data):
+    """Stores the requested variables to the Session Storage."""
+    variables = INE.get_variables_(op_id=op_id)
+    try:
+        data['Variables']
+    except KeyError:
+        data['Variables'] = dict()
 
-def make_variables_select(op_id):
-    return None
+    data['Variables'][op_id] = variables
+    return data
+'''

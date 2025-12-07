@@ -11,9 +11,11 @@ This files contains a function that creates a box that will allow to select
 everything necessary to get a set of series.
 """
 
-from dash import html, dcc
+from dash import html
+from .OperationBox import OperationSelectBox
+from .VarValPairsBox import VarValPairBoxComponent
 
-def SelectionBoxComponent():
+def SelectionBoxComponent(row_number):
     """
     This box provides the next.
         - Operation Selection
@@ -27,7 +29,8 @@ def SelectionBoxComponent():
     """
     element = html.Div(
         [
-
+            OperationSelectBox(row_number),
+            VarValPairBoxComponent(25, row_number),
         ]
     )
     return None

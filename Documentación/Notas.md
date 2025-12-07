@@ -228,6 +228,8 @@ Se debe mostrar toda la información disponible:
 * Se muestran las gráficas.
 
 
+## Flujo interno de los estados de la app.
+
 
 
 
