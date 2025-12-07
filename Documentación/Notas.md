@@ -23,6 +23,7 @@ Se pueden obtener todos los valores posibles de lo siguiente:
 * ```Publicaciones```.
 * ```Unidades```.
 * ```Escalas```.
+* ```Periodicidades```.
 * ```Clasificaciones```.
 
 ## ¿Qué función cumple cada objeto de la API del INE dentro del objetivo de la app?
@@ -60,7 +61,7 @@ Los diferentes objetos y sus clasificaciones son:
 
 ## ¿Cuáles son las dependencias y propiedades de los objetos de INE?
 
-Al formular esta pregunta buscamos, por un lado, saber las relaciones entre las distintas entidades del INE y ver qué objetos se repiten y cuántas veces, de este modo, poder optimizar la información que se visualiza en la app y en qué orden se van a mostrar. Por un lado, podemos recurrir al [diagrama de la documentación](https://mermaid.live/view?gist=https://gist.github.com/VanceVisarisTenenbaum/ccafa1dfdc5541dc9e343d81e10b3a76) o bien al [diagram simplificado](INSERTAR ENLACE CUANDO ESTÉ) que responde a esta pregunta. En cualquier caso, se tiene en forma de texto los objetos de los que depende para su obtención y los objetos que tiene como propiedad:
+Al formular esta pregunta buscamos, por un lado, saber las relaciones entre las distintas entidades del INE y ver qué objetos se repiten y cuántas veces, de este modo, poder optimizar la información que se visualiza en la app y en qué orden se van a mostrar. Por un lado, podemos recurrir al [diagrama de la documentación](https://mermaid.live/view?gist=https://gist.github.com/VanceVisarisTenenbaum/ccafa1dfdc5541dc9e343d81e10b3a76) o bien al [diagrama simplificado](INSERTAR ENLACE CUANDO ESTÉ) que responde a esta pregunta. En cualquier caso, se tiene en forma de texto los objetos de los que depende para su obtención y los objetos que tiene como propiedad:
 
 * ```Operación```:
     * Dependencias:
