@@ -1,0 +1,5 @@
+tests/*
+.spyproject/*
+__pycache__
+*.egg-info/
+dist/*
