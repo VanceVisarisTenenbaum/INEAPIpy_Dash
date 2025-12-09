@@ -6,16 +6,32 @@ Created on Sat Dec  6 17:20:54 2025
 @author: mano
 """
 
-from dash import Dash, html
+from dash import Dash, html, dcc
 import Components.SelectionBox as SB
 
 
 def main():
     """Starts the App."""
+
+
+    """
+    Definimos un almacenamiento que se generará una única vez y se utilizará para
+    memoizar el uso que le de el usuario y sera únicamente válido mientras dure
+    la sesión.
+    """
+
+    SESSION_STORAGE = dcc.Store(**{'id': 'SessionStorage',
+                                   'storage_type': 'session'})
+
+
+    """Iniciamos el servidor de dash."""
     app = Dash()
 
     app.layout = html.Div(
-        children=[SB.SelectionBoxComponent(1)]
+        children=[
+            SESSION_STORAGE,
+            SB.SelectionBoxComponent(1)
+        ]
     )
     app.run(debug=True)
     return None

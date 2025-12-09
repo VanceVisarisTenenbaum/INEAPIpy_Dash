@@ -33,4 +33,4 @@ def SelectionBoxComponent(row_number):
             VarValPairBoxComponent(25, row_number),
         ]
     )
-    return None
+    return element

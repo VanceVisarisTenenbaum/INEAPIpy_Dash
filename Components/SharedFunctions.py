@@ -6,43 +6,15 @@ Created on Sun Dec  7 13:18:13 2025
 @author: mano
 """
 
+from dash import html
+
 """
 This file contains some variables that should be constants in the app, plus
 some additional functions.
 """
 
-from INEAPIpy import Wrapper as W
-from dash import dcc, html
-
 # Cargamos todas las variables que se mantendrán constantes mientras se este
 # usando el servidor.
-
-INE = W.EasyINEAPIClientSync(mode='py', print_url=True)
-
-"""
-La mayoría de los metadatos de la API del INE no se van a actualizar con
-frecuencia, por lo que se pueden cargar inicialmente en el servidor que corre
-la aplicación y minimizar el uso de la API del INE en caso de que se tengan
-muchos usuarios recurrentes.
-"""
-
-SERVER_MEMORY = {
-    'Operaciones': INE.get_operations_(),  # Menos de 200.
-    'Publicaciones': INE.get_publications_(),  # Menos de 500.
-    'Unidades': INE.get_units_(),
-    'Escalas': INE.get_scales_(),
-    'Periodicidades': INE.get_periodicities_()
-}
-
-
-"""
-Definimos un almacenamiento que se generará una única vez y se utilizará para
-memoizar el uso que le de el usuario y sera únicamente válido mientras dure
-la sesión.
-"""
-
-SESSION_STORAGE = dcc.Store(**{'id': 'SessionStorage',
-                               'storage_type': 'session'})
 
 
 """
@@ -56,7 +28,8 @@ def LabelInput(label, inputComponent, style='top'):
         component = html.Div(
             children=[html.Span(label), inputComponent],
             style={'display': 'flex',
-                   'alignItems': 'center',
+                   'flex-direction': 'column',
+                   'alignItems': 'left',
                    'marginBottom': '20px'}
         )
     elif style == 'side':
@@ -74,7 +47,28 @@ Definimos algunos estilos reutilizables.
 """
 
 SELECT_INPUT_STYLE = {
-    'width': '250px',
-    'height': '50px',
+    'width': '500px',
+    'height': '100px',
     'padding': '6px'
 }
+
+
+"""
+Definimos algunas funciones útiles.
+"""
+
+def _extract_label_value(INE_object):
+    if isinstance(INE_object, dict):
+        return {'label': INE_object['Nombre'], 'value': INE_object['Id']}
+    else:
+        raise TypeError('INE_object must be dict.')
+
+
+def extract_labels_values(list_of_INE_objects):
+    if isinstance(list_of_INE_objects, list):
+        return [_extract_label_value(x) for x in list_of_INE_objects]
+    elif isinstance(list_of_INE_objects, dict):
+        return _extract_label_value(list_of_INE_objects)
+    else:
+        raise TypeError('list of INE objects must be a list or dict.')
+

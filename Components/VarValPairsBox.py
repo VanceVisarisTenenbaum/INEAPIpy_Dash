@@ -7,7 +7,7 @@ Created on Sun Dec  7 18:32:31 2025
 """
 
 from dash import html, dcc, Input, Output, State, callback
-from .SharedFunctions import INE, LabelInput, SELECT_INPUT_STYLE
+from .SharedFunctions import LabelInput, SELECT_INPUT_STYLE
 
 """
 This file contains a fuction that creates a Component that will allow the user
