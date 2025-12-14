@@ -26,17 +26,16 @@ becomes a param.
 
 def SelectComponent(list_of_labels_values, name, op_id, row_number):
     """Returns a select for variables or values."""
-    options = list_of_labels_values
 
     # Adds initial empty value
-    inputComponent = dcc.Dropdown(
-        options=options,
+    InputComponent = dcc.Dropdown(
+        options=list_of_labels_values,
         value=None,  # Default value is empty
         **{'id': str(name) + 'Select_' + str(op_id) + '_' + str(row_number)},
         style=SELECT_INPUT_STYLE
     )
 
-    component = LabelInput(name, inputComponent, 'top')
+    component = LabelInput(name, InputComponent, 'top')
     return component
 
 
@@ -80,20 +79,16 @@ def VarValPairBoxComponent(op_id, row_number):
 #
 #
 # Añadimos los event listeners
-'''
-@callback(
-    Output('SessionStorage', 'data'),
-    Input('OPERATION SELECT BOX ID', 'value'),
-    State('SessionStorage', 'data')
-)
-def store_variables(op_id, data):
-    """Stores the requested variables to the Session Storage."""
-    variables = INE.get_variables_(op_id=op_id)
-    try:
-        data['Variables']
-    except KeyError:
-        data['Variables'] = dict()
 
-    data['Variables'][op_id] = variables
-    return data
-'''
+# Primero necesitamos un event listener que obtenga los valores según la
+# variable solicitada.
+
+def variable_event_listener_adder(op_id, row_number):
+
+    def add_values_to_storage():
+        return None
+
+    return None
+
+# También hay que añadir un event listener que añade una nueva fila para
+# la selección de nuevas variables.

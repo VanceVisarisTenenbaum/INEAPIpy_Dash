@@ -19,9 +19,17 @@ def main():
     memoizar el uso que le de el usuario y sera únicamente válido mientras dure
     la sesión.
     """
-
+    initial_storage = {
+        'Variables': dict(),
+        'Valores': dict(),
+        'Tablas': dict(),
+        'Periodo': dict(),
+        'OperacionesSolicitadas': set(),  # To store the requested operations
+        'VariablesSolicitadas': set(),  # To store the requested variables.
+    }
     SESSION_STORAGE = dcc.Store(**{'id': 'SessionStorage',
-                                   'storage_type': 'session'})
+                                   'storage_type': 'session'},
+                                data=initial_storage)
 
 
     """Iniciamos el servidor de dash."""
@@ -33,6 +41,7 @@ def main():
             SB.SelectionBoxComponent(1)
         ]
     )
+    SB.event_listeners_adder(1)
     app.run(debug=True)
     return None
 

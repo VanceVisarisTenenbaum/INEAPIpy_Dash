@@ -12,7 +12,7 @@ everything necessary to get a set of series.
 """
 
 from dash import html
-from .OperationBox import OperationSelectBox
+from .OperationBox import OperationSelectBox, operation_event_listener_adder
 from .VarValPairsBox import VarValPairBoxComponent
 
 def SelectionBoxComponent(row_number):
@@ -34,3 +34,9 @@ def SelectionBoxComponent(row_number):
         ]
     )
     return element
+
+
+def event_listeners_adder(row_number):
+    """Adds event listeners when creating a new row"""
+    operation_event_listener_adder(row_number)
+    return None

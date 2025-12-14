@@ -16,6 +16,17 @@ some additional functions.
 # Cargamos todas las variables que se mantendrán constantes mientras se este
 # usando el servidor.
 
+"""
+Definimos algunos estilos reutilizables.
+"""
+COMMON_PADDING = '6px'
+
+SELECT_INPUT_STYLE = {
+    'width': '500px',
+    'height': '100px',
+    'padding': COMMON_PADDING
+}
+
 
 """
 Definimos una serie de componentes sencillos que se utilizarán en el resto
@@ -30,7 +41,9 @@ def LabelInput(label, inputComponent, style='top'):
             style={'display': 'flex',
                    'flex-direction': 'column',
                    'alignItems': 'left',
-                   'marginBottom': '20px'}
+                   'marginBottom': '20px',
+                   'padding': COMMON_PADDING,
+                   'font-size': '40px'}
         )
     elif style == 'side':
         component = html.Div(
@@ -41,34 +54,38 @@ def LabelInput(label, inputComponent, style='top'):
         raise ValueError('style can only be "top" or "side"')
     return component
 
-
-"""
-Definimos algunos estilos reutilizables.
-"""
-
-SELECT_INPUT_STYLE = {
-    'width': '500px',
-    'height': '100px',
-    'padding': '6px'
-}
-
-
 """
 Definimos algunas funciones útiles.
 """
 
-def _extract_label_value(INE_object):
+def _extract_label_value(INE_object, only_id: bool = False):
     if isinstance(INE_object, dict):
+        if only_id:
+            return INE_object['Id']
         return {'label': INE_object['Nombre'], 'value': INE_object['Id']}
     else:
         raise TypeError('INE_object must be dict.')
 
 
-def extract_labels_values(list_of_INE_objects):
+def extract_labels_values(list_of_INE_objects, only_id: bool = False):
     if isinstance(list_of_INE_objects, list):
-        return [_extract_label_value(x) for x in list_of_INE_objects]
+        return [_extract_label_value(x, only_id) for x in list_of_INE_objects]
     elif isinstance(list_of_INE_objects, dict):
-        return _extract_label_value(list_of_INE_objects)
+        return _extract_label_value(list_of_INE_objects, only_id)
     else:
         raise TypeError('list of INE objects must be a list or dict.')
+
+
+
+"""
+Definimos algunas constantes de muestra para no usar las peticiones.
+"""
+
+{
+    'Operaciones': [
+        {'Id': 1, 'Nombre': 'A'},{'Id': 2, 'Nombre': 'B'}
+    ],
+
+
+}
 
