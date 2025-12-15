@@ -12,7 +12,10 @@ with two additional optional selects, Periodicity and Classification.
 """
 
 from dash import dcc, Input, Output, State, callback
-from .SharedFunctions import LabelInput, SELECT_INPUT_STYLE, extract_labels_values
+from .SharedFunctions import (LabelInput,
+                              SELECT_INPUT_STYLE,
+                              extract_labels_values,
+                              check_if_loaded)
 from .ServerMemory import ServerMemoryManager
 
 
@@ -55,7 +58,7 @@ def operation_event_listener_adder(row_number):
     )
     def add_tables_and_vars_to_storage(op_id, session_storage):
         if isinstance(op_id, int):
-            if op_id in session_storage['OperacionesSolicitadas']:
+            if check_if_loaded(op_id, 'Operacion', session_storage):
                 return session_storage
             SMM = ServerMemoryManager()
             tablas = SMM.INE.get_tables_(op_id)
@@ -64,8 +67,10 @@ def operation_event_listener_adder(row_number):
             session_storage['Tablas'][op_id] = tablas
             session_storage['Variables'][op_id] = variables
             session_storage['OperacionesSolicitadas'].add(op_id)
-            session_storage['VariablesSolicitadas'].update(
-                extract_labels_values(variables, True)
-            )
+
         return session_storage
     return None
+
+
+# Hay que añadir un event listener que al seleccionar una operación añada
+# la seleccion de tabla y seleccion de variables valor.

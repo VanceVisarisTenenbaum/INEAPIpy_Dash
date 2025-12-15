@@ -76,16 +76,59 @@ def extract_labels_values(list_of_INE_objects, only_id: bool = False):
         raise TypeError('list of INE objects must be a list or dict.')
 
 
+def check_if_loaded(INE_id: int, INE_obj_var: str, session_storage):
+    """
+    Checks if the INE_id has been loaded already.
 
-"""
-Definimos algunas constantes de muestra para no usar las peticiones.
-"""
+    INE_id: int
+        The ID from INE object to check if it is already loaded.
+    INE_obj_var: Literal['Operacion' | 'Variable']
+        The type to check. If an Operacion or Variable is already loaded in
+        session storage
+    session_storage:
+        The session storage.
+    """
+    if not isinstance(INE_id, int):
+        raise TypeError('INE_id is not an int.')
+    if INE_obj_var == 'Operacion':
+        return INE_id in session_storage['OperacionesSolicitadas']
+    elif INE_obj_var == 'Variable':
+        return INE_id in session_storage['VariablesSolicitadas']
+    else:
+        raise ValueError('INE_obj_var is not a valid value.')
 
-{
-    'Operaciones': [
-        {'Id': 1, 'Nombre': 'A'},{'Id': 2, 'Nombre': 'B'}
-    ],
+
+def state_storage_base():
+    initial_dict = {
+        'Operacion': None,
+        'Tabla': None,
+        'VariableValor': [
+            {
+                'Variable': None,
+                'Valor': None
+            }
+        ],
+        'Serie': [
+            {
+                'Serie': None,
+                'Grafica': {
+                    'NGrafica': None,
+                    'Eje': None,
+                    'Estilo': None
+                }
+            }
+        ]
+    }
+    return initial_dict
+
+def select_op_row_from_state(op_id, state_storage):
+    for row in state_storage:
+        if row['Operacion'] == op_id:
+            return row
+    return None
 
 
-}
+
+
+
 

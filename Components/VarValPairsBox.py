@@ -7,7 +7,11 @@ Created on Sun Dec  7 18:32:31 2025
 """
 
 from dash import html, dcc, Input, Output, State, callback
-from .SharedFunctions import LabelInput, SELECT_INPUT_STYLE
+from .SharedFunctions import (LabelInput,
+                              SELECT_INPUT_STYLE,
+                              check_if_loaded,
+                              extract_labels_values)
+from .ServerMemory import ServerMemoryManager
 
 """
 This file contains a fuction that creates a Component that will allow the user
@@ -23,6 +27,8 @@ Since the Variables and Valores depend on the selected operation, the op_id
 becomes a param.
 """
 
+# Row_number hace referencia al número de fila del par variable valor
+# no al de selección de operación.
 
 def SelectComponent(list_of_labels_values, name, op_id, row_number):
     """Returns a select for variables or values."""
@@ -55,7 +61,6 @@ def VarValPair(var_comp, val_comp, op_id, row_number):
     return component
 
 
-
 def VarValPairBoxComponent(op_id, row_number):
     """Caja con pares Variable-Valor separados en filas."""
     component = html.Div(
@@ -83,12 +88,80 @@ def VarValPairBoxComponent(op_id, row_number):
 # Primero necesitamos un event listener que obtenga los valores según la
 # variable solicitada.
 
+def add_values_to_storage(var_id, session_storage):
+    if isinstance(var_id, int):
+        if check_if_loaded(var_id, 'Variable', session_storage):
+            return session_storage
+        SMM = ServerMemoryManager()
+        valores = SMM.INE.get_values_(var_id)
+
+        session_storage['Valores'][var_id] = valores
+        session_storage['VariablesSolicitadas'].add(var_id)
+    return session_storage
+
+def get_variables_from_storage(op_id, session_storage):
+    return session_storage['Variables'][op_id]
+
+def get_values_from_storage(var_id, session_storage):
+    return session_storage['Valores'][var_id]
+
+def make_new_varval_row(op_id, row_number, session_storage, state_storage):
+
+    selected_vars = [
+        varval['variable'] for varval in state_storage[op_id]['VariableValor']
+    ]
+
+    variables = get_variables_from_storage(op_id, session_storage)
+    variables = [v for v in variables if v['Id'] not in selected_vars]
+
+    VarSel = SelectComponent(extract_labels_values(variables),
+                             'Var',
+                             op_id,
+                             row_number)
+    ValSel = SelectComponent([], 'Val', op_id, row_number)
+
+    return VarValPair(VarSel, ValSel, op_id, row_number)
+
+
+def add_variable_to_state_storage(op_id, var_id, state_storage):
+    state_storage[op_id]['VariableValor'][var_id] = None
+    return state_storage
+
+
+
 def variable_event_listener_adder(op_id, row_number):
 
-    def add_values_to_storage():
+    @callback(
+        Output('SessionStorage', 'data'),
+        Output('StateStorage', 'data'),
+        Input('VarSelect_' + str(op_id) + '_' + str(row_number), 'value'),
+        State('SessionStorage', 'data'),
+        State('StateStorage', 'data')
+    )
+    def variable_selection_steps(var_id,
+                                 session_storage, state_storage,
+                                 VVPBoxContainerChildrens):
+        # 1- Load the data to storage
+        session_storage = add_values_to_storage(var_id)
+        # 2- Load the values to the ValueSelect
+        valores = get_values_from_storage(var_id, session_storage)
+        # 3- Make a new VarValPair
+        VVP = make_new_varval_row(op_id,
+                                  row_number + 1,
+                                  session_storage,
+                                  state_storage)
+        # 4- Add new VVP to the containerBox
+        VVPBoxContainerChildrens.append(VVP)
+        # 5- Add the selected variable to the StateStorage
+
+        return session_storage, state_storage, valores, VVPBoxContainerChildrens
+
+
+    # También hay que añadir un event listener que añade una nueva fila para
+    # la selección de nuevas variables.
+    def add_val_variable_row(last_var_id, session_storage):
         return None
 
     return None
 
-# También hay que añadir un event listener que añade una nueva fila para
-# la selección de nuevas variables.
+
