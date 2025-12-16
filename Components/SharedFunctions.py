@@ -8,51 +8,6 @@ Created on Sun Dec  7 13:18:13 2025
 
 from dash import html
 
-"""
-This file contains some variables that should be constants in the app, plus
-some additional functions.
-"""
-
-# Cargamos todas las variables que se mantendrán constantes mientras se este
-# usando el servidor.
-
-"""
-Definimos algunos estilos reutilizables.
-"""
-COMMON_PADDING = '6px'
-
-SELECT_INPUT_STYLE = {
-    'width': '500px',
-    'height': '100px',
-    'padding': COMMON_PADDING
-}
-
-
-"""
-Definimos una serie de componentes sencillos que se utilizarán en el resto
-de componentes.
-"""
-
-def LabelInput(label, inputComponent, style='top'):
-
-    if style == 'top':
-        component = html.Div(
-            children=[html.Span(label), inputComponent],
-            style={'display': 'flex',
-                   'flex-direction': 'column',
-                   'alignItems': 'left',
-                   'marginBottom': '20px',
-                   'padding': COMMON_PADDING,
-                   'font-size': '40px'}
-        )
-    elif style == 'side':
-        component = html.Div(
-            children=[html.Span(label), inputComponent],
-            style={'display': 'block', 'marginTop': '20px'}
-        )
-    else:
-        raise ValueError('style can only be "top" or "side"')
-    return component
 
 """
 Definimos algunas funciones útiles.
@@ -74,6 +29,7 @@ def extract_labels_values(list_of_INE_objects, only_id: bool = False):
         return _extract_label_value(list_of_INE_objects, only_id)
     else:
         raise TypeError('list of INE objects must be a list or dict.')
+
 
 
 

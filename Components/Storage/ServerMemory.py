@@ -32,5 +32,17 @@ class ServerMemoryManager(metaclass=SingletonMeta):
             'Periodicidades': self.INE.get_periodicities_()
         }
 
-    def get_server_memory(self):
-        return self.__SERVER_MEMORY
+    def __check_literal__(self, val):
+        if val not in self.__SERVER_MEMORY.keys():
+            raise ValueError('The input value is not in server memory keys.')
+        return None
+
+    def get_metadata(self, ine_obj: str, ine_id: int = None):
+        self.__check_literal__(ine_obj)
+        if ine_id is None:
+            return self.__SERVER_MEMORY[ine_obj]
+        return next(
+            (x for x in self.__SERVER_MEMORY[ine_obj] if x['Id'] == ine_id),
+            None
+        )
+
