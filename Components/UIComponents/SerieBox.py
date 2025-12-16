@@ -14,3 +14,4 @@ from Components.UIComponents.Common.id_generator import id_generator_mapper
 
 
 def SerieSelectBox(row_number):
+    return None

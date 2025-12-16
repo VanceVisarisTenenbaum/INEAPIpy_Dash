@@ -22,7 +22,6 @@ def main():
             SB.InputSelectionBox()
         ]
     )
-    SB.event_listeners_adder(1)
     app.run(debug=True)
     return None
 

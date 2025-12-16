@@ -6,14 +6,33 @@ Created on Tue Dec 16 17:00:58 2025
 @author: mano
 """
 
-
-COMMON_PADDING = '6px'
-
 SELECT_INPUT_STYLE = {
-    'width': '500px',
+    'width': '90%',
     'height': '100px',
-    'padding': COMMON_PADDING
+    'font-size': '15px'
 }
+
+LABEL_STYLE = {
+    'width': '90%',
+    'font-size': '40px'
+}
+
+LABEL_INPUT_STYLE_COMMON = {
+    'width': '100%',
+    'alignItems': 'left',
+    'padding': '6px'
+}
+
+LABEL_INPUT_STYLE_TOP = dict(LABEL_INPUT_STYLE_COMMON)
+LABEL_INPUT_STYLE_TOP.update({
+    'display': 'flex',
+    'flex-direction': 'column'
+})
+
+LABEL_INPUT_STYLE_SIDE = dict(LABEL_INPUT_STYLE_COMMON)
+LABEL_INPUT_STYLE_SIDE.update({
+    'display': 'block'
+})
 
 ROW_SEPARATED_DIVS = {
     "display": "flex",

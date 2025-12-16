@@ -42,8 +42,8 @@ def InputsGroupRow(row_number):
                 ],
                 style=COLUMN_SEPARATED_DIVS
             )
-        ]
-    **{'id': id_generator_mapper('IG', None, row_number)}
+        ],
+        **{'id': id_generator_mapper('IG', None, row_number)}
     )
     return element
 

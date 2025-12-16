@@ -6,8 +6,6 @@ Created on Sun Dec  7 13:18:13 2025
 @author: mano
 """
 
-from dash import html
-
 
 """
 Definimos algunas funciones útiles.
