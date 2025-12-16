@@ -12,10 +12,15 @@ everything necessary to get a set of series.
 """
 
 from dash import html
-from .OperationBox import OperationSelectBox, operation_event_listener_adder
-from .VarValPairsBox import VarValPairBoxComponent
+from Components.UIComponents.OperationBox import OperationSelectBox
+from Components.UIComponents.TableComponent import TableSelectBox
+from Components.UIComponents.VarValPairsBox import VarValPairBoxComponent
+from Components.UIComponents.Common.id_generator import id_generator_mapper
+from Components.UIComponents.Common.Styles import (COLUMN_SEPARATED_DIVS,
+                                                   ROW_SEPARATED_DIVS)
 
-def SelectionBoxComponent(row_number):
+
+def InputsGroupRow(row_number):
     """
     This box provides the next.
         - Operation Selection
@@ -28,15 +33,26 @@ def SelectionBoxComponent(row_number):
             * Axis Selection.
     """
     element = html.Div(
-        [
+        children=[
             OperationSelectBox(row_number),
-            VarValPairBoxComponent(25, row_number),
+            html.Div(
+                children=[
+                    TableSelectBox(row_number),
+                    VarValPairBoxComponent(row_number)
+                ],
+                style=COLUMN_SEPARATED_DIVS
+            )
         ]
+    **{'id': id_generator_mapper('IG', None, row_number)}
     )
     return element
 
 
-def event_listeners_adder(row_number):
-    """Adds event listeners when creating a new row"""
-    operation_event_listener_adder(row_number)
-    return None
+def InputSelectionBox():
+    component = html.Div(
+        children=[InputsGroupRow(1)],
+        style=ROW_SEPARATED_DIVS,
+        **{'id': 'ISG'}
+    )
+    return component
+

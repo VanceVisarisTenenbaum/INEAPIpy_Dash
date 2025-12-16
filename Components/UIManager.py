@@ -6,7 +6,9 @@ Created on Tue Dec 16 14:27:27 2025
 @author: mano
 """
 
+from dash import html
 from Components.Storage.SingletonCustom import SingletonMeta
+from Components.UIComponents.Common.Styles import MAIN_LAYOUT_STYLE
 
 """
 This module contains the class that allows to manage the events that will
@@ -26,6 +28,12 @@ class UIManager(metaclass=SingletonMeta):
 
         return None
 
+    def make_initial_layout(self):
+        layout = html.Div(
+            children = [],
+            style = MAIN_LAYOUT_STYLE
+        )
+        return layout
 
 
 

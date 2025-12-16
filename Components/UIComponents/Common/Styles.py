@@ -14,3 +14,28 @@ SELECT_INPUT_STYLE = {
     'height': '100px',
     'padding': COMMON_PADDING
 }
+
+ROW_SEPARATED_DIVS = {
+    "display": "flex",
+    "flexDirection": "column",
+    "overflowY": "auto",        # Scroll vertical si hay overflow
+    "maxHeight": "25%",       # Altura máxima de 1/4 el del padre
+    "width": "100%",
+    "border": "1px solid #ccc",
+    "padding": "10px",
+    "gap": '10px'
+}
+
+COLUMN_SEPARATED_DIVS = {
+    "display": "flex",
+    "flexDirection": "row",
+    "justifyContent": "center",
+    "gap": "12px",  # Espacio fijo mínimo entre ellos
+    "width": "100%"
+}
+
+MAIN_LAYOUT_STYLE = {
+    "overflowY": "auto",
+    'minHeight': "100%",
+    'width': '100%'
+}
