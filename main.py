@@ -14,23 +14,7 @@ def main():
     """Starts the App."""
 
 
-    """
-    Definimos un almacenamiento que se generará una única vez y se utilizará para
-    memoizar el uso que le de el usuario y sera únicamente válido mientras dure
-    la sesión.
-    """
-    initial_storage = {
-        'Variables': dict(),
-        'Valores': dict(),
-        'Tablas': dict(),
-        'Periodo': dict(),
-        'OperacionesSolicitadas': set(),  # To store the requested operations
-        'VariablesSolicitadas': set(),  # To store the requested variables.
-    }
-    initial_state = list()
-    SESSION_STORAGE = dcc.Store(**{'id': 'SessionStorage',
-                                   'storage_type': 'session'},
-                                data=initial_storage)
+    initial_state = dict()
     STATE_STORAGE = dcc.Store(**{'id': 'StateStorage',
                                  'storage_type': 'session'},
                               data=initial_state)
@@ -74,6 +58,23 @@ def main():
                 ]
             }
         ]
+
+    Para simplificar se puede reducir a lo siguiente:
+        {
+            op_id: {
+                'Tabla': tab_id,
+                'VariableValor': {
+                    var_id: val_id
+                },
+                'Serie': {
+                    serie_id: {
+                        'GraphNumber': GraphNumber,
+                        'Axis': GraphAxis,
+                        'Style': GraphStyle
+                    }
+                }
+            }
+        }
     """
 
 

@@ -65,7 +65,7 @@ def VarValPairBoxComponent(op_id, row_number):
     """Caja con pares Variable-Valor separados en filas."""
     component = html.Div(
         children=[],
-        **{'id': 'VarValBox' + str(op_id) + '_' + str(row_number)},
+        **{'id': 'VarValBox_' + str(op_id) + '_' + str(row_number)},
         style={
             "display": "flex",
             "flexDirection": "column",
@@ -99,11 +99,15 @@ def add_values_to_storage(var_id, session_storage):
         session_storage['VariablesSolicitadas'].add(var_id)
     return session_storage
 
+
 def get_variables_from_storage(op_id, session_storage):
     return session_storage['Variables'][op_id]
 
+
 def get_values_from_storage(var_id, session_storage):
+    add_values_to_storage(var_id, session_storage)
     return session_storage['Valores'][var_id]
+
 
 def make_new_varval_row(op_id, row_number, session_storage, state_storage):
 
@@ -120,6 +124,10 @@ def make_new_varval_row(op_id, row_number, session_storage, state_storage):
                              row_number)
     ValSel = SelectComponent([], 'Val', op_id, row_number)
 
+    # Cuando creas una nueva fila, es necesario añadirle los event listeners
+    # a cada input.
+    varval_event_listener_adder(op_id, row_number)
+
     return VarValPair(VarSel, ValSel, op_id, row_number)
 
 
@@ -128,15 +136,25 @@ def add_variable_to_state_storage(op_id, var_id, state_storage):
     return state_storage
 
 
+def add_value_to_state_storage(op_id, var_id, val_id, state_storage):
+    state_storage[op_id]['VariableValor'][var_id] = val_id
+    return state_storage
 
-def variable_event_listener_adder(op_id, row_number):
+
+
+
+
+def varval_event_listener_adder(op_id, row_number):
 
     @callback(
         Output('SessionStorage', 'data'),
         Output('StateStorage', 'data'),
+        Output('ValSelect_' + str(op_id) + '_' + str(row_number), 'value'),
+        Output('VarValBox_' + str(op_id) + '_' + str(row_number), 'children'),
         Input('VarSelect_' + str(op_id) + '_' + str(row_number), 'value'),
         State('SessionStorage', 'data'),
-        State('StateStorage', 'data')
+        State('StateStorage', 'data'),
+        State('VarValBox_' + str(op_id) + '_' + str(row_number), 'children')
     )
     def variable_selection_steps(var_id,
                                  session_storage, state_storage,
@@ -153,14 +171,17 @@ def variable_event_listener_adder(op_id, row_number):
         # 4- Add new VVP to the containerBox
         VVPBoxContainerChildrens.append(VVP)
         # 5- Add the selected variable to the StateStorage
+        state_storage = add_variable_to_state_storage(op_id, var_id,
+                                                      state_storage)
 
         return session_storage, state_storage, valores, VVPBoxContainerChildrens
 
-
-    # También hay que añadir un event listener que añade una nueva fila para
-    # la selección de nuevas variables.
-    def add_val_variable_row(last_var_id, session_storage):
-        return None
+    @callback(
+        Output('SessionStorage','data'),
+        State('VarSelect_' + str(op_id) + '_' + str(row_number), 'value'),
+        Input('ValSelect_' + str(op_id) + '_' + str(row_number), 'value'),
+        State('StateStorage', 'data'),
+    )
 
     return None
 
