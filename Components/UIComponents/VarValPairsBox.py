@@ -44,10 +44,7 @@ def VarValPair(var_comp, val_comp, row_lv1, row_lv2):
 def VarValPairBoxComponent(row_lv1):
     """Caja con pares Variable-Valor separados en filas."""
     component = html.Div(
-        children=[
-            VarValPair(VariableComponent(row_lv1, 1), ValorComponent(row_lv1, 1), row_lv1, 1),
-            VarValPair(VariableComponent(row_lv1, 2), ValorComponent(row_lv1, 2), row_lv1, 2),
-        ],
+        children=[],
         **{'id': id_generator_mapper('VariableValor', 'Box',
                                      row_lv1)},
         style=ROW_SEPARATED_DIVS
