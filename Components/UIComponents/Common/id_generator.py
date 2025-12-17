@@ -20,9 +20,15 @@ Input Selections Box
         Operation Selection Box
             -- Label Operacion
             -- Select Operacion
+            -- Display Info Operacion
+                -- H2 Operacion
+                -- Grid with Info
         Table Selection Box
             -- Label Tabla
             -- Select Tabla
+            -- Display Info Tabla
+                --
+                --
         Variable Value Selection Box
             Variable Valor Row 1
             Variable Valor Row 2
@@ -37,6 +43,9 @@ Input Selections Box
         Serie Selection Box
             -- Label Series
             -- MultiSelect Series
+            -- Display Info Series
+                --
+                --
             -- Select Gráfica
             -- Select Eje
             -- Select Estilo
@@ -57,10 +66,16 @@ Inputs Group ----------------> IG_i  <------ where "i" is the row number
 Operation Select Box --------> OperacionBox_i
     Label Operacion ---------> OperacionLabel_i
     Select Operacion --------> Operacion_i
+    -- Display Info Op ------> OperacionDisplay_i
+        --
+        --
 
 Table Select Box ------------> TablaBox_i
     Label Tabla -------------> TablaLabel_i
     Select Tabla ------------> Tabla_i
+    -- Display Info Tab -----> TablaDisplay_i
+        --
+        --
 
 Variable Valor Box ----------> VariableValorBox_i
     Variable Valor ----------> VariableValor_i_k <- where "k" is the row number

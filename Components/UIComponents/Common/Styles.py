@@ -58,3 +58,26 @@ MAIN_LAYOUT_STYLE = {
     'minHeight': "100%",
     'width': '100%'
 }
+
+
+SPAN_INFO_NAME_STYLE = {
+    'font-size': '30px',
+    'font-weight': 'bold',
+}
+
+SPAN_INFO_VALUE_STYLE = {
+    'font-size': '25px',
+}
+
+NAME_VALUE_DISPLAY_STYLE = {
+    'height': '35%'
+}
+
+NAME_VALUE_DISPLAY_GRID_STYLE = {
+    'display': 'grid',
+    'grid-template-columns': 'repeat(2, 1fr)',
+    'gap': '16px',
+    'maxHeight': '50%',
+    'overflowY': 'auto'
+}
+

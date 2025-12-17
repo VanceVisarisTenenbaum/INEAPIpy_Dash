@@ -6,9 +6,20 @@ Created on Tue Dec 16 14:27:27 2025
 @author: mano
 """
 
-from dash import html
+
 from Components.Storage.SingletonCustom import SingletonMeta
-from Components.UIComponents.Common.Styles import MAIN_LAYOUT_STYLE
+from Components.Storage.RequestsStorage import RequestsStorageManager
+from Components.Storage.StateStorage import StateStorageManager
+from Components.Storage.ServerMemory import ServerMemoryManager
+
+from Components.UIComponents.ValorComponent import ValorComponent
+from Components.UIComponents.VariableComponent import VariableComponent
+from Components.UIComponents.VarValPairsBox import (VarValPair,
+                                                    VarValPairBoxComponent)
+from Components.UIComponents.TableComponent import TableSelectBox
+from Components.UIComponents.OperationBox import OperationSelectBox
+from Components.UIComponents.SelectionBox import InputsGroupRow
+
 
 """
 This module contains the class that allows to manage the events that will
@@ -17,23 +28,182 @@ happen when the user interacts with the interface.
 
 
 """
-UIManager handles the UI transformations depending on user inputs.
+UIManager handles the UI trasformations.
 
-This means that it is this class which takes care of applying the event
-listeners to the UI components aswell as transforming the layout.
+This means it takes care of all the event listener processes.
 """
 class UIManager(metaclass=SingletonMeta):
     """Provides methods to manage the UI different states."""
     def __init__(self):
-
+        self.__RSM = RequestsStorageManager()
+        self.__SSM = StateStorageManager()
+        self.__SMM = ServerMemoryManager()
         return None
 
-    def make_initial_layout(self):
-        layout = html.Div(
-            children = [],
-            style = MAIN_LAYOUT_STYLE
-        )
-        return layout
+    def __add_new_son(self, old_sons_list, new_son):
+        for son in old_sons_list:
+            if son.id == new_son.id:
+                # Si encuentra un hijo con el mismo id no se actualiza.
+                return old_sons_list
+        old_sons_list.append(new_son)
+        return old_sons_list
+
+    def __remove_sons(self, sons_list, starting_index):
+        return sons_list[:starting_index]
+
+    def __make_var_val_comp(self, op_id, row_lv1, row_lv2, session_storage):
+        variables, session_storage = self.__RSM.get_obj('Variable',
+                                                        op_id,
+                                                        session_storage)
+        VrC = VariableComponent(row_lv1, row_lv2, variables)
+        VlC = ValorComponent(row_lv1, row_lv2, list())
+        return VarValPair(VrC, VlC, row_lv1, row_lv2)
+
+    def __make_tab_comp(self, op_id, row_lv1, session_storage):
+        tablas, session_storage = self.__RSM.get_obj('Tabla',
+                                                     op_id,
+                                                     session_storage)
+        return TableSelectBox(row_lv1, tablas)
+
+    # ------------------------------------------------------------------------
+    # PROCESO PARA AÑADIR EVENT LISTENERS
+    # VALOR
+    def select_valor_listener(self, row_lv1, row_lv2):
+        """
+        Adds the event listener to the Valor Select.
+
+        Cuando el usuario seleccionar un valor ocurre lo siguiente:
+            1- Se guarda el valor elegido en el almacenamiento de estado.
+
+        Los inputs necesarios son:
+            1- La operación elegida previamente.
+            2- La variable elegida previamente.
+            3- El valor elegido.
+            4- El almacenamiento de estado.
+
+        La salida debe ser:
+            1- El almacenamiento de estado.
+        """
+        def process(op_id, var_id, val_id, state_storage):
+            state_storage = self.__SSM.update_selected_value(op_id,
+                                                             var_id,
+                                                             None, val_id,
+                                                             state_storage)
+            return state_storage
+        return None
+
+    # ------------------------------------------------------------------------
+    # VARIABLE
+    def select_variable_listener(self, row_lv1, row_lv2):
+        """
+        Adds the event listener to the Variable Select.
+
+        Cuando el usuario selecciona una variable ocurre lo siguiente:
+            1- Se cargan los valores asociados a dicha variable.
+            2- Se actualizan los valores del select de valores asociado.
+            3- Se actualiza el estado de la app.
+            4- Se añade una nueva fila para la selección de variables.
+
+        Para conseguir esto los inputs son:
+            1- La Operación elegida previamente.
+            2- La variable elegida.
+            3- el almacenamiento de peticiones.
+            4- el almacenamiento de estado.
+            5- los hijos del contenedor padre.
+
+        Las salidas son:
+            1- Las opciones del select de valor asociado.
+            2- El almacenamiento de peticiones.
+            3- El almacenamiento de estado.
+            4- Las hijos del contenedor padre.
+        """
+        def process(op_id, var_id,
+                    session_storage, state_storage,
+                    parent_childrens):
+
+            # 1- Actualizamos el estado
+            state_storage = self.__SSM.update_selected_variable(
+                op_id,
+                None, var_id,
+                state_storage
+            )
+            # 2- Obtenemos los valores asociados a dicha variable
+            valores, session_storage = self.__RSM.get_obj('Valor',
+                                                          var_id,
+                                                          session_storage)
+
+            # 3- Generamos una nueva fila
+            VVP = self.__make_var_val_comp(op_id,
+                                           row_lv1, row_lv2,
+                                           session_storage)
+            # Le añadimos los event listener a la nueva fila.
+            self.select_variable_listener(row_lv1, row_lv2 + 1)
+
+            # Borramos todos los elementos elegidos en adelante y
+            # añadimos la nueva fila.
+            new_childrens = self.__remove_sons(parent_childrens, row_lv2)
+            new_childrens = self.__add_new_son(new_childrens, VVP)
+
+            return valores, session_storage, state_storage, new_childrens
+        return None
+
+    # ------------------------------------------------------------------------
+    # OPERACION
+    def select_operation_listener(self, row_lv1):
+        """
+        Adds the event listener to the OP Select
+
+        El select de Operación tiene que tener un event listener para saber
+        cuando el usuario ha seleccionado una opearción.
+
+        Cuando esto ocurre, se ejecutan los siguientes pasos:
+            1- Se guarda la seleccion en el estado.
+            2- Se cargan las tablas asociadas.
+            3- Se cargan las variables asociadas.
+            4- Se genera el componente Select de las tablas.
+            5- Se genera el componente con los pares variable-valor.
+            6- Se genera el div que contiene las tablas y los var-val.
+            7- Se genera una nueva fila para la selección de operación.
+
+        Para cumplir esto, el input es:
+            1- la operación elegida.
+            2- el almacenamiento de peticiones.
+            3- el almacenamiento de estado.
+            4- los hijos del contenedor padre.
+
+        Las salidas deben ser:
+            1- Los hijos de la caja TablaVVPBox_row_lv1
+            2- El almacenamiento de peticiones
+            3- El almacenamiento de estado.
+            4- Los hijos del contenedor padre con el nuevo hijo añadido.
+        """
+        def process(op_id,
+                    session_storage, state_storage,
+                    parent_childrens):
+
+            # 1- Actualizamos el estado.
+            state_storage = self.__SSM.update_selected_operation(None, op_id,
+                                                                 state_storage)
+
+            # 2- Creamos el select de tabla y el par Var-Val
+            TC = self.__make_tab_comp(op_id, row_lv1, session_storage)
+            VVP = self.__make_var_val_comp(op_id, row_lv1, 1, session_storage)
+            # Le añadimos los event listener
+            self.select_variable_listener(row_lv1, 1)
+            # 1 por que es el inicial.
+            TabVVPChildrens = [TC, VVP] # Por que se juntan en un div.
+
+            # 3- Creamos la siguiente fila.
+            next_box = InputsGroupRow(row_lv1 + 1)
+            # Añadimos los event listener a la nueva fila.
+            self.select_operation_listener(row_lv1 + 1)
+
+            return (TabVVPChildrens, session_storage, state_storage, next_box)
+        return None
+
+
+
+
 
 
 

@@ -9,5 +9,5 @@ Created on Tue Dec 16 20:30:38 2025
 from Components.UIComponents.Common.SelectComponent import SelectComponent
 
 
-def TableSelectBox(row_number):
-    return SelectComponent(list(), 'T', row_number)
+def TableSelectBox(row_number, list_of_ine_tabs):
+    return SelectComponent(list_of_ine_tabs, 'T', row_number)

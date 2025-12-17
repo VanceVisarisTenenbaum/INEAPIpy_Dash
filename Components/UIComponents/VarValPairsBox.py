@@ -7,7 +7,6 @@ Created on Sun Dec  7 18:32:31 2025
 """
 
 from dash import html
-from Components.UIComponents.Common.SelectComponent import SelectComponent
 from Components.UIComponents.Common.id_generator import id_generator_mapper
 from Components.UIComponents.Common.Styles import (ROW_SEPARATED_DIVS,
                                                    COLUMN_SEPARATED_DIVS)
@@ -51,13 +50,6 @@ def VarValPairBoxComponent(row_lv1):
     )
     return component
 
-def VariableComponent(row_lv1, row_lv2):
-    component = SelectComponent(list(), 'Vr', row_lv1, row_lv2)
-    return component
-
-def ValorComponent(row_lv1, row_lv2):
-    component = SelectComponent(list(), 'Vl', row_lv1, row_lv2)
-    return component
 
 
 
