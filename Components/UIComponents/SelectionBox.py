@@ -35,7 +35,7 @@ def InputsGroupRow(row_lv1):
             html.Div(
                 children=[],
                 style=COLUMN_SEPARATED_DIVS,
-                **{'id': id_generator_mapper('TableVVP', 'Box', row_lv1)}
+                **{'id': id_generator_mapper('TablaVVP', 'Box', row_lv1)}
             )
         ],
         **{'id': id_generator_mapper('IG', None, row_lv1)}

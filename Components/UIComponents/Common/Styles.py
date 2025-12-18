@@ -9,12 +9,12 @@ Created on Tue Dec 16 17:00:58 2025
 SELECT_INPUT_STYLE = {
     'width': '90%',
     'height': '100px',
-    'font-size': '15px'
+    'fontSize': '15px'
 }
 
 LABEL_STYLE = {
     'width': '90%',
-    'font-size': '40px'
+    'fontSize': '40px'
 }
 
 LABEL_INPUT_STYLE_COMMON = {
@@ -26,7 +26,7 @@ LABEL_INPUT_STYLE_COMMON = {
 LABEL_INPUT_STYLE_TOP = dict(LABEL_INPUT_STYLE_COMMON)
 LABEL_INPUT_STYLE_TOP.update({
     'display': 'flex',
-    'flex-direction': 'column'
+    'flexDirection': 'column'
 })
 
 LABEL_INPUT_STYLE_SIDE = dict(LABEL_INPUT_STYLE_COMMON)
@@ -61,12 +61,12 @@ MAIN_LAYOUT_STYLE = {
 
 
 SPAN_INFO_NAME_STYLE = {
-    'font-size': '30px',
-    'font-weight': 'bold',
+    'fontSize': '30px',
+    'fontWeight': 'bold',
 }
 
 SPAN_INFO_VALUE_STYLE = {
-    'font-size': '25px',
+    'fontSize': '25px',
 }
 
 NAME_VALUE_DISPLAY_STYLE = {
@@ -75,7 +75,7 @@ NAME_VALUE_DISPLAY_STYLE = {
 
 NAME_VALUE_DISPLAY_GRID_STYLE = {
     'display': 'grid',
-    'grid-template-columns': 'repeat(2, 1fr)',
+    'gridTemplateColumns': 'repeat(2, 1fr)',
     'gap': '16px',
     'maxHeight': '50%',
     'overflowY': 'auto'

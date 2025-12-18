@@ -122,7 +122,7 @@ class RequestsStorageManager(metaclass=SingletonMeta):
             Tuple with the requested data and the updated session_storage
 
         """
-        self.__check_type(obj_depend, int, 'Getting requested INE objects.')
+        self.__check_type(obj_depend, 'Getting requested INE objects.')
         self.__check_literal(obj_type, 'Getting requested INE objects.')
 
         data = session_storage.get(obj_type).get(obj_depend, None)

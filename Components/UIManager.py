@@ -104,6 +104,8 @@ class UIManager(metaclass=SingletonMeta):
             State('StateStorage', 'data')
         )
         def process(op_id, var_id, val_id, state_storage):
+            if not isinstance(val_id, int):
+                return state_storage
             state_storage = self.__SSM.update_selected_value(op_id,
                                                              var_id,
                                                              None, val_id,
@@ -165,6 +167,9 @@ class UIManager(metaclass=SingletonMeta):
         def process(op_id, var_id,
                     session_storage, state_storage,
                     parent_childrens):
+
+            if not isinstance(var_id, int):
+                return list(), session_storage, state_storage, parent_childrens
 
             # 1- Actualizamos el estado
             state_storage = self.__SSM.update_selected_variable(
@@ -242,6 +247,8 @@ class UIManager(metaclass=SingletonMeta):
                     session_storage, state_storage,
                     parent_childrens):
 
+            if not isinstance(op_id, int):
+                return list(), session_storage, state_storage, parent_childrens
             # 1- Actualizamos el estado.
             state_storage = self.__SSM.update_selected_operation(None, op_id,
                                                                  state_storage)
@@ -267,11 +274,13 @@ class UIManager(metaclass=SingletonMeta):
 
         component = html.Div(
             children=[
+                self.__RSM.get_initial_requests_storage(),
+                self.__SSM.get_initial_state_storage(),
                 InputSelectionBox()
-            ]
+            ],
             **{'id': 'main'}
         )
-
+        self.select_operation_listener(1)
         return component
 
 
