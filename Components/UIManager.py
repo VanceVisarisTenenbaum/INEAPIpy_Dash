@@ -6,6 +6,7 @@ Created on Tue Dec 16 14:27:27 2025
 @author: mano
 """
 
+from dash import html, callback, Input, Output, State
 
 from Components.Storage.SingletonCustom import SingletonMeta
 from Components.Storage.RequestsStorage import RequestsStorageManager
@@ -14,11 +15,12 @@ from Components.Storage.ServerMemory import ServerMemoryManager
 
 from Components.UIComponents.ValorComponent import ValorComponent
 from Components.UIComponents.VariableComponent import VariableComponent
-from Components.UIComponents.VarValPairsBox import (VarValPair,
-                                                    VarValPairBoxComponent)
+from Components.UIComponents.VarValPairsBox import VarValPair
 from Components.UIComponents.TableComponent import TableSelectBox
-from Components.UIComponents.OperationBox import OperationSelectBox
-from Components.UIComponents.SelectionBox import InputsGroupRow
+from Components.UIComponents.SelectionBox import (InputsGroupRow,
+                                                  InputSelectionBox)
+
+from Components.UIComponents.Common.id_generator import id_generator_mapper
 
 
 """
@@ -84,6 +86,23 @@ class UIManager(metaclass=SingletonMeta):
         La salida debe ser:
             1- El almacenamiento de estado.
         """
+        @callback(
+            Output('StateStorage', 'data'),
+            State(
+                id_generator_mapper('O', None, row_lv1),
+                'value'
+            ),
+            State(
+                id_generator_mapper('Vr', None, row_lv1, row_lv2),
+                'value'
+            ),
+            Input(
+                id_generator_mapper('Vl', None, row_lv1, row_lv2),
+                'value'
+            ),
+            State('ResquestsStorage', 'data'),
+            State('StateStorage', 'data')
+        )
         def process(op_id, var_id, val_id, state_storage):
             state_storage = self.__SSM.update_selected_value(op_id,
                                                              var_id,
@@ -117,6 +136,32 @@ class UIManager(metaclass=SingletonMeta):
             3- El almacenamiento de estado.
             4- Las hijos del contenedor padre.
         """
+        @callback(
+            Output(
+                id_generator_mapper('Vl', None, row_lv1, row_lv2),
+                'options'
+            ),
+            Output('RequestsStorage', 'data'),
+            Output('StateStorage', 'data'),
+            Output(
+                id_generator_mapper('VariableValor', None, row_lv1, row_lv2),
+                'children'
+            ),
+            State(
+                id_generator_mapper('O', None, row_lv1),
+                'value'
+            ),
+            Input(
+                id_generator_mapper('Vr', None, row_lv1, row_lv2),
+                'value'
+            ),
+            State('ResquestsStorage', 'data'),
+            State('StateStorage', 'data'),
+            State(
+                id_generator_mapper('VariableValor', None, row_lv1, row_lv2),
+                'children'
+            )
+        )
         def process(op_id, var_id,
                     session_storage, state_storage,
                     parent_childrens):
@@ -138,6 +183,7 @@ class UIManager(metaclass=SingletonMeta):
                                            session_storage)
             # Le añadimos los event listener a la nueva fila.
             self.select_variable_listener(row_lv1, row_lv2 + 1)
+            self.select_valor_listener(row_lv1, row_lv2 + 1)
 
             # Borramos todos los elementos elegidos en adelante y
             # añadimos la nueva fila.
@@ -177,6 +223,21 @@ class UIManager(metaclass=SingletonMeta):
             3- El almacenamiento de estado.
             4- Los hijos del contenedor padre con el nuevo hijo añadido.
         """
+        @callback(
+            Output(
+                id_generator_mapper('TablaVVP', 'Box', row_lv1),
+                'children'
+            ),
+            Output('RequestsStorage', 'data'),
+            Output('StateStorage', 'data'),
+            Input(
+                id_generator_mapper('O', None, row_lv1),
+                'value'
+            ),
+            State('RequestsStorage', 'data'),
+            State('StateStorage', 'data'),
+            State('ISB', 'children')
+        )
         def process(op_id,
                     session_storage, state_storage,
                     parent_childrens):
@@ -190,6 +251,7 @@ class UIManager(metaclass=SingletonMeta):
             VVP = self.__make_var_val_comp(op_id, row_lv1, 1, session_storage)
             # Le añadimos los event listener
             self.select_variable_listener(row_lv1, 1)
+            self.select_valor_listener(row_lv1, 1)
             # 1 por que es el inicial.
             TabVVPChildrens = [TC, VVP] # Por que se juntan en un div.
 
@@ -200,6 +262,17 @@ class UIManager(metaclass=SingletonMeta):
 
             return (TabVVPChildrens, session_storage, state_storage, next_box)
         return None
+
+    def initial_setup(self):
+
+        component = html.Div(
+            children=[
+                InputSelectionBox()
+            ]
+            **{'id': 'main'}
+        )
+
+        return component
 
 
 

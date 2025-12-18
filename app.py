@@ -7,7 +7,7 @@ Created on Sat Dec  6 17:20:54 2025
 """
 
 from dash import Dash, html
-import Components.UIComponents.SelectionBox as SB
+from Components.UIManager import UIManager
 
 
 def main():
@@ -19,7 +19,7 @@ def main():
 
     app.layout = html.Div(
         children=[
-            SB.InputSelectionBox()
+            UIManager().initial_setup()
         ]
     )
     app.run(debug=True)

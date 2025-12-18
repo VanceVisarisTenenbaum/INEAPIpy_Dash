@@ -47,7 +47,7 @@ def InputSelectionBox():
     component = html.Div(
         children=[InputsGroupRow(1)],
         style=ROW_SEPARATED_DIVS,
-        **{'id': 'ISG'}
+        **{'id': 'ISB'}
     )
     return component
 

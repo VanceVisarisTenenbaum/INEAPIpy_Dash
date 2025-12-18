@@ -58,7 +58,7 @@ class RequestsStorageManager(metaclass=SingletonMeta):
             'Periodo': dict()
         }
 
-        SESSION_STORAGE = dcc.Store(**{'id': 'SessionStorage',
+        SESSION_STORAGE = dcc.Store(**{'id': 'RequestsStorage',
                                        'storage_type': 'session'},
                                     data=self.initial_storage)
         self.__initial_session_storage = SESSION_STORAGE
