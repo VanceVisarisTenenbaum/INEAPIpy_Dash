@@ -8,8 +8,7 @@ Created on Sun Dec  7 18:32:31 2025
 
 from dash import html
 from Components.UIComponents.Common.id_generator import id_generator_mapper
-from Components.UIComponents.Common.Styles import (ROW_SEPARATED_DIVS,
-                                                   COLUMN_SEPARATED_DIVS)
+
 
 
 """
@@ -34,7 +33,7 @@ def VarValPair(var_comp, val_comp, row_lv1, row_lv2):
     """Returns a well placed pair of var-values selects."""
     component = html.Div(
         children=[var_comp, val_comp],
-        style=COLUMN_SEPARATED_DIVS,
+        className='ColSplitterBase',
         **{'id': id_generator_mapper('VariableValor', None, row_lv1, row_lv2)}
     )
     return component
@@ -46,7 +45,7 @@ def VarValPairBoxComponent(row_lv1):
         children=[],
         **{'id': id_generator_mapper('VariableValor', 'Box',
                                      row_lv1)},
-        style=ROW_SEPARATED_DIVS
+        className='RowSplitterBase RowSplitterSmall'
     )
     return component
 

@@ -7,20 +7,18 @@ Created on Tue Dec 16 17:00:16 2025
 """
 
 from dash import html
-from Components.UIComponents.Common.Styles import (LABEL_INPUT_STYLE_TOP,
-                                                   LABEL_INPUT_STYLE_SIDE)
 
 def LabelInput(label, inputComponent, style='top'):
 
     if style == 'top':
         component = html.Div(
             children=[html.Span(label), inputComponent],
-            style=LABEL_INPUT_STYLE_TOP
+            className='LabelInput LITop'
         )
     elif style == 'side':
         component = html.Div(
             children=[html.Span(label), inputComponent],
-            style=LABEL_INPUT_STYLE_SIDE
+            className='LabelInput LISide'
         )
     else:
         raise ValueError('style can only be "top" or "side"')

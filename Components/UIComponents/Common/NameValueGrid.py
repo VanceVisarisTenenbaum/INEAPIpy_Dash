@@ -8,10 +8,6 @@ Created on Wed Dec 17 14:40:44 2025
 
 
 from dash import html
-from Components.UIComponents.Common.Styles import (SPAN_INFO_NAME_STYLE,
-                                                   SPAN_INFO_VALUE_STYLE,
-                                                   NAME_VALUE_DISPLAY_STYLE,
-                                                   NAME_VALUE_DISPLAY_GRID_STYLE)
 
 
 def dict_value_process(val):
@@ -36,17 +32,17 @@ def NameValue(name_value_dict):
         comp = html.Div(
             children=[
                 html.span(k,
-                        style=SPAN_INFO_NAME_STYLE),
+                        className='NameValName'),
                 html.span(dict_value_process(v),
-                          style=SPAN_INFO_VALUE_STYLE)
+                          className='NameValVal')
             ],
-            style=NAME_VALUE_DISPLAY_STYLE
+            className='NameValue'
         )
         childrens.append(comp)
 
     component = html.Div(
         children=childrens,
-        style=NAME_VALUE_DISPLAY_GRID_STYLE
+        className='NameValueGrid'
     )
     return component
 

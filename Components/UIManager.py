@@ -163,10 +163,11 @@ class UIManager(metaclass=SingletonMeta):
         def process(op_id, var_id,
                     session_storage, state_storage,
                     dummy_storage):
-
+            print('Variable')
             if not isinstance(var_id, int):
                 return list(), session_storage, state_storage, dummy_storage
 
+            print('Variable 2')
             # 1- Actualizamos el estado
             state_storage = self.__SSM.update_selected_variable(
                 op_id,

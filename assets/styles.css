@@ -1,0 +1,79 @@
+
+.LabelInput {
+    align-items: left;
+    padding: 8px;
+}
+
+.LabelInput span {
+    font-size: 40px;
+}
+.LabelInput div {
+    font-size: 15px;
+}
+
+.LITop {
+    display: flex;
+    flex-direction: column;
+}
+.LISide {
+    display: block;
+}
+
+.RowSplitterBase {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-y: auto;
+    gap: 10px;
+}
+
+.ColSplitterBase {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 12px;
+}
+
+.ColSplitterBase div {
+    flex: 1;
+}
+
+.ColSplitterBig {
+    width: 100%;
+}
+
+.RowSplitterBig {
+    max-height: 90%;
+    min-height: 80%;
+    padding: 0px;
+    gap: 30px;
+}
+
+.RowSpltterSmall {
+    max-height: 25%;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+
+.NameValName {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.NameValValue {
+    font-size: 25px;
+}
+
+.NameValue {
+    height: 35%;
+}
+
+.NameValueGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    max-height: 50%;
+    overflow-y: auto;
+}
+
