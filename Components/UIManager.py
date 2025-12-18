@@ -6,12 +6,13 @@ Created on Tue Dec 16 14:27:27 2025
 @author: mano
 """
 
-from dash import html, dcc, callback, Input, Output, State
+from dash import html, callback, Input, Output, State
 
 from Components.Storage.SingletonCustom import SingletonMeta
 from Components.Storage.RequestsStorage import RequestsStorageManager
 from Components.Storage.StateStorage import StateStorageManager
 from Components.Storage.ServerMemory import ServerMemoryManager
+from Components.Storage.DummyStorage import DummyStorageManager
 
 from Components.UIComponents.ValorComponent import ValorComponent
 from Components.UIComponents.VariableComponent import VariableComponent
@@ -39,6 +40,7 @@ class UIManager(metaclass=SingletonMeta):
         self.__RSM = RequestsStorageManager()
         self.__SSM = StateStorageManager()
         self.__SMM = ServerMemoryManager()
+        self.__DSM = DummyStorageManager()
         return None
 
     def __add_new_son(self, old_sons_list, new_son):
@@ -137,6 +139,7 @@ class UIManager(metaclass=SingletonMeta):
             3- El almacenamiento de estado.
             4- Las hijos del contenedor padre.
         """
+        dummy_name = self.__DSM.namer('Var', row_lv1, row_lv2)
         @callback(
             Output(
                 id_generator_mapper('Vl', None, row_lv1, row_lv2),
@@ -144,10 +147,7 @@ class UIManager(metaclass=SingletonMeta):
             ),
             Output('RequestsStorage', 'data'),
             Output('StateStorage', 'data'),
-            Output(
-                id_generator_mapper('VariableValor', None, row_lv1, row_lv2),
-                'children'
-            ),
+            Output('DummyStorage', 'data'),
             State(
                 id_generator_mapper('O', None, row_lv1),
                 'value'
@@ -158,14 +158,11 @@ class UIManager(metaclass=SingletonMeta):
             ),
             State('ResquestsStorage', 'data'),
             State('StateStorage', 'data'),
-            State(
-                id_generator_mapper('VariableValor', None, row_lv1, row_lv2),
-                'children'
-            )
+            State('DummyStorage', 'data')
         )
         def process(op_id, var_id,
                     session_storage, state_storage,
-                    parent_childrens):
+                    dummy_storage):
 
             if not isinstance(var_id, int):
                 return list(), session_storage, state_storage, parent_childrens
@@ -181,6 +178,44 @@ class UIManager(metaclass=SingletonMeta):
                                                           var_id,
                                                           session_storage)
 
+
+
+            # 4- Actualizamos el dummy storage para indicar que este fue el
+            # último proceso.
+            dummy_storage = self.__DSM.add_update(dummy_name, dummy_storage)
+            return (valores,
+                    session_storage,
+                    state_storage,
+                    dummy_storage)
+
+        # Añadimos el proceso para añadir una nueva fila.
+        @callback(
+            Output(
+                id_generator_mapper('VariableValor', None, row_lv1, row_lv2),
+                'children'
+            ),
+            State(
+                id_generator_mapper('O', None, row_lv1),
+                'value'
+            ),
+            Input(
+                id_generator_mapper('Vr', None, row_lv1, row_lv2),
+                'value'
+            ),
+            State(
+                id_generator_mapper('VariableValor', None, row_lv1, row_lv2),
+                'children'
+            ),
+            State('ResquestsStorage', 'data'),
+            Input('DummyStorage', 'data')
+        )
+        def new_row(op_id, var_id,
+                    parent_childrens,
+                    session_storage, dummy_storage):
+            if self.__DSM.get_last_update(dummy_storage) != dummy_name:
+                # En caso que el ultimo proceso no fuese el del mismo
+                # event listener no se ejecuta.
+                return parent_childrens
             # 3- Generamos una nueva fila
             VVP = self.__make_var_val_comp(op_id,
                                            row_lv1, row_lv2,
@@ -194,7 +229,7 @@ class UIManager(metaclass=SingletonMeta):
             new_childrens = self.__remove_sons(parent_childrens, row_lv2)
             new_childrens = self.__add_new_son(new_childrens, VVP)
 
-            return valores, session_storage, state_storage, new_childrens
+            return new_childrens
         return None
 
     # ------------------------------------------------------------------------
@@ -227,7 +262,7 @@ class UIManager(metaclass=SingletonMeta):
             3- El almacenamiento de estado.
             4- Los hijos del contenedor padre con el nuevo hijo añadido.
         """
-
+        dummy_name = self.__DSM.namer('O', row_lv1)
         @callback(
             Output(
                 id_generator_mapper('TablaVVP', 'Box', row_lv1),
@@ -235,21 +270,21 @@ class UIManager(metaclass=SingletonMeta):
             ),
             Output('RequestsStorage', 'data'),
             Output('StateStorage', 'data'),
-            Output('ISB', 'children'),
+            Output('DummyStorage', 'data'),
             Input(
                 id_generator_mapper('O', None, row_lv1),
                 'value'
             ),
             State('RequestsStorage', 'data'),
             State('StateStorage', 'data'),
-            State('ISB', 'children')
+            State('DummyStorage', 'data')
         )
         def process(op_id,
                     session_storage, state_storage,
-                    parent_childrens):
+                    dummy_storage):
 
             if not isinstance(op_id, int):
-                return list(), session_storage, state_storage, parent_childrens
+                return list(), session_storage, state_storage
             # 1- Actualizamos el estado.
             state_storage = self.__SSM.update_selected_operation(None, op_id,
                                                                  state_storage)
@@ -263,6 +298,35 @@ class UIManager(metaclass=SingletonMeta):
             # 1 por que es el inicial.
             TabVVPChildrens = [TC, VVP] # Por que se juntan en un div.
 
+            # 4- Actualizamos el dummy storage para indicar que este fue el
+            # último proceso.
+            dummy_storage = self.__DSM.add_update(dummy_name, dummy_storage)
+
+            return (TabVVPChildrens,
+                    session_storage, state_storage,
+                    dummy_storage)
+
+        """
+        Como no podemos añadir el select de tablas y Var-Val al mismo tiempo
+        que añadimos una nueva fila, separamos el processo de añadir nueva
+        fila en un segundo callback.
+        """
+        @callback(
+            Output('ISB', 'children'),
+            Input(
+                id_generator_mapper('O', None, row_lv1),
+                'value'
+            ),
+            State('ISB', 'children'),
+            Input('DummyStorage', 'data'), # Esto hace que se ejecute cuando
+            # se actualice el dummy.
+        )
+        def new_row_process(op_id, parent_childrens, dummy_storage):
+            if self.__DSM.get_last_update(dummy_storage) != dummy_name:
+                # En caso que el ultimo proceso no fuese el del mismo
+                # event listener no se ejecuta.
+                return parent_childrens
+
             # 3- Creamos la siguiente fila.
             next_box = InputsGroupRow(row_lv1 + 1)
             # Añadimos los event listener a la nueva fila.
@@ -270,9 +334,7 @@ class UIManager(metaclass=SingletonMeta):
             # Añadimos la fila a la lista de hijos
             parent_childrens = self.__add_new_son(parent_childrens, next_box)
 
-            return (TabVVPChildrens,
-                    session_storage, state_storage,
-                    parent_childrens)
+            return parent_childrens
         return None
 
     def initial_setup(self):

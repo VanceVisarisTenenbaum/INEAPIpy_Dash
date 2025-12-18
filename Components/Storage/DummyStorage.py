@@ -7,6 +7,7 @@ Created on Thu Dec 18 16:05:53 2025
 """
 
 from dash import dcc
+from Components.Storage.SingletonCustom import SingletonMeta
 
 """
 The Dummy Storage is a storage used to store if some processes has been done
@@ -18,3 +19,29 @@ specify the callback chain. This class allows to manage the session storage
 instance aswell as a bunch of methods that will allow the functions to check
 if they need to be executed or not.
 """
+
+class DummyStorageManager(metaclass=SingletonMeta):
+
+    def __init__(self):
+        self.__initial_storage = dcc.Store('DummyStorage', 'session',
+                                           data={'last_update': -1})
+        # -1 Por que si usamos None dará error al hacer la comprobación.
+        return None
+
+    def get_initial_storage(self):
+        return self.__initial_storage
+
+    def add_update(self, name, dummy_storage):
+        dummy_storage['last_update'] = name
+        return dummy_storage
+
+    def get_last_update(self, dummy_storage):
+        return dummy_storage['last_update']
+
+    def namer(self, select_name, row_lv1, row_lv2=None):
+        text = str(select_name)
+        if row_lv1 is not None:
+            text = text + '_' + str(row_lv1)
+        if row_lv2 is not None:
+            text = text + '_' + str(row_lv2)
+        return text
