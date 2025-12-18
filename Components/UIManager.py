@@ -165,7 +165,7 @@ class UIManager(metaclass=SingletonMeta):
                     dummy_storage):
 
             if not isinstance(var_id, int):
-                return list(), session_storage, state_storage, parent_childrens
+                return list(), session_storage, state_storage, dummy_storage
 
             # 1- Actualizamos el estado
             state_storage = self.__SSM.update_selected_variable(
@@ -284,7 +284,7 @@ class UIManager(metaclass=SingletonMeta):
                     dummy_storage):
 
             if not isinstance(op_id, int):
-                return list(), session_storage, state_storage
+                return list(), session_storage, state_storage, dummy_storage
             # 1- Actualizamos el estado.
             state_storage = self.__SSM.update_selected_operation(None, op_id,
                                                                  state_storage)
@@ -343,6 +343,7 @@ class UIManager(metaclass=SingletonMeta):
             children=[
                 self.__RSM.get_initial_requests_storage(),
                 self.__SSM.get_initial_state_storage(),
+                self.__DSM.get_initial_storage(),
                 InputSelectionBox()
             ],
             **{'id': 'main'}
