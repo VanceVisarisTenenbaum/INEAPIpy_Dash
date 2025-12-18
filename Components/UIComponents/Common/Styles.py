@@ -18,7 +18,6 @@ LABEL_STYLE = {
 }
 
 LABEL_INPUT_STYLE_COMMON = {
-    'width': '100%',
     'alignItems': 'left',
     'padding': '6px'
 }
@@ -34,16 +33,27 @@ LABEL_INPUT_STYLE_SIDE.update({
     'display': 'block'
 })
 
-ROW_SEPARATED_DIVS = {
+ROW_SEPARATED_DIVS_BASE = {
     "display": "flex",
     "flexDirection": "column",
-    "overflowY": "auto",        # Scroll vertical si hay overflow
-    "maxHeight": "25%",       # Altura máxima de 1/4 el del padre
     "width": "100%",
-    "border": "1px solid #ccc",
-    "padding": "10px",
+    "overflowY": "auto",        # Scroll vertical si hay overflow
     "gap": '10px'
 }
+
+ROW_SEPARATED_DIVS = {
+    "maxHeight": "25%",       # Altura máxima de 1/4 el del padre
+    "border": "1px solid #ccc",
+    "padding": "10px",
+}
+ROW_SEPARATED_DIVS.update(ROW_SEPARATED_DIVS_BASE)
+
+INPUT_SELECTION_BOX_STYLE = {
+    "maxHeight": "90%",
+    "minHeight": "80%",
+    "padding": "0px",
+}
+INPUT_SELECTION_BOX_STYLE.update(ROW_SEPARATED_DIVS_BASE)
 
 COLUMN_SEPARATED_DIVS = {
     "display": "flex",

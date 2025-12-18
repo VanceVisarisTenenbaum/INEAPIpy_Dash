@@ -9,6 +9,8 @@ Created on Tue Dec  9 17:12:51 2025
 from INEAPIpy import Wrapper as W
 from Components.Storage.SingletonCustom import SingletonMeta
 
+from Components.Storage.temp import ResultadosPeticiones as RP
+
 
 class ServerMemoryManager(metaclass=SingletonMeta):
 
@@ -24,6 +26,7 @@ class ServerMemoryManager(metaclass=SingletonMeta):
         muchos usuarios recurrentes.
         """
 
+        """
         self.__SERVER_MEMORY = {
             'Operaciones': self.INE.get_operations_(),  # Menos de 200.
             'Publicaciones': self.INE.get_publications_(),  # Menos de 500.
@@ -31,6 +34,15 @@ class ServerMemoryManager(metaclass=SingletonMeta):
             'Escalas': self.INE.get_scales_(),
             'Periodicidades': self.INE.get_periodicities_()
         }
+        """
+        self.__SERVER_MEMORY = {
+            'Operaciones': RP.Op,
+            'Publicaciones': RP.Pu,
+            'Unidades': RP.Un,
+            'Escalas': RP.Es,
+            'Periodicidades': RP.Pe
+        }
+        return None
 
     def __check_literal__(self, val):
         if val not in self.__SERVER_MEMORY.keys():

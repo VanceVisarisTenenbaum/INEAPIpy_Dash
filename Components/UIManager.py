@@ -6,7 +6,7 @@ Created on Tue Dec 16 14:27:27 2025
 @author: mano
 """
 
-from dash import html, callback, Input, Output, State
+from dash import html, dcc, callback, Input, Output, State
 
 from Components.Storage.SingletonCustom import SingletonMeta
 from Components.Storage.RequestsStorage import RequestsStorageManager
@@ -28,7 +28,6 @@ This module contains the class that allows to manage the events that will
 happen when the user interacts with the interface.
 """
 
-
 """
 UIManager handles the UI trasformations.
 
@@ -44,7 +43,7 @@ class UIManager(metaclass=SingletonMeta):
 
     def __add_new_son(self, old_sons_list, new_son):
         for son in old_sons_list:
-            if son.id == new_son.id:
+            if son['props']['id'] == new_son.id:
                 # Si encuentra un hijo con el mismo id no se actualiza.
                 return old_sons_list
         old_sons_list.append(new_son)
@@ -228,6 +227,7 @@ class UIManager(metaclass=SingletonMeta):
             3- El almacenamiento de estado.
             4- Los hijos del contenedor padre con el nuevo hijo añadido.
         """
+
         @callback(
             Output(
                 id_generator_mapper('TablaVVP', 'Box', row_lv1),
@@ -235,6 +235,7 @@ class UIManager(metaclass=SingletonMeta):
             ),
             Output('RequestsStorage', 'data'),
             Output('StateStorage', 'data'),
+            Output('ISB', 'children'),
             Input(
                 id_generator_mapper('O', None, row_lv1),
                 'value'
@@ -266,8 +267,12 @@ class UIManager(metaclass=SingletonMeta):
             next_box = InputsGroupRow(row_lv1 + 1)
             # Añadimos los event listener a la nueva fila.
             self.select_operation_listener(row_lv1 + 1)
+            # Añadimos la fila a la lista de hijos
+            parent_childrens = self.__add_new_son(parent_childrens, next_box)
 
-            return (TabVVPChildrens, session_storage, state_storage, next_box)
+            return (TabVVPChildrens,
+                    session_storage, state_storage,
+                    parent_childrens)
         return None
 
     def initial_setup(self):
