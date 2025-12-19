@@ -20,7 +20,9 @@ from Components.Storage.DummyStorage import DummyStorageManager
 
 from Components.UIComponents.Common.SelectComponent import SelectComponent
 from Components.UIComponents.Common.id_generator import id_generator_mapper
-from Components.UIComponents.Common.ui_processes import add_new_son
+from Components.UIComponents.Common.ui_processes import (add_new_son,
+                                                         STORAGE_INPUTS,
+                                                         STORAGE_OUTPUTS)
 
 
 from Components.UIComponents.VariableComponent import (VariableComponent,
@@ -84,9 +86,11 @@ def make_vvp(row_lv1, row_lv2):
     VlC = ValorComponent(row_lv1, row_lv2, list())
     return VarValPair(VrC, VlC, row_lv1, row_lv2)
 
-def update_state_storage(prev_op_id, current_op_id,
+def update_state_storage(row_lv1,
+                         prev_op_id, current_op_id,
                          state_storage):
-    state_storage = SSM.update_selected_operation(prev_op_id, current_op_id,
+    state_storage = SSM.update_selected_operation(row_lv1,
+                                                  prev_op_id, current_op_id,
                                                   state_storage)
     return state_storage
 
@@ -119,49 +123,48 @@ def operation_event_listener_adder(row_lv1):
     step1_name = DSM.namer('O', row_lv1)
     step2_name = DSM.namer('O2', row_lv1)
 
+
+    def prev_checks(selected_op_id, state_storage):
+        if selected_op_id is None:
+            return False, None
+        prev_op_id = SSM.get_current_value(row_lv1, None,
+                                           'Operacion', state_storage)
+        if prev_op_id == selected_op_id:
+            return False, None
+        return True, prev_op_id
+
     @callback(
         Output(id_generator_mapper('T', None, row_lv1), 'options'),
-        Output(id_generator_mapper('Vr', None, row_lv1), 'options'),
-        Output('ISB', 'children'),
-        Output('RequestsStorage', 'data'),
-        Output('StateStorage', 'data'),
-        Output('DummyStorage', 'data'),
-        State(id_generator_mapper('O', None, row_lv1), 'value'),
+        Output(id_generator_mapper('Vr', None, row_lv1, 1), 'options'),
+        *STORAGE_OUTPUTS(),
         Input(id_generator_mapper('O', None, row_lv1), 'value'),
-        State('ISB', 'children'),
-        State('RequestsStorage', 'data'),
-        State('StateStorage', 'data'),
-        Input('DummyStorage', 'data'),
+        *STORAGE_INPUTS(),
         State(id_generator_mapper('T', None, row_lv1), 'options'),
-        State(id_generator_mapper('Vr', None, row_lv1), 'options')
+        State(id_generator_mapper('Vr', None, row_lv1, 1), 'options'),
+        prevent_initial_call=True
     )
-    def process(prev_op_id, selected_op_id,
-                parent_childrens,
-                requests_storage,
-                state_storage,
-                dummy_storage,
-                table_current_options,
-                variable_current_options
-                ):
+    def step_1(selected_op_id,
+               requests_storage,
+               state_storage,
+               dummy_storage,
+               table_current_options,
+               variable_current_options
+               ):
 
         # Comprobamos si la función tiene que ejecutarse o no
-        if selected_op_id is None:
+        checks, prev_op_id = prev_checks(selected_op_id, state_storage)
+        if not checks:
             return (table_current_options, variable_current_options,
-                    parent_childrens,
-                    requests_storage, state_storage, dummy_storage)
-
-        if prev_op_id == selected_op_id:
-            return (table_current_options, variable_current_options,
-                    parent_childrens,
                     requests_storage, state_storage, dummy_storage)
 
         # En la primera ejecución actualizamos el estado
         # y las tablas y variables
         if DSM.get_last_update(dummy_storage) == DSM.get_default_value():
             # actualizamos el estado
-            state_storage = SSM.update_selected_operation(prev_op_id,
-                                                          selected_op_id,
-                                                          state_storage)
+            state_storage = update_state_storage(row_lv1,
+                                                 prev_op_id,
+                                                 selected_op_id,
+                                                 state_storage)
             # Obtenemos las tablas
             tablas, requests_storage = get_tables(selected_op_id,
                                                   requests_storage)
@@ -174,9 +177,29 @@ def operation_event_listener_adder(row_lv1):
 
             # Actualizamos el dummy
             dummy_storage = DSM.add_update(step1_name, dummy_storage)
-            return (tablas, variables, parent_childrens,
+            return (tablas, variables,
                     requests_storage, state_storage, dummy_storage)
 
+        # Return por defecto.
+        return (table_current_options, variable_current_options,
+                requests_storage, state_storage, dummy_storage)
+
+    @callback(
+        Output('ISB', 'children'),
+        STORAGE_OUTPUTS()[2], # Dummy
+        State(id_generator_mapper('O', None, row_lv1), 'value'),
+        *STORAGE_INPUTS()[1:3], # State and dummy
+        prevent_initial_call=True
+    )
+    def step_2(selected_op_id,
+               parent_childrens,
+               state_storage,
+               dummy_storage
+               ):
+
+        checks, prev_op_id = prev_checks(selected_op_id, state_storage)
+        if not checks:
+            return parent_childrens, dummy_storage
         # Se vuelve a ejecutar la función, ahora este segundo paso.
         # Añadimos la nueva fila.
         if DSM.get_last_update(dummy_storage) == step1_name:
@@ -186,9 +209,22 @@ def operation_event_listener_adder(row_lv1):
             parent_childrens = add_new_son(parent_childrens, new_row)
             # Actualizamos el dummy
             dummy_storage = DSM.add_update(step2_name, dummy_storage)
-            return (table_current_options, variable_current_options,
-                    parent_childrens,
-                    requests_storage, state_storage, dummy_storage)
+
+        return parent_childrens, dummy_storage
+
+    @callback(
+        STORAGE_OUTPUTS()[2],  # dummy
+        State(id_generator_mapper('O', None, row_lv1), 'value'),
+        *STORAGE_INPUTS()[1:3], # State and dummy
+        prevent_initial_call=True
+    )
+    def step_3(selected_op_id,
+               state_storage,
+               dummy_storage):
+
+        checks, prev_op_id = prev_checks(selected_op_id, state_storage)
+        if not checks:
+            return dummy_storage
 
         # Ahora que ya se ha añadido una nueva fila, añadimos los
         # event listeners.
@@ -197,14 +233,9 @@ def operation_event_listener_adder(row_lv1):
             operation_event_listener_adder(row_lv1 + 1)
             # Actualizamos el dummy
             dummy_storage = DSM.reset_default_value(dummy_storage)
-            return (table_current_options, variable_current_options,
-                    parent_childrens,
-                    requests_storage, state_storage, dummy_storage)
 
-        # Return por defecto.
-        return (table_current_options, variable_current_options,
-                parent_childrens,
-                requests_storage, state_storage, dummy_storage)
+        return dummy_storage
+
     return None
 
 
