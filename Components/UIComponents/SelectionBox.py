@@ -13,9 +13,8 @@ everything necessary to get a set of series.
 
 from dash import html
 from Components.UIComponents.Common.id_generator import id_generator_mapper
-from Components.UIComponents.OperationBox import OperationSelectBox
 
-def InputsGroupRow(row_lv1):
+def InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp):
     """
     This box provides the next.
         - Operation Selection
@@ -29,9 +28,12 @@ def InputsGroupRow(row_lv1):
     """
     element = html.Div(
         children=[
-            OperationSelectBox(row_lv1),
+            op_comp,
             html.Div(
-                children=[],
+                children=[
+                    tab_comp,
+                    varvalbox_comp
+                ],
                 className='ColSplitterBase ColSplitterBig',
                 **{'id': id_generator_mapper('TablaVVP', 'Box', row_lv1)}
             )
@@ -41,9 +43,9 @@ def InputsGroupRow(row_lv1):
     return element
 
 
-def InputSelectionBox():
+def InputSelectionBox(initial_IGR):
     component = html.Div(
-        children=[InputsGroupRow(1)],
+        children=[initial_IGR],
         className='RowSplitterBase RowSplitterBig',
         **{'id': 'ISB'}
     )

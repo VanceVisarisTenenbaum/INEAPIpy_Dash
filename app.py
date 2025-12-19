@@ -7,7 +7,7 @@ Created on Sat Dec  6 17:20:54 2025
 """
 
 from dash import Dash, html
-from Components.UIManager import UIManager
+from Components.UIComponents.Main import initial_layout
 
 
 def main():
@@ -19,7 +19,7 @@ def main():
 
     app.layout = html.Div(
         children=[
-            UIManager().initial_setup()
+            initial_layout()
         ]
     )
     app.run(debug=True)

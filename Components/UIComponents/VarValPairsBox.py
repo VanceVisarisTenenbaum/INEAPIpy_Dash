@@ -11,6 +11,7 @@ from Components.UIComponents.Common.id_generator import id_generator_mapper
 
 
 
+
 """
 This file contains a fuction that creates a Component that will allow the user
 to select multiple pairs Variable-Valor.
@@ -39,10 +40,10 @@ def VarValPair(var_comp, val_comp, row_lv1, row_lv2):
     return component
 
 
-def VarValPairBoxComponent(row_lv1):
+def VarValPairBoxComponent(row_lv1, initial_varvalpair):
     """Caja con pares Variable-Valor separados en filas."""
     component = html.Div(
-        children=[],
+        children=[initial_varvalpair],
         **{'id': id_generator_mapper('VariableValor', 'Box',
                                      row_lv1)},
         className='RowSplitterBase RowSplitterSmall'

@@ -11,19 +11,200 @@ This file contains the function that creates a select for one Operation,
 with two additional optional selects, Periodicity and Classification.
 """
 
+from dash import callback, Input, Output, State
+
 from Components.Storage.ServerMemory import ServerMemoryManager
+from Components.Storage.RequestsStorage import RequestsStorageManager
+from Components.Storage.StateStorage import StateStorageManager
+from Components.Storage.DummyStorage import DummyStorageManager
+
 from Components.UIComponents.Common.SelectComponent import SelectComponent
+from Components.UIComponents.Common.id_generator import id_generator_mapper
+from Components.UIComponents.Common.ui_processes import add_new_son
 
 
-def OperationSelectBox(row_number):
+from Components.UIComponents.VariableComponent import (VariableComponent,
+                                                       variable_event_listener_adder)
+from Components.UIComponents.ValorComponent import ValorComponent
+from Components.UIComponents.VarValPairsBox import (VarValPairBoxComponent,
+                                                    VarValPair)
+from Components.UIComponents.SelectionBox import InputsGroupRow
+from Components.UIComponents.TableComponent import (TableSelectBox,
+                                                    table_event_listener_adder)
+
+
+DSM = DummyStorageManager()
+SSM = StateStorageManager()
+RSM = RequestsStorageManager()
+
+def OperationSelectBox(row_lv1):
     SSM = ServerMemoryManager()
-    return SelectComponent(SSM.get_metadata('Operaciones'), 'O', row_number)
+    return SelectComponent(SSM.get_metadata('Operaciones'), 'O', row_lv1)
 
 """
-Asociado con la Operación, cuando un usuario selecciona un operación, es
-necesario generar los inputs que permiten seleccionar una tabla y los
-inputs que permiten seleccionar los pares variable-valor.
+Cuando un usuario elige una operación ocurre lo siguiente:
+    1- Se actualizan los valores del select de tabla y variable asociados.
+    2- Se genera una nueva fila para la selección de Operacion.
 """
 
+"""
+El select de Operación tiene que tener un event listener para saber
+cuando el usuario ha seleccionado una opearción.
+
+Cuando esto ocurre, se ejecutan los siguientes pasos:
+    1- Se guarda la seleccion en el estado.
+    2- Se cargan las tablas asociadas.
+    3- Se cargan las variables asociadas.
+    4- Se añaden las tablas a las opciones del select.
+    5- Se añaden las variables a las opciones del select.
+    6- Se añaden los event listeners a ambos selects.
+    7- Se genera una nueva fila para la selección de operación.
+    8- Se añaden los event listeners al nuevo select de operacion.
+
+Para cumplir esto, el input es:
+    1- la operación elegida.
+    2- el almacenamiento de peticiones.
+    3- el almacenamiento de estado.
+    4- Los hijos del contenedor padre.
+    5- Las opciones actuales de tablas.
+    6- Las opciones actuales de Variable.
+    7- La opción actual de operación.
+    8- El almacenamiento dummy.
+
+Las salidas deben ser:
+    1- Las opciones del select de tabla asociado.
+    2- Las opciones del select de variable asociado.
+    3- El almacenamiento de peticiones
+    4- El almacenamiento de estado.
+    5- Los hijos del contenedor padre con el nuevo hijo añadido.
+"""
+
+def make_vvp(row_lv1, row_lv2):
+    VrC = VariableComponent(row_lv1, row_lv2, list())
+    VlC = ValorComponent(row_lv1, row_lv2, list())
+    return VarValPair(VrC, VlC, row_lv1, row_lv2)
+
+def update_state_storage(prev_op_id, current_op_id,
+                         state_storage):
+    state_storage = SSM.update_selected_operation(prev_op_id, current_op_id,
+                                                  state_storage)
+    return state_storage
+
+def get_tables(op_id, requests_storage):
+    return RSM.get_obj('Tabla', op_id, requests_storage)
+
+def get_variables(op_id, requests_storage):
+    return RSM.get_obj('Variable', op_id, requests_storage)
+
+
+def add_new_row_event_listeners(row_lv1):
+    operation_event_listener_adder(row_lv1 + 1)
+    return None
+
+def make_row(row_lv1):
+    NewRow = InputsGroupRow(row_lv1,
+                            OperationSelectBox(row_lv1),
+                            TableSelectBox(row_lv1,list()),
+                            VarValPairBoxComponent(row_lv1,
+                                                   make_vvp(row_lv1,
+                                                            1)))
+
+    return NewRow
+
+
+
+def operation_event_listener_adder(row_lv1):
+    """Adds the event listener to the operation box."""
+
+    step1_name = DSM.namer('O', row_lv1)
+    step2_name = DSM.namer('O2', row_lv1)
+
+    @callback(
+        Output(id_generator_mapper('T', None, row_lv1), 'options'),
+        Output(id_generator_mapper('Vr', None, row_lv1), 'options'),
+        Output('ISB', 'children'),
+        Output('RequestsStorage', 'data'),
+        Output('StateStorage', 'data'),
+        Output('DummyStorage', 'data'),
+        State(id_generator_mapper('O', None, row_lv1), 'value'),
+        Input(id_generator_mapper('O', None, row_lv1), 'value'),
+        State('ISB', 'children'),
+        State('RequestsStorage', 'data'),
+        State('StateStorage', 'data'),
+        Input('DummyStorage', 'data'),
+        State(id_generator_mapper('T', None, row_lv1), 'options'),
+        State(id_generator_mapper('Vr', None, row_lv1), 'options')
+    )
+    def process(prev_op_id, selected_op_id,
+                parent_childrens,
+                requests_storage,
+                state_storage,
+                dummy_storage,
+                table_current_options,
+                variable_current_options
+                ):
+
+        # Comprobamos si la función tiene que ejecutarse o no
+        if selected_op_id is None:
+            return (table_current_options, variable_current_options,
+                    parent_childrens,
+                    requests_storage, state_storage, dummy_storage)
+
+        if prev_op_id == selected_op_id:
+            return (table_current_options, variable_current_options,
+                    parent_childrens,
+                    requests_storage, state_storage, dummy_storage)
+
+        # En la primera ejecución actualizamos el estado
+        # y las tablas y variables
+        if DSM.get_last_update(dummy_storage) == DSM.get_default_value():
+            # actualizamos el estado
+            state_storage = SSM.update_selected_operation(prev_op_id,
+                                                          selected_op_id,
+                                                          state_storage)
+            # Obtenemos las tablas
+            tablas, requests_storage = get_tables(selected_op_id,
+                                                  requests_storage)
+            # Obtenemos las variables
+            variables, requests_storage = get_variables(selected_op_id,
+                                                        requests_storage)
+            # Como ya existen en el layout, añadimos los event listeners.
+            table_event_listener_adder(row_lv1)
+            variable_event_listener_adder(row_lv1, 1)
+
+            # Actualizamos el dummy
+            dummy_storage = DSM.add_update(step1_name, dummy_storage)
+            return (tablas, variables, parent_childrens,
+                    requests_storage, state_storage, dummy_storage)
+
+        # Se vuelve a ejecutar la función, ahora este segundo paso.
+        # Añadimos la nueva fila.
+        if DSM.get_last_update(dummy_storage) == step1_name:
+            # creamos la nueva fila
+            new_row = make_row(row_lv1 + 1)
+            # Lo añadimos a los hijos del padre
+            parent_childrens = add_new_son(parent_childrens, new_row)
+            # Actualizamos el dummy
+            dummy_storage = DSM.add_update(step2_name, dummy_storage)
+            return (table_current_options, variable_current_options,
+                    parent_childrens,
+                    requests_storage, state_storage, dummy_storage)
+
+        # Ahora que ya se ha añadido una nueva fila, añadimos los
+        # event listeners.
+        if DSM.get_last_update(dummy_storage) == step2_name:
+            # Añadimos el event listener a la nueva operacion.
+            operation_event_listener_adder(row_lv1 + 1)
+            # Actualizamos el dummy
+            dummy_storage = DSM.reset_default_value(dummy_storage)
+            return (table_current_options, variable_current_options,
+                    parent_childrens,
+                    requests_storage, state_storage, dummy_storage)
+
+        # Return por defecto.
+        return (table_current_options, variable_current_options,
+                parent_childrens,
+                requests_storage, state_storage, dummy_storage)
+    return None
 
 

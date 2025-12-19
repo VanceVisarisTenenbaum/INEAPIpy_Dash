@@ -23,6 +23,8 @@ from Components.UIComponents.SelectionBox import (InputsGroupRow,
 
 from Components.UIComponents.Common.id_generator import id_generator_mapper
 
+from Components.SharedFunctions import extract_labels_values
+
 
 """
 This module contains the class that allows to manage the events that will
@@ -33,7 +35,11 @@ happen when the user interacts with the interface.
 UIManager handles the UI trasformations.
 
 This means it takes care of all the event listener processes.
+
+The rest of the classes are intermediate for better readability.
 """
+
+
 class UIManager(metaclass=SingletonMeta):
     """Provides methods to manage the UI different states."""
     def __init__(self):
@@ -140,6 +146,7 @@ class UIManager(metaclass=SingletonMeta):
             4- Las hijos del contenedor padre.
         """
         dummy_name = self.__DSM.namer('Var', row_lv1, row_lv2)
+        dummy_name_2 = self.__DSM.namer('Var2', row_lv1, row_lv2)
         @callback(
             Output(
                 id_generator_mapper('Vl', None, row_lv1, row_lv2),
@@ -199,7 +206,7 @@ class UIManager(metaclass=SingletonMeta):
                 id_generator_mapper('O', None, row_lv1),
                 'value'
             ),
-            Input(
+            State(
                 id_generator_mapper('Vr', None, row_lv1, row_lv2),
                 'value'
             ),
@@ -209,6 +216,7 @@ class UIManager(metaclass=SingletonMeta):
             ),
             State('ResquestsStorage', 'data'),
             Input('DummyStorage', 'data')
+            # Esto hace que se ejecute cuando se actualice el dummy
         )
         def new_row(op_id, var_id,
                     parent_childrens,
@@ -219,7 +227,7 @@ class UIManager(metaclass=SingletonMeta):
                 return parent_childrens
             # 3- Generamos una nueva fila
             VVP = self.__make_var_val_comp(op_id,
-                                           row_lv1, row_lv2,
+                                           row_lv1, row_lv2 + 1,
                                            session_storage)
             # Le añadimos los event listener a la nueva fila.
             self.select_variable_listener(row_lv1, row_lv2 + 1)
@@ -231,6 +239,14 @@ class UIManager(metaclass=SingletonMeta):
             new_childrens = self.__add_new_son(new_childrens, VVP)
 
             return new_childrens
+
+        """Añadimos el siguiente proceso que añade los listeners"""
+        def add_event_listeners(dummy_storage):
+            if self.__DSM.get_last_update(dummy_storage) != dummy_name_2:
+                return dummy_storage
+            self.select_variable_listener(row_lv1, row_lv2 + 1)
+            self.select_valor_listener(row_lv1, row_lv2 + 1)
+            return None
         return None
 
     # ------------------------------------------------------------------------
@@ -246,9 +262,8 @@ class UIManager(metaclass=SingletonMeta):
             1- Se guarda la seleccion en el estado.
             2- Se cargan las tablas asociadas.
             3- Se cargan las variables asociadas.
-            4- Se genera el componente Select de las tablas.
-            5- Se genera el componente con los pares variable-valor.
-            6- Se genera el div que contiene las tablas y los var-val.
+            4- Se genera los valores para el select de tabla.
+            5- Se genera los valores para el select de variable primero.
             7- Se genera una nueva fila para la selección de operación.
 
         Para cumplir esto, el input es:
@@ -258,16 +273,22 @@ class UIManager(metaclass=SingletonMeta):
             4- los hijos del contenedor padre.
 
         Las salidas deben ser:
-            1- Los hijos de la caja TablaVVPBox_row_lv1
-            2- El almacenamiento de peticiones
-            3- El almacenamiento de estado.
-            4- Los hijos del contenedor padre con el nuevo hijo añadido.
+            1- Las opciones del select de tabla asociado.
+            2- Las opciones del select de variable asociado.
+            3- El almacenamiento de peticiones
+            4- El almacenamiento de estado.
+            5- Los hijos del contenedor padre con el nuevo hijo añadido.
         """
         dummy_name = self.__DSM.namer('O', row_lv1)
+        dummy_name_2 = self.__DSM.namer('O2', row_lv1)
         @callback(
             Output(
-                id_generator_mapper('TablaVVP', 'Box', row_lv1),
-                'children'
+                id_generator_mapper('Tabla', None, row_lv1),
+                'options'
+            ),
+            Output(
+                id_generator_mapper('Vr', None, row_lv1, 1),
+                'options'
             ),
             Output('RequestsStorage', 'data'),
             Output('StateStorage', 'data'),
@@ -285,25 +306,25 @@ class UIManager(metaclass=SingletonMeta):
                     dummy_storage):
 
             if not isinstance(op_id, int):
-                return list(), session_storage, state_storage, dummy_storage
+                return (list(), list(),
+                        session_storage, state_storage, dummy_storage)
             # 1- Actualizamos el estado.
             state_storage = self.__SSM.update_selected_operation(None, op_id,
                                                                  state_storage)
 
             # 2- Creamos el select de tabla y el par Var-Val
-            TC = self.__make_tab_comp(op_id, row_lv1, session_storage)
-            VVP = self.__make_var_val_comp(op_id, row_lv1, 1, session_storage)
-            # Le añadimos los event listener
-            self.select_variable_listener(row_lv1, 1)
-            self.select_valor_listener(row_lv1, 1)
-            # 1 por que es el inicial.
-            TabVVPChildrens = [TC, VVP] # Por que se juntan en un div.
+            tablas, _ = self.__RSM.get_obj('Tabla', op_id, session_storage)
+            tablas = extract_labels_values(tablas)
+            variables, _ = self.__RSM.get_obj('Variable',
+                                              op_id, session_storage)
+            variables = extract_labels_values(variables)
+            # Añadimos los event listeners
 
             # 4- Actualizamos el dummy storage para indicar que este fue el
             # último proceso.
             dummy_storage = self.__DSM.add_update(dummy_name, dummy_storage)
 
-            return (TabVVPChildrens,
+            return (tablas, variables,
                     session_storage, state_storage,
                     dummy_storage)
 
@@ -314,28 +335,52 @@ class UIManager(metaclass=SingletonMeta):
         """
         @callback(
             Output('ISB', 'children'),
-            Input(
+            Output('DummyStorage', 'data'),
+            State(
                 id_generator_mapper('O', None, row_lv1),
                 'value'
             ),
             State('ISB', 'children'),
             Input('DummyStorage', 'data'), # Esto hace que se ejecute cuando
             # se actualice el dummy.
+            allow_duplicates=True
         )
         def new_row_process(op_id, parent_childrens, dummy_storage):
-            if self.__DSM.get_last_update(dummy_storage) != dummy_name:
-                # En caso que el ultimo proceso no fuese el del mismo
-                # event listener no se ejecuta.
-                return parent_childrens
+            if self.__DSM.get_last_update(dummy_storage) == dummy_name:
+                # 3- Creamos la siguiente fila.
+                next_box = InputsGroupRow(row_lv1 + 1)
+                # Añadimos los event listener a la nueva fila.
+                self.select_operation_listener(row_lv1 + 1)
+                # Añadimos la fila a la lista de hijos
+                parent_childrens = self.__add_new_son(parent_childrens,
+                                                      next_box)
 
-            # 3- Creamos la siguiente fila.
-            next_box = InputsGroupRow(row_lv1 + 1)
-            # Añadimos los event listener a la nueva fila.
-            self.select_operation_listener(row_lv1 + 1)
-            # Añadimos la fila a la lista de hijos
-            parent_childrens = self.__add_new_son(parent_childrens, next_box)
+                # Actualizamos el dummy para que se puedan añadir los event
+                # listeners
+                dummy_storage = self.__DSM.add_update(dummy_name_2,
+                                                      dummy_storage)
+                return parent_childrens, dummy_storage
 
-            return parent_childrens
+            # En caso de que sea dummy_name_2 añadimos los event listeners
+            # Esta función se ejecuta dos veces, la  primera cuando es
+            # dummy_name_1 y seguido cuando cambia a dummy_name_2
+            if self.__DSM.get_last_update(dummy_storage) == dummy_name_2:
+                return parent_childrens, dummy_storage
+
+            return parent_childrens, dummy_storage
+
+        """
+        Al parecer hay que añadir los event listener después de añadirlos
+        al layout por eso separamos en otra función el añadir los event
+        listeners
+        """
+        def add_event_listeners(dummy_storage):
+            if self.__DSM.get_last_update(dummy_storage) != dummy_name_2:
+                return dummy_storage
+            self.select_variable_listener(row_lv1, 1)
+            self.select_valor_listener(row_lv1, 1)
+            # 1 por que es el inicial
+            return None
         return None
 
     def initial_setup(self):
