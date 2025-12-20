@@ -34,6 +34,8 @@ from Components.UIComponents.SelectionBox import InputsGroupRow
 from Components.UIComponents.TableComponent import (TableSelectBox,
                                                     table_event_listener_adder)
 
+from Components.SharedFunctions import extract_labels_values
+
 
 DSM = DummyStorageManager()
 SSM = StateStorageManager()
@@ -150,7 +152,7 @@ def operation_event_listener_adder(row_lv1):
                table_current_options,
                variable_current_options
                ):
-
+        print('Step 1')
         # Comprobamos si la función tiene que ejecutarse o no
         checks, prev_op_id = prev_checks(selected_op_id, state_storage)
         if not checks:
@@ -171,6 +173,9 @@ def operation_event_listener_adder(row_lv1):
             # Obtenemos las variables
             variables, requests_storage = get_variables(selected_op_id,
                                                         requests_storage)
+
+            tablas = extract_labels_values(tablas)
+            variables = extract_labels_values(variables)
             # Como ya existen en el layout, añadimos los event listeners.
             table_event_listener_adder(row_lv1)
             variable_event_listener_adder(row_lv1, 1)
@@ -186,8 +191,9 @@ def operation_event_listener_adder(row_lv1):
 
     @callback(
         Output('ISB', 'children'),
-        STORAGE_OUTPUTS()[2], # Dummy
+        STORAGE_OUTPUTS([True, True, False])[2], # Dummy
         State(id_generator_mapper('O', None, row_lv1), 'value'),
+        State('ISB', 'children'),
         *STORAGE_INPUTS()[1:3], # State and dummy
         prevent_initial_call=True
     )
@@ -196,7 +202,7 @@ def operation_event_listener_adder(row_lv1):
                state_storage,
                dummy_storage
                ):
-
+        print('Step 2')
         checks, prev_op_id = prev_checks(selected_op_id, state_storage)
         if not checks:
             return parent_childrens, dummy_storage
@@ -221,7 +227,7 @@ def operation_event_listener_adder(row_lv1):
     def step_3(selected_op_id,
                state_storage,
                dummy_storage):
-
+        print('Step 3')
         checks, prev_op_id = prev_checks(selected_op_id, state_storage)
         if not checks:
             return dummy_storage

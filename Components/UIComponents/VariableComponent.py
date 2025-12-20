@@ -144,7 +144,7 @@ def variable_event_listener_adder(row_lv1, row_lv2):
     """Adds the event listener to the Variable Select."""
     step1_name = DSM.namer('Vr', row_lv1)
     step2_name = DSM.namer('Vr2', row_lv1)
-
+    print('Var Event')
 
     def prev_checks(selected_var_id, state_storage):
         if selected_var_id is None:
@@ -176,7 +176,7 @@ def variable_event_listener_adder(row_lv1, row_lv2):
                requests_storage, state_storage,
                dummy_storage,
                current_valor_options):
-
+        print('Step 1 Var')
         checks, prev_var_id = prev_checks(selected_var_id, state_storage)
         if not checks:
             return (current_valor_options,
@@ -207,9 +207,11 @@ def variable_event_listener_adder(row_lv1, row_lv2):
     @callback(
         Output(id_generator_mapper('VariableValor', 'Box', row_lv1),
                'children'),
-        *STORAGE_OUTPUTS()[2],  # dummy
+        STORAGE_OUTPUTS()[2],  # dummy
         State(id_generator_mapper('O', None, row_lv1), 'value'),
         State(id_generator_mapper('Vr', None, row_lv1, row_lv2), 'value'),
+        State(id_generator_mapper('VariableValor', 'Box', row_lv1),
+               'children'),
         *STORAGE_INPUTS(),
         prevent_initial_call=True
     )
@@ -218,6 +220,7 @@ def variable_event_listener_adder(row_lv1, row_lv2):
                parent_childrens,
                requests_storage, state_storage, dummy_storage):
 
+        print('Step 2 Var')
         checks, prev_var_id = prev_checks(selected_var_id, state_storage)
         if not checks:
             return parent_childrens, dummy_storage
@@ -240,14 +243,14 @@ def variable_event_listener_adder(row_lv1, row_lv2):
         return parent_childrens, dummy_storage
 
     @callback(
-        *STORAGE_OUTPUTS()[2],  # dummy
+        STORAGE_OUTPUTS()[2],  # dummy
         State(id_generator_mapper('Vr', None, row_lv1, row_lv2), 'value'),
         *STORAGE_INPUTS()[1:3],  # state y dummy
         prevent_initial_call=True
     )
     def step_3(selected_var_id,
                state_storage, dummy_storage):
-
+        print('Step 3 Var')
         checks, prev_var_id = prev_checks(selected_var_id, state_storage)
         if not checks:
             return dummy_storage

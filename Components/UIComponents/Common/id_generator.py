@@ -106,12 +106,13 @@ def id_generator(nombre: str, tipo: str=None,
     id_name = str(nombre)
     if tipo is not None:
         id_name = id_name + str(tipo)
+    id_ = {"type": id_name}
     if fila_lv1 is not None:
-        id_name = id_name + '_' + str(fila_lv1)
+        id_['fila_lv1'] = fila_lv1
     if fila_lv2 is not None:
-        id_name = id_name + '_' + str(fila_lv2)
+        id_['fila_lv2'] = fila_lv2
 
-    return id_name
+    return id_
 
 
 """
