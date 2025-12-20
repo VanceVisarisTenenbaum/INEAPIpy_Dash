@@ -42,8 +42,23 @@ def STORAGE_OUTPUTS(duplicates_list=[True, True, True]):
 
 
 
-def _tr_to_match(matching_type):
+def _str_to_match(matching_type):
+    if matching_type == 'ALL':
+        return ALL
+    elif matching_type == 'MATCH':
+        return MATCH
+    elif matching_type == 'ALLSMALER':
+        return ALLSMALLER
     return None
+
+def _type_to_io(input_type, id_, prop):
+    if input_type == 'Output':
+        return Output(id_, prop)
+    elif input_type == 'Input':
+        return Input(id_, prop)
+    elif input_type == 'State':
+        return State(id_, prop)
+    return io
 
 def io_generator(input_type: str, name: str, tipo: str,
                  row_lv1: int = None, matching_type = None):
@@ -54,8 +69,7 @@ def io_generator(input_type: str, name: str, tipo: str,
     else:
         id_ = id_generator_mapper(name, tipo)
 
-    if row_lv1 is not None:
-        if matching_type is not None:
-            id_['row_lv2'] =
+    if row_lv1 is None:
+        if matching_type is None:
 
     return result
