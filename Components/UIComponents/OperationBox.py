@@ -11,7 +11,7 @@ This file contains the function that creates a select for one Operation,
 with two additional optional selects, Periodicity and Classification.
 """
 
-from dash import callback, Input, Output, State
+from dash import callback, ctx, Patch
 
 from Components.Storage.ServerMemory import ServerMemoryManager
 from Components.Storage.RequestsStorage import RequestsStorageManager
@@ -19,10 +19,9 @@ from Components.Storage.StateStorage import StateStorageManager
 from Components.Storage.DummyStorage import DummyStorageManager
 
 from Components.UIComponents.Common.SelectComponent import SelectComponent
-from Components.UIComponents.Common.id_generator import id_generator_mapper
-from Components.UIComponents.Common.ui_processes import (add_new_son,
-                                                         STORAGE_INPUTS,
-                                                         STORAGE_OUTPUTS)
+from Components.UIComponents.Common.ui_processes import (STORAGE_INPUTS,
+                                                         STORAGE_OUTPUTS,
+                                                         io_generator)
 
 
 from Components.UIComponents.VariableComponent import (VariableComponent,
@@ -119,14 +118,14 @@ def make_row(row_lv1):
 
 
 
-def operation_event_listener_adder(row_lv1):
+def operation_event_listener_adder():
     """Adds the event listener to the operation box."""
 
-    step1_name = DSM.namer('O', row_lv1)
-    step2_name = DSM.namer('O2', row_lv1)
+    #step1_name = DSM.namer('O', row_lv1)
+    #step2_name = DSM.namer('O2', row_lv1)
 
 
-    def prev_checks(selected_op_id, state_storage):
+    def prev_checks(selected_op_id, state_storage, row_lv1):
         if selected_op_id is None:
             return False, None
         prev_op_id = SSM.get_current_value(row_lv1, None,
@@ -135,6 +134,61 @@ def operation_event_listener_adder(row_lv1):
             return False, None
         return True, prev_op_id
 
+
+
+
+    @callback(
+        io_generator('Output', 'ISB', None, None, None, 'children'),
+        io_generator('Output', 'T', None, 'MATCH', None, 'options'),
+        io_generator('Output', 'Vr', None, 'MATCH', None, 'options'),
+        *STORAGE_OUTPUTS()[:2],  # Request y State
+        io_generator('Input', 'O', None, 'MATCH', None, 'value'),
+        io_generator('State', 'T', None, 'MATCH', None, 'options'),
+        io_generator('State', 'Vr', None, 'MATCH', None, 'options'),
+        io_generator('State', 'ISB', None, None, None, 'children'),
+        *STORAGE_INPUTS()[:2],  # Request y State
+        prevent_initial_call=True
+    )
+    def process(selected_op_id,
+                table_current_options, variable_current_options,
+                parent_childrens,
+                requests_storage, state_storage):
+
+        row_lv1 = ctx.triggered_id['fila_lv1']
+        checks, prev_op_id = prev_checks(selected_op_id, state_storage,
+                                         row_lv1)
+        if not checks:
+            return (parent_childrens,
+                    table_current_options, variable_current_options,
+                    requests_storage, state_storage)
+        # Los pasos son:
+        # 1- Actualizar el estado.
+        state_storage = update_state_storage(row_lv1,
+                                             prev_op_id,
+                                             selected_op_id,
+                                             state_storage)
+        # 2- Obtener las tablas y variables
+        # Obtenemos las tablas
+        tablas, requests_storage = get_tables(selected_op_id,
+                                              requests_storage)
+        # Obtenemos las variables
+        variables, requests_storage = get_variables(selected_op_id,
+                                                    requests_storage)
+        tablas = extract_labels_values(tablas)
+        variables = extract_labels_values(variables)
+
+        # 3-  Creamos la nueva fila
+        ISBPatch = Patch()
+        ISBPatch.append(make_row(row_lv1 + 1))
+
+
+        return ISBPatch, tablas, variables, requests_storage, state_storage
+
+    table_event_listener_adder(1)
+    variable_event_listener_adder()
+
+
+    """
     @callback(
         Output(id_generator_mapper('T', None, row_lv1), 'options'),
         Output(id_generator_mapper('Vr', None, row_lv1, 1), 'options'),
@@ -241,6 +295,7 @@ def operation_event_listener_adder(row_lv1):
             dummy_storage = DSM.reset_default_value(dummy_storage)
 
         return dummy_storage
+    """
 
     return None
 

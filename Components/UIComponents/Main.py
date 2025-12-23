@@ -29,5 +29,5 @@ def initial_layout():
         ],
         **{'id': 'main'}
     )
-    operation_event_listener_adder(1)
+    operation_event_listener_adder()
     return layout

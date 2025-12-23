@@ -49,7 +49,8 @@ def _str_to_match(matching_type):
         return MATCH
     elif matching_type == 'ALLSMALER':
         return ALLSMALLER
-    return None
+    else:
+        return matching_type
 
 def _type_to_io(input_type, id_, prop):
     if input_type == 'Output':
@@ -58,18 +59,41 @@ def _type_to_io(input_type, id_, prop):
         return Input(id_, prop)
     elif input_type == 'State':
         return State(id_, prop)
-    return io
+    return None
+
 
 def io_generator(input_type: str, name: str, tipo: str,
-                 row_lv1: int = None, matching_type = None):
+                 row_lv1 = None, row_lv2 = None, prop=None):
+    """
+    Generates a State, Output or Input with the proper ID.
 
+    Parameters
+    ----------
+    input_type : Literal[Input | Output | State]
+        String indicanting the Input or Output type.
+    name : str
+        Name for the type of the ID generator.
+    tipo : str
+        Tipo for the ID generator
+    row_lv1 : int | str, optional
+        str indicating a matching pattern or int specifying.
+        The default is None.
+    row_lv2 : int | str, optional
+        str indicating a matching pattern or int specifying.
+        The default is None.
+    prop : TYPE, optional
+        Property to grab from the document object. The default is None.
 
-    if row_lv1 is not None:
-        id_ = id_generator_mapper(name, tipo, row_lv1)
-    else:
-        id_ = id_generator_mapper(name, tipo)
+    Returns
+    -------
+    dash.Input | dash.Output | dash.State
+        the dash Input Output object.
 
-    if row_lv1 is None:
-        if matching_type is None:
+    """
 
-    return result
+    row_lv1 = _str_to_match(row_lv1)
+    row_lv2 = _str_to_match(row_lv2)
+    # si alguno es None, la siguiente función no los añade.
+    id_ = id_generator_mapper(name, tipo, row_lv1, row_lv2)
+
+    return _type_to_io(input_type, id_, prop)

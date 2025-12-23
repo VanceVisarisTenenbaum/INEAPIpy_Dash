@@ -108,17 +108,16 @@ class StateStorageManager(metaclass=SingletonMeta):
         return state_storage
 
     def __add_selected_value(self, row_lv1, row_lv2,
-                             var_id, val_id, state_storage):
+                             val_id, state_storage):
         state_storage[row_lv1]['VariableValor'][row_lv2]['Valor'] = val_id
         return state_storage
 
     def update_selected_value(self,
                               row_lv1, row_lv2,
-                              var_id,
                               previous_val_id, current_val_id,
                               state_storage):
 
-        return self.__add_selected_value(row_lv1, row_lv2, var_id,
+        return self.__add_selected_value(row_lv1, row_lv2,
                                          current_val_id, state_storage)
 
     def __add_selected_serie(self, row_lv1, serie_id, state_storage):

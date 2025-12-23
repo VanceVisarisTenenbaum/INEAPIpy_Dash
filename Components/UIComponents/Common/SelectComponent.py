@@ -20,9 +20,9 @@ def SelectComponent(list_of_ine_obj,
     """Returns a select for variables or values."""
     list_of_labels_values = extract_labels_values(list_of_ine_obj)
     if multi:
-        placeholder = 'Selecciona una o varias ' + id_generator_mapper(name)
+        placeholder = 'Selecciona una o varias ' + name_mapper(name)
     else:
-        placeholder = 'Selecciona una '  + id_generator_mapper(name)
+        placeholder = 'Selecciona una '  + name_mapper(name)
     # Adds initial empty value
     InputComponent = dcc.Dropdown(
         options=list_of_labels_values,

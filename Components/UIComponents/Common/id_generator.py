@@ -109,8 +109,8 @@ def id_generator(nombre: str, tipo: str=None,
     id_ = {"type": id_name}
     if fila_lv1 is not None:
         id_['fila_lv1'] = fila_lv1
-    if fila_lv2 is not None:
-        id_['fila_lv2'] = fila_lv2
+        if fila_lv2 is not None:
+            id_['fila_lv2'] = fila_lv2
 
     return id_
 

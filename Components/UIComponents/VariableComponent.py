@@ -6,14 +6,15 @@ Created on Wed Dec 17 13:34:22 2025
 @author: mano
 """
 
-from dash import callback, Input, Output, State
+from dash import callback, ctx, Patch
 
 from Components.UIComponents.Common.SelectComponent import SelectComponent
 from Components.UIComponents.Common.id_generator import id_generator_mapper
 from Components.UIComponents.Common.ui_processes import (add_new_son,
                                                          remove_sons,
                                                          STORAGE_INPUTS,
-                                                         STORAGE_OUTPUTS)
+                                                         STORAGE_OUTPUTS,
+                                                         io_generator)
 
 from Components.UIComponents.VarValPairsBox import VarValPair
 from Components.UIComponents.ValorComponent import (ValorComponent,
@@ -140,13 +141,13 @@ Para definir los Outputs, los Inputs y State Ids:
 
 
 
-def variable_event_listener_adder(row_lv1, row_lv2):
+def variable_event_listener_adder():
     """Adds the event listener to the Variable Select."""
-    step1_name = DSM.namer('Vr', row_lv1)
-    step2_name = DSM.namer('Vr2', row_lv1)
-    print('Var Event')
+    #step1_name = DSM.namer('Vr', row_lv1)
+    #step2_name = DSM.namer('Vr2', row_lv1)
+    #print('Var Event')
 
-    def prev_checks(selected_var_id, state_storage):
+    def prev_checks(selected_var_id, state_storage, row_lv1, row_lv2):
         if selected_var_id is None:
             # Para el caso de la ejecución inicial o si no se selecciona
             # ninguna variable
@@ -160,6 +161,54 @@ def variable_event_listener_adder(row_lv1, row_lv2):
         if selected_var_id == prev_var_id:
             return False, None
         return True, prev_var_id
+
+
+    @callback(
+        io_generator('Output', 'VariableValor', 'Box', 'MATCH', None,
+                     'children'),
+        io_generator('Output', 'Vl', None, 'MATCH', 'MATCH', 'options'),
+        *STORAGE_OUTPUTS()[:2],  # Requests and State
+        io_generator('State', 'O', None, 'MATCH', None, 'value'),
+        io_generator('Input', 'Vr', None, 'MATCH', 'MATCH', 'value'),
+        io_generator('State', 'VariableValor', 'Box', 'MATCH', None,
+                     'children'),
+        io_generator('State', 'Vl', None, 'MATCH', 'MATCH', 'options'),
+        *STORAGE_INPUTS()[:2],  # Requests and State
+        prevent_initial_call=True
+    )
+    def process(op_id, selected_var_id, parent_children, current_valor_options,
+                requests_storage, state_storage):
+
+        row_lv1 = ctx.triggered_id['fila_lv1']
+        row_lv2 = ctx.triggered_id['fila_lv2']
+        checks, prev_var_id = prev_checks(selected_var_id, state_storage)
+        if not checks:
+            return (parent_children, current_valor_options,
+                    requests_storage, state_storage)
+
+        # 1- Actualizamos el estado.
+        state_storage = update_state_storage(row_lv1, row_lv2,
+                                             prev_var_id,
+                                             selected_var_id,
+                                             state_storage)
+        # 2- Obtenemos los valores.
+        valores, requests_storage = get_valor_values(selected_var_id,
+                                                     requests_storage)
+
+        # 3- Añadimos una nueva fila.
+        newVVP = make_var_val_comp(op_id,
+                                   row_lv1, row_lv2 + 1,
+                                   requests_storage)
+        VVPBoxPatch = Patch()
+        # Añadimos el hijo
+        VVPBoxPatch.append(newVVP)
+
+
+        return VVPBoxPatch, valores, requests_storage, state_storage
+
+    valor_event_listener_adder()
+
+    """
 
     @callback(
         Output(id_generator_mapper('Vl'), 'options'),
@@ -263,6 +312,7 @@ def variable_event_listener_adder(row_lv1, row_lv2):
             dummy_storage = DSM.reset_default_value(dummy_storage)
 
         return dummy_storage
+    """
 
 
     return None
