@@ -9,7 +9,6 @@ Created on Wed Dec 17 13:34:22 2025
 from dash import callback, ctx, Patch
 
 from Components.UIComponents.Common.SelectComponent import SelectComponent
-from Components.UIComponents.Common.id_generator import id_generator_mapper
 from Components.UIComponents.Common.ui_processes import (add_new_son,
                                                          remove_sons,
                                                          STORAGE_INPUTS,
