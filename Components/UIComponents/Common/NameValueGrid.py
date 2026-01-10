@@ -31,9 +31,9 @@ def NameValue(name_value_dict):
     for k,v in name_value_dict.items():
         comp = html.Div(
             children=[
-                html.span(k,
+                html.Span(k,
                         className='NameValName'),
-                html.span(dict_value_process(v),
+                html.Span(dict_value_process(v),
                           className='NameValVal')
             ],
             className='NameValue'
@@ -59,7 +59,7 @@ def NameValueDisplayComponent(name_value_dict, comp_id, title=None):
     else:
         component = html.Div(
             children = [
-                html.h2(title),
+                html.H2(title),
                 NameValue(name_value_dict)
             ],
             **{'id': comp_id}

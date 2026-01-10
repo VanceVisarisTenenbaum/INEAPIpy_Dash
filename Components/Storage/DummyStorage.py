@@ -24,13 +24,15 @@ class DummyStorageManager(metaclass=SingletonMeta):
 
     def __init__(self):
         self.__default_value = -1
-        self.__initial_storage = dcc.Store('DummyStorage', 'session',
-                                           data={'last_update': self.__default_value})
         # -1 Por que si usamos None dará error al hacer la comprobación.
         return None
 
-    def get_initial_storage(self):
-        return self.__initial_storage
+    def get_initial_storage(self, storage_num=None):
+        if storage_num is None:
+            storage_num = ''
+        storage = dcc.Store('DummyStorage' + str(storage_num), 'session',
+                            data={'last_update': self.__default_value})
+        return storage
 
     def add_update(self, name, dummy_storage):
         dummy_storage['last_update'] = name

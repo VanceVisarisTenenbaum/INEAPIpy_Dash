@@ -8,6 +8,7 @@ Created on Sun Dec  7 18:32:31 2025
 
 from dash import html
 from Components.UIComponents.Common.id_generator import id_generator_mapper
+from Components.UIComponents.Common.NewRowButton import NewRowButtonComp
 
 
 
@@ -42,11 +43,14 @@ def VarValPair(var_comp, val_comp, row_lv1, row_lv2):
 
 def VarValPairBoxComponent(row_lv1, initial_varvalpair):
     """Caja con pares Variable-Valor separados en filas."""
-    component = html.Div(
+    vvp = html.Div(
         children=[initial_varvalpair],
         **{'id': id_generator_mapper('VariableValor', 'Box',
                                      row_lv1)},
         className='RowSplitterBase RowSplitterSmall'
+    )
+    component = html.Div(
+        children=[vvp, NewRowButtonComp(row_lv1)]
     )
     return component
 

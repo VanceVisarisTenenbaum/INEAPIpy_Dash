@@ -1,3 +1,11 @@
+body {
+  background-color: #2a2a2a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 
 .LabelInput {
     align-items: left;
@@ -77,3 +85,33 @@
     overflow-y: auto;
 }
 
+
+/*
+Botón
+*/
+
+.ButtonContainer {
+  width: 100%;
+}
+
+/* Botón */
+.Button {
+  width: 100%;
+  height: 100%;
+  background-color: #1f1f1f; /* un poco más oscuro que el fondo */
+  border: 2px solid #111;    /* borde oscuro para resaltar */
+  cursor: pointer;
+
+  /* Forma:
+     - Arriba completamente cuadrado
+     - Abajo muy redondeado (casi circular)
+  */
+  border-radius: 0 0 20% 20%;
+
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+/* Efecto hover: iluminación blanca */
+.Button:hover {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
