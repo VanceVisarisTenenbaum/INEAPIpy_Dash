@@ -70,7 +70,7 @@ class StateStorageManager(metaclass=SingletonMeta):
             'Operacion': op_id,
             'Tabla': None,
             'VariableValor': dict(),
-            'Serie': None,
+            'Serie': dict(),
         }
         return state_storage
 

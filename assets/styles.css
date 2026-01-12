@@ -1,3 +1,4 @@
+/*
 body {
   background-color: #2a2a2a;
   display: flex;
@@ -5,7 +6,7 @@ body {
   align-items: center;
   height: 100vh;
 }
-
+*/
 
 .LabelInput {
     align-items: left;
@@ -98,7 +99,7 @@ Botón
 .Button {
   width: 100%;
   height: 100%;
-  background-color: #1f1f1f; /* un poco más oscuro que el fondo */
+  background-color: rgba(0,0,0,0.2); /* un poco más oscuro que el fondo */
   border: 2px solid #111;    /* borde oscuro para resaltar */
   cursor: pointer;
 

@@ -258,6 +258,58 @@ function VarValPair(var_comp, val_comp, row_lv1, row_lv2){
 
 
 
+/* ------------------------------------------------------------------------- */
+
+function get(obj, key, defaultValue = null) {
+  return obj.hasOwnProperty(key) ? obj[key] : defaultValue;
+}
+
+/* ------------------------------------------------------------------------- */
+
+function get_from_request_storage(obj_typ, obj_depend, request_storage){
+    if (Number.isInteger(obj_depend)){throw new Error('obj_depend must be an integer.');}
+    if (!['Variable', 'Valor', 'Tabla', 'Periodo'].includes(obj_type)){
+        throw new Error('obj_type must be a valid value');
+    }
+    const data = get(get(request_storage, obj_type), obj_depend, null);
+    if (data === null){throw new Error('Data not found')}
+    return data;
+}
+
+
+function make_var_val_comp(op_id, row_lv1, row_lv2, request_storage){
+
+    const variables = get_from_request_storage('Variable', op_id, request_storage);
+    const VrC = VariableComponent(row_lv1, row_lv2, variables);
+    const VlC = ValorComponent(row_lv1, row_lv2, null);
+    return VarValPair(VrC, VlC, row_lv1, row_lv2)
+}
+
+function add_new_var_val_row(n_clicks, current_childrens, op_id, request_storage){
+    const patch = new dash_clientside.Patch;
+
+    const row_lv1 = dash_clientside.callback_context.triggered_id['fila_lv1'];
+    const row_lv2 = current_childrens.length;
+    const newVVP = make_var_val_comp(op_id,
+                                   row_lv1, row_lv2 + 1,
+                                   requests_storage);
+    patch.append(newVVP);
+    return patch
+}
+
+function add_options_to_input_value(request_storage, ){}
+
+/* ------------------------------------------------------------------------- */
+
+window.dash_clientside = Object.assign(
+    {},
+    window.dash_clientside, {
+        clientside: {
+            'add_new_var_val_row': add_new_var_val_row,
+        }
+    }
+});
+
 
 
 

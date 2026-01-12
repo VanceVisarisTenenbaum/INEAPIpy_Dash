@@ -13,6 +13,7 @@ everything necessary to get a set of series.
 
 from dash import html
 from Components.UIComponents.Common.id_generator import id_generator_mapper
+from Components.UIComponents.Common.NewRowButton import NewRowButtonComp
 
 def InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp):
     """
@@ -45,7 +46,7 @@ def InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp):
 
 def InputSelectionBox(initial_IGR):
     component = html.Div(
-        children=[initial_IGR],
+        children=[initial_IGR, NewRowButtonComp(None)],
         className='RowSplitterBase RowSplitterBig',
         **{'id': 'ISB'}
     )
