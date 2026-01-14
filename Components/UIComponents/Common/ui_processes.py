@@ -24,21 +24,28 @@ def remove_sons(sons_list, starting_index):
 def STORAGE_INPUTS():
     inputs = [
         State('RequestsStorage', 'data'),
-        State('StateStorage', 'data'),
-        Input('DummyStorage', 'data'),
+        State('StateStorage', 'data')
     ]
     return inputs
 
+def DUMMY_INPUT(num='', state=False):
+    if state:
+        return State('DummyStorage' + str(num), 'data')
+    return Input('DummyStorage' + str(num), 'data')
 
-def STORAGE_OUTPUTS(duplicates_list=[True, True, True]):
+def STORAGE_OUTPUTS(duplicates_list=[True, True]):
 
-    order_list = ['RequestsStorage', 'StateStorage', 'DummyStorage']
+    order_list = ['RequestsStorage', 'StateStorage']
     outputs = list()
     for i, storage in enumerate(order_list):
         outputs.append(Output(storage, 'data',
                               allow_duplicate=duplicates_list[i]))
 
     return outputs
+
+def DUMMY_OUTPUT(num='', allow_duplicate=False):
+    return Output('DummyStorage'+str(num), 'data',
+                  allow_duplicate=allow_duplicate)
 
 
 

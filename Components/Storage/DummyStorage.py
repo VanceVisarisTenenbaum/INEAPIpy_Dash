@@ -8,6 +8,7 @@ Created on Thu Dec 18 16:05:53 2025
 
 from dash import dcc
 from Components.Storage.SingletonCustom import SingletonMeta
+import random
 
 """
 The Dummy Storage is a storage used to store if some processes has been done
@@ -36,6 +37,10 @@ class DummyStorageManager(metaclass=SingletonMeta):
 
     def add_update(self, name, dummy_storage):
         dummy_storage['last_update'] = name
+        return dummy_storage
+
+    def set_random_number(self, dummy_storage):
+        dummy_storage['last_update'] = random.randint(0, 11)
         return dummy_storage
 
     def get_last_update(self, dummy_storage):

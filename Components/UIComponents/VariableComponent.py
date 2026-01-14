@@ -12,7 +12,9 @@ from Components.UIComponents.Common.SelectComponent import SelectComponent
 from Components.UIComponents.Common.ui_processes import (add_new_son,
                                                          remove_sons,
                                                          STORAGE_INPUTS,
+                                                         DUMMY_INPUT,
                                                          STORAGE_OUTPUTS,
+                                                         DUMMY_OUTPUT,
                                                          io_generator)
 
 from Components.UIComponents.VarValPairsBox import VarValPair
@@ -140,7 +142,7 @@ Para definir los Outputs, los Inputs y State Ids:
 
 
 
-def variable_event_listener_adder():
+def server_side_listeners(dummy_number=1):
     """Adds the event listener to the Variable Select."""
     #step1_name = DSM.namer('Vr', row_lv1)
     #step2_name = DSM.namer('Vr2', row_lv1)
@@ -161,31 +163,24 @@ def variable_event_listener_adder():
             return False, None
         return True, prev_var_id
 
-
     @callback(
-        io_generator('Output', 'Vl', None,
-                     'MATCH', 'MATCH', 'options'),
-        *STORAGE_OUTPUTS()[:2],  # Requests and State
-        io_generator('State', 'O', None,
-                     'MATCH', None, 'value'),
+        *STORAGE_OUTPUTS(),  # Requests and State
+        DUMMY_OUTPUT(dummy_number),
         io_generator('Input', 'Vr', None,
-                     'MATCH', 'MATCH', 'value'),
-        io_generator('State', 'VariableValor', 'Box',
-                     'MATCH', None, 'children'),
-        io_generator('State', 'Vl', None,
-                     'MATCH', 'MATCH', 'options'),
-        *STORAGE_INPUTS()[:2],  # Requests and State
+                     'ALL', 'ALL', 'value')
+        *STORAGE_INPUTS(),  # Requests and State
+        DUMMY_INPUT(dummy_number),
         prevent_initial_call=True
     )
-    def add_values(op_id, selected_var_id, current_valor_options,
-                   requests_storage, state_storage):
+    def add_values(selected_var_id,
+                   requests_storage, state_storage, dummy_storage):
 
         row_lv1 = ctx.triggered_id['fila_lv1']
         row_lv2 = ctx.triggered_id['fila_lv2']
+        selected_var_id = ctx.triggered
         checks, prev_var_id = prev_checks(selected_var_id, state_storage)
         if not checks:
-            return (current_valor_options,
-                    requests_storage, state_storage)
+            return requests_storage, state_storage, dummy_storage
 
         # 1- Actualizamos el estado.
         state_storage = update_state_storage(row_lv1, row_lv2,
@@ -198,17 +193,15 @@ def variable_event_listener_adder():
 
 
         # Actualizamos el dummy.
+        dummy_storage = DSM.set_random_number(dummy_storage)
 
-        return valores, requests_storage, state_storage
+        return requests_storage, state_storage, dummy_storage
 
-
-
-    valor_event_listener_adder()
 
     return None
 
 
-def client_side_listeners():
+def client_side_listeners(dummy_number=1):
 
     # Make New Var Val row callback
     clientside_callback(
@@ -232,11 +225,20 @@ def client_side_listeners():
     clientside_callback(
         ClientsideFunction(
             namespace='clientside',
-            function_name=''
+            function_name='add_options_to_input_value'
         ),
         io_generator('Output', 'Vl', None, 'MATCH', 'options'),
-        io_generator('State', 'Vr', None, 'MATCH', 'options'),
+        io_generator('State', 'Vr', None, 'MATCH', 'value'),
         STORAGE_INPUTS()[0], # Requests
-        STORAGE_INPUTS()[2], # Dummy
+        DUMMY_INPUT(dummy_number)
     )
+    return None
+
+
+
+def variable_event_listener_adder():
+    dummy_number = 1
+    server_side_listeners(dummy_number)
+    client_side_listeners(dummy_number)
+    valor_event_listener_adder()
     return None
