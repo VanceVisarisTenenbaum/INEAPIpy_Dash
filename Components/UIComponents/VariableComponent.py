@@ -167,9 +167,9 @@ def server_side_listeners(dummy_number=1):
         *STORAGE_OUTPUTS(),  # Requests and State
         DUMMY_OUTPUT(dummy_number),
         io_generator('Input', 'Vr', None,
-                     'ALL', 'ALL', 'value')
+                     'ALL', 'ALL', 'value'),
         *STORAGE_INPUTS(),  # Requests and State
-        DUMMY_INPUT(dummy_number),
+        DUMMY_INPUT(dummy_number, True),
         prevent_initial_call=True
     )
     def add_values(selected_var_id,
@@ -227,10 +227,10 @@ def client_side_listeners(dummy_number=1):
             namespace='clientside',
             function_name='add_options_to_input_value'
         ),
-        io_generator('Output', 'Vl', None, 'MATCH', 'options'),
-        io_generator('State', 'Vr', None, 'MATCH', 'value'),
-        STORAGE_INPUTS()[0], # Requests
-        DUMMY_INPUT(dummy_number)
+        io_generator('Output', 'Vl', None, 'MATCH', 'MATCH', 'options'),
+        DUMMY_INPUT(dummy_number),
+        io_generator('State', 'Vr', None, 'MATCH', 'MATCH', 'value'),
+        STORAGE_INPUTS()[0], # Requests state
     )
     return None
 

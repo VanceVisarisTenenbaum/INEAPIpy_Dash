@@ -68,6 +68,7 @@ def client_event_listeners():
         STORAGE_OUTPUTS()[1],  # state
         io_generator('Input', 'Vl', None, 'ALL', 'ALL', 'value'),
         STORAGE_INPUTS()[1], # State storage
+        prevent_initial_call=True
     )
 
 

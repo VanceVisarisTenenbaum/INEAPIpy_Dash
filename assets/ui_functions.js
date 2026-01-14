@@ -297,8 +297,7 @@ function add_new_var_val_row(n_clicks, current_childrens, op_id, request_storage
     return patch
 }
 
-function add_options_to_input_value(var_id, current_vals,
-                                    request_storage, dummy_storage){
+function add_options_to_input_value(dummy_storage, var_id, request_storage){
     // dummy is just the input trigger, must be unique to this function
     const valores = requests_storage['Valor'][var_id]
     return valores;
