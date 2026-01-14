@@ -255,7 +255,24 @@ function VarValPair(var_comp, val_comp, row_lv1, row_lv2){
     return Comp;
 }
 
+function InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp){
+    const comp = _html.Div({
+        'children': [
+            op_comp,
+            _html.Div({
+                'children': [tab_comp, varvalbox_comp],
+                'className': 'ColSplitterBase ColSplitterBig',
+                'id': id_generator_mapper('TablaVVP', 'Box', row_lv1)
+            })
+        ],
+        'id': id_generator_mapper('IG', None, row_lv1)
+    })
 
+    return comp;
+}
+
+function OperationSelectBox(row_lv1){
+}
 
 
 /* ------------------------------------------------------------------------- */
