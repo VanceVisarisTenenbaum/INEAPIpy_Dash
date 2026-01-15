@@ -108,7 +108,7 @@ function add_selected_graph_style(row_lv1, serie_id, graph_style, state_storage)
     return state_storage;
 }
 
-function update_selected_graph_style(row_lv1, serie_id
+function update_selected_graph_style(row_lv1, serie_id,
                                     prev_graph_style, curr_grahp_style,
                                     state_storage){
     return add_selected_graph_style(row_lv1, serie_id, curr_grahp_style, state_storage);
@@ -159,7 +159,7 @@ function get_current_value(row_lv1, row_lv2, name, state_storage){
 window.dash_clientside = Object.assign(
     {},
     window.dash_clientside, {
-        clientside: {
+        'state_storage': {
             'update_selected_operation': update_selected_operation,
             'update_selected_table': update_selected_table,
             'update_selected_variable': update_selected_variable,
@@ -171,7 +171,7 @@ window.dash_clientside = Object.assign(
             'get_current_value': get_current_value
         }
     }
-});
+);
 
 
 

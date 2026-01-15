@@ -25,6 +25,7 @@ def initial_layout():
             RSM.get_initial_requests_storage(),
             SSM.get_initial_state_storage(),
             DSM.get_initial_storage(),
+            DSM.get_initial_storage(1),
             InputSelectionBox(make_row(1))
         ],
         **{'id': 'main'}

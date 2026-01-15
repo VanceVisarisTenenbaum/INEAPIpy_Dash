@@ -62,7 +62,7 @@ def client_event_listeners():
 
     clientside_callback(
         ClientsideFunction(
-            namespace='clientside',
+            namespace='state_storage',
             function_name='update_selected_value'
         ),
         STORAGE_OUTPUTS()[1],  # state

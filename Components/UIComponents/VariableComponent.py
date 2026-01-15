@@ -177,7 +177,7 @@ def server_side_listeners(dummy_number=1):
 
         row_lv1 = ctx.triggered_id['fila_lv1']
         row_lv2 = ctx.triggered_id['fila_lv2']
-        selected_var_id = ctx.triggered[0]
+        selected_var_id = ctx.triggered[0]['value']
         checks, prev_var_id = prev_checks(selected_var_id, state_storage)
         if not checks:
             return requests_storage, state_storage, dummy_storage
@@ -206,7 +206,7 @@ def client_side_listeners(dummy_number=1):
     # Make New Var Val row callback
     clientside_callback(
         ClientsideFunction(
-            namespace='clientside',
+            namespace='ui_functions',
             function_name='add_new_var_val_row'
         ),
         io_generator('Output', 'VariableValor', 'Box',
@@ -218,19 +218,21 @@ def client_side_listeners(dummy_number=1):
         io_generator('State', 'O', None,
                      'MATCH', None, 'value'),
         STORAGE_INPUTS()[0], # Requests
+        prevent_initial_call=True
     )
 
 
     # Add Retrieved values to Valor options
     clientside_callback(
         ClientsideFunction(
-            namespace='clientside',
+            namespace='ui_functions',
             function_name='add_options_to_input_value'
         ),
         io_generator('Output', 'Vl', None, 'MATCH', 'MATCH', 'options'),
         DUMMY_INPUT(dummy_number),
         io_generator('State', 'Vr', None, 'MATCH', 'MATCH', 'value'),
         STORAGE_INPUTS()[0], # Requests state
+        prevent_initial_call=True
     )
     return None
 

@@ -216,6 +216,7 @@ function extract_labels_values(listOfINE_Objects, onlyId = false) {
         return listOfINE_Objects.map(x => extract_label_value(x, onlyId));
     } else if (typeof listOfINE_Objects === 'object' && listOfINE_Objects !== null) {
         return extract_label_value(listOfINE_Objects, onlyId);
+    } else if (listOfINE_Objects === null){ return [];
     } else {
         throw new Error('list of INE object must be a list or object.');
     }
@@ -373,6 +374,7 @@ function add_options_to_input_variable(dummy_storage, op_id, requests_storage){
 }
 
 function add_new_op_row(n_clicks, current_childrens, requests_storage){
+    console.log('Called');
     const patch = new dash_clientside.Patch;
     const row_lv1 = current_childrens.length + 1;
     const comp = InputsGroupRow(
@@ -393,7 +395,7 @@ function add_new_op_row(n_clicks, current_childrens, requests_storage){
 window.dash_clientside = Object.assign(
     {},
     window.dash_clientside, {
-        clientside: {
+        'ui_functions': {
             'add_new_var_val_row': add_new_var_val_row,
             'add_options_to_input_value': add_options_to_input_value,
             'add_options_to_input_table': add_options_to_input_table,
@@ -401,7 +403,7 @@ window.dash_clientside = Object.assign(
             'add_new_op_row': add_new_op_row
         }
     }
-});
+);
 
 
 

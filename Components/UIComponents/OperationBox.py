@@ -185,37 +185,40 @@ def client_event_listeners():
     # Add new row client callback
     clientside_callback(
         ClientsideFunction(
-            namespace='clientside',
+            namespace='ui_functions',
             function_name='add_new_op_row'
         ),
         io_generator('Output', 'ISB', None, None, None, 'children'),
         io_generator('Input', 'O', 'Boton', None, None, 'n_clicks'),
         io_generator('State', 'ISB', None, None, None, 'children'),
-        STORAGE_INPUTS()[0]  # Request
+        STORAGE_INPUTS()[0],  # Request
+        prevent_initial_call=True
     )
 
     # Add options to table
     clientside_callback(
         ClientsideFunction(
-            namespace='clientside',
+            namespace='ui_functions',
             function_name='add_options_to_input_table'
         ),
         io_generator('Output', 'T', None, 'MATCH', None, 'options'),
         DUMMY_INPUT(),
         io_generator('State', 'O', None, 'MATCH', None, 'value'),
-        STORAGE_INPUTS()[0]  # Requests
+        STORAGE_INPUTS()[0],  # Requests
+        prevent_initial_call=True
     )
 
     # Add options to variable
     clientside_callback(
         ClientsideFunction(
-            namespace='clientside',
+            namespace='ui_functions',
             function_name='add_options_to_input_variable'
         ),
         io_generator('Output', 'Vr', None, 'MATCH', None, 'options'),
         DUMMY_INPUT(),
         io_generator('State', 'O', None, 'MATCH', None, 'value'),
-        STORAGE_INPUTS()[0]  # Requests
+        STORAGE_INPUTS()[0],  # Requests
+        prevent_initial_call=True
     )
 
     return None
