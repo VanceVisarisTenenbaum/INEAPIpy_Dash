@@ -255,6 +255,34 @@ function VarValPair(var_comp, val_comp, row_lv1, row_lv2){
     return Comp;
 }
 
+function NewRowButtonComp(row_lv1=null){
+    let name;
+    if (row_lv1 === null){name = 'O';}
+    else {name = 'VariableValor'}
+    const boton = _html.Button({
+        'children': 'Nueva fila',
+        'n_clicks': 0,
+        'id': id_generator_mapper(name, 'Boton', row_lv1),
+        'className': 'Button'
+    })
+    const comp = _html.Div({
+        'children': [boton],
+        'className': 'ButtonContainer'
+    })
+    return comp;
+}
+
+function VarValPairBoxComponent(row_lv1, initial_vvp){
+    const vvp = _html.Div({
+        'children': [initial_vvp],
+        'id': id_generator_mapper('VariableValor', 'Box', row_lv1),
+        'className': 'RowSplitterBase RowSplitterSmall'
+    })
+    const comp = _html.Div({
+        'children': [vvp, NewRowButtonComp(row_lv1)]
+    })
+}
+
 function InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp){
     const comp = _html.Div({
         'children': [
@@ -271,9 +299,21 @@ function InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp){
     return comp;
 }
 
-function OperationSelectBox(row_lv1){
+function OperationSelectBox(row_lv1, requests_storage){
+    const operaciones = extract_label_values(requests_storage['Operaciones']);
+    const comp = SelectComponent(operaciones, 'O', row_lv1);
+    return comp;
 }
 
+function TableSelectBox(row_lv1, tab_options){
+    return SelectComponent(tab_options, 'T', row_lv1);
+}
+
+function make_vvp(row_lv1, row_lv2){
+    const VrC = VariableComponent(row_lv1, row_lv2, variables);
+    const VlC = ValorComponent(row_lv1, row_lv2, null);
+    return VarValPair(VrC, VlC, row_lv1, row_lv2);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -283,30 +323,30 @@ function get(obj, key, defaultValue = null) {
 
 /* ------------------------------------------------------------------------- */
 
-function get_from_request_storage(obj_typ, obj_depend, request_storage){
+function get_from_requests_storage(obj_typ, obj_depend, requests_storage){
     if (Number.isInteger(obj_depend)){throw new Error('obj_depend must be an integer.');}
     if (!['Variable', 'Valor', 'Tabla', 'Periodo'].includes(obj_type)){
         throw new Error('obj_type must be a valid value');
     }
-    const data = get(get(request_storage, obj_type), obj_depend, null);
+    const data = get(get(requests_storage, obj_type), obj_depend, null);
     if (data === null){throw new Error('Data not found')}
     return data;
 }
 
 
-function make_var_val_comp(op_id, row_lv1, row_lv2, request_storage){
+function make_var_val_comp(op_id, row_lv1, row_lv2, requests_storage){
 
-    const variables = get_from_request_storage('Variable', op_id, request_storage);
+    const variables = get_from_requests_storage('Variable', op_id, requests_storage);
     const VrC = VariableComponent(row_lv1, row_lv2, variables);
     const VlC = ValorComponent(row_lv1, row_lv2, null);
-    return VarValPair(VrC, VlC, row_lv1, row_lv2)
+    return VarValPair(VrC, VlC, row_lv1, row_lv2);
 }
 
-function add_new_var_val_row(n_clicks, current_childrens, op_id, request_storage){
+function add_new_var_val_row(n_clicks, current_childrens, op_id, requests_storage){
     const patch = new dash_clientside.Patch;
 
     const row_lv1 = dash_clientside.callback_context.triggered_id['fila_lv1'];
-    const row_lv2 = current_childrens.length;
+    const row_lv2 = current_childrens.length + 1;
     const newVVP = make_var_val_comp(op_id,
                                    row_lv1, row_lv2 + 1,
                                    requests_storage);
@@ -314,10 +354,38 @@ function add_new_var_val_row(n_clicks, current_childrens, op_id, request_storage
     return patch
 }
 
-function add_options_to_input_value(dummy_storage, var_id, request_storage){
+function add_options_to_input_value(dummy_storage, var_id, requests_storage){
     // dummy is just the input trigger, must be unique to this function
-    const valores = requests_storage['Valor'][var_id]
+    const valores = extract_labels_values(requests_storage['Valor'][var_id]);
     return valores;
+}
+
+function add_options_to_input_table(dummy_storage, op_id, requests_storage){
+    // dummy is just the input trigger, must be unique to this function
+    const tablas = extract_labels_values(requests_storage['Tabla'][op_id]);
+    return tablas;
+}
+
+function add_options_to_input_variable(dummy_storage, op_id, requests_storage){
+    // dummy is just the input trigger, must be unique to this function
+    const variable = extract_labels_values(requests_storage['Variable'][op_id]);
+    return variable;
+}
+
+function add_new_op_row(n_clicks, current_childrens, requests_storage){
+    const patch = new dash_clientside.Patch;
+    const row_lv1 = current_childrens.length + 1;
+    const comp = InputsGroupRow(
+        row_lv1,
+        OperationSelectBox(row_lv1, requests_storage),
+        TableSelectBox(row_lv1, []),
+        VarValPairBoxComponent(
+            row_lv1,
+            make_vvp(row_lv1, 1)
+        )
+    );
+    patch.append(comp);
+    return patch;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -327,7 +395,10 @@ window.dash_clientside = Object.assign(
     window.dash_clientside, {
         clientside: {
             'add_new_var_val_row': add_new_var_val_row,
-            'add_options_to_input_value': add_options_to_input_value
+            'add_options_to_input_value': add_options_to_input_value,
+            'add_options_to_input_table': add_options_to_input_table,
+            'add_options_to_input_variable': add_options_to_input_variable,
+            'add_new_op_row': add_new_op_row
         }
     }
 });

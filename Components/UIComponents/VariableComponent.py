@@ -6,7 +6,7 @@ Created on Wed Dec 17 13:34:22 2025
 @author: mano
 """
 
-from dash import callback, ctx, Patch, clientside_callback, ClientsideFunction
+from dash import callback, ctx, clientside_callback, ClientsideFunction
 
 from Components.UIComponents.Common.SelectComponent import SelectComponent
 from Components.UIComponents.Common.ui_processes import (add_new_son,
@@ -177,7 +177,7 @@ def server_side_listeners(dummy_number=1):
 
         row_lv1 = ctx.triggered_id['fila_lv1']
         row_lv2 = ctx.triggered_id['fila_lv2']
-        selected_var_id = ctx.triggered
+        selected_var_id = ctx.triggered[0]
         checks, prev_var_id = prev_checks(selected_var_id, state_storage)
         if not checks:
             return requests_storage, state_storage, dummy_storage

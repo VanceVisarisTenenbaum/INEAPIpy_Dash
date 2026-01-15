@@ -16,5 +16,5 @@ def TableSelectBox(row_lv1, list_of_ine_tabs):
 
 
 # HAY QUE AÑADIR TODO EL PROCESO
-def table_event_listener_adder(row_lv1):
+def table_event_listener_adder():
     return None

@@ -11,7 +11,7 @@ This file contains the function that creates a select for one Operation,
 with two additional optional selects, Periodicity and Classification.
 """
 
-from dash import callback, ctx, Patch
+from dash import callback, ctx, clientside_callback, ClientsideFunction
 
 from Components.Storage.ServerMemory import ServerMemoryManager
 from Components.Storage.RequestsStorage import RequestsStorageManager
@@ -21,6 +21,8 @@ from Components.Storage.DummyStorage import DummyStorageManager
 from Components.UIComponents.Common.SelectComponent import SelectComponent
 from Components.UIComponents.Common.ui_processes import (STORAGE_INPUTS,
                                                          STORAGE_OUTPUTS,
+                                                         DUMMY_INPUT,
+                                                         DUMMY_OUTPUT,
                                                          io_generator)
 
 
@@ -33,7 +35,6 @@ from Components.UIComponents.SelectionBox import InputsGroupRow
 from Components.UIComponents.TableComponent import (TableSelectBox,
                                                     table_event_listener_adder)
 
-from Components.SharedFunctions import extract_labels_values
 
 
 DSM = DummyStorageManager()
@@ -118,7 +119,7 @@ def make_row(row_lv1):
 
 
 
-def operation_event_listener_adder():
+def server_event_listeners():
     """Adds the event listener to the operation box."""
 
     #step1_name = DSM.namer('O', row_lv1)
@@ -138,29 +139,21 @@ def operation_event_listener_adder():
 
 
     @callback(
-        io_generator('Output', 'ISB', None, None, None, 'children'),
-        io_generator('Output', 'T', None, 'MATCH', None, 'options'),
-        io_generator('Output', 'Vr', None, 'MATCH', None, 'options'),
         *STORAGE_OUTPUTS()[:2],  # Request y State
-        io_generator('Input', 'O', None, 'MATCH', None, 'value'),
-        io_generator('State', 'T', None, 'MATCH', None, 'options'),
-        io_generator('State', 'Vr', None, 'MATCH', None, 'options'),
-        io_generator('State', 'ISB', None, None, None, 'children'),
+        DUMMY_OUTPUT(allow_duplicate=True),
+        io_generator('Input', 'O', None, 'ALL', None, 'value'),
         *STORAGE_INPUTS()[:2],  # Request y State
+        DUMMY_INPUT(state=True),
         prevent_initial_call=True
     )
-    def process(selected_op_id,
-                table_current_options, variable_current_options,
-                parent_childrens,
-                requests_storage, state_storage):
+    def process(selected_op_id, requests_storage, state_storage, dummy_storage):
 
         row_lv1 = ctx.triggered_id['fila_lv1']
+        selected_op_id = ctx.triggered[0]['value']
         checks, prev_op_id = prev_checks(selected_op_id, state_storage,
                                          row_lv1)
         if not checks:
-            return (parent_childrens,
-                    table_current_options, variable_current_options,
-                    requests_storage, state_storage)
+            return requests_storage, state_storage, dummy_storage
         # Los pasos son:
         # 1- Actualizar el estado.
         state_storage = update_state_storage(row_lv1,
@@ -174,20 +167,63 @@ def operation_event_listener_adder():
         # Obtenemos las variables
         variables, requests_storage = get_variables(selected_op_id,
                                                     requests_storage)
-        tablas = extract_labels_values(tablas)
-        variables = extract_labels_values(variables)
 
-        # 3-  Creamos la nueva fila
-        ISBPatch = Patch()
-        ISBPatch.append(make_row(row_lv1 + 1))
+        # Actualizamos el dummy
+        dummy_storage = DSM.set_random_number(dummy_storage)
 
 
-        return ISBPatch, tablas, variables, requests_storage, state_storage
+        return requests_storage, state_storage, dummy_storage
 
-    table_event_listener_adder(1)
+    table_event_listener_adder()
     variable_event_listener_adder()
 
 
+    return None
+
+
+def client_event_listeners():
+    # Add new row client callback
+    clientside_callback(
+        ClientsideFunction(
+            namespace='clientside',
+            function_name='add_new_op_row'
+        ),
+        io_generator('Output', 'ISB', None, None, None, 'children'),
+        io_generator('Input', 'O', 'Boton', None, None, 'n_clicks'),
+        io_generator('State', 'ISB', None, None, None, 'children'),
+        STORAGE_INPUTS()[0]  # Request
+    )
+
+    # Add options to table
+    clientside_callback(
+        ClientsideFunction(
+            namespace='clientside',
+            function_name='add_options_to_input_table'
+        ),
+        io_generator('Output', 'T', None, 'MATCH', None, 'options'),
+        DUMMY_INPUT(),
+        io_generator('State', 'O', None, 'MATCH', None, 'value'),
+        STORAGE_INPUTS()[0]  # Requests
+    )
+
+    # Add options to variable
+    clientside_callback(
+        ClientsideFunction(
+            namespace='clientside',
+            function_name='add_options_to_input_variable'
+        ),
+        io_generator('Output', 'Vr', None, 'MATCH', None, 'options'),
+        DUMMY_INPUT(),
+        io_generator('State', 'O', None, 'MATCH', None, 'value'),
+        STORAGE_INPUTS()[0]  # Requests
+    )
+
+    return None
+
+
+def operation_event_listener_adder():
+    server_event_listeners()
+    client_event_listeners()
     return None
 
 

@@ -55,7 +55,12 @@ class RequestsStorageManager(metaclass=SingletonMeta):
             'Variable': dict(),
             'Valor': dict(),
             'Tabla': dict(),
-            'Periodo': dict()
+            'Periodo': dict(),
+            'Operaciones': self.SSM.get_metadata('Operaciones'),
+            'Publicaciones': self.SSM.get_metadata('Publicaciones'),
+            'Unidades': self.SSM.get_metadata('Unidades'),
+            'Escalas': self.SSM.get_metadata('Escalas'),
+            'Periodicidades': self.SSM.get_metadata('Periodicidades')
         }
 
         SESSION_STORAGE = dcc.Store(**{'id': 'RequestsStorage',
