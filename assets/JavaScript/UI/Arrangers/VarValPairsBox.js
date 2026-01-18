@@ -1,6 +1,8 @@
 import dash from '../Common/dash_components.js';
 import idgen from '../Common/Functions/id_generator.js';
 import NewRowButtonComp from '../Common/NewRowButton.js';
+import VariableComponent from '../Inputs/VariableComponent.js';
+import ValorComponent from '../Inputs/ValorComponent.js';
 
 
 function VarValPair(var_comp, val_comp, row_lv1, row_lv2){
@@ -24,4 +26,11 @@ function VarValPairBoxComponent(row_lv1, initial_vvp){
     })
 }
 
-export default {VarValPair, VarValPairBoxComponent};
+
+function make_vvp(row_lv1, row_lv2, variables=null, valores=null){
+    const VrC = VariableComponent(row_lv1, row_lv2, variables);
+    const VlC = ValorComponent(row_lv1, row_lv2, valores);
+    return VarValPair(VrC, VlC, row_lv1, row_lv2);
+}
+
+export default {VarValPair, VarValPairBoxComponent, make_vvp};

@@ -21,3 +21,5 @@ class Logger {
     getLogs(){return this.LogWriter.getLogs();}
     clear(this.LogWriter.clear();)
 }
+
+export default Logger;

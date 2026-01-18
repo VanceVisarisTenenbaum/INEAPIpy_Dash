@@ -56,6 +56,8 @@ class RequestsStorageManager(metaclass=SingletonMeta):
             'Valor': dict(),
             'Tabla': dict(),
             'Periodo': dict(),
+            'Serie': dict(),
+            'Data': dict(),
             'Operaciones': self.SSM.get_metadata('Operaciones'),
             'Publicaciones': self.SSM.get_metadata('Publicaciones'),
             'Unidades': self.SSM.get_metadata('Unidades'),
@@ -63,14 +65,14 @@ class RequestsStorageManager(metaclass=SingletonMeta):
             'Periodicidades': self.SSM.get_metadata('Periodicidades')
         }
 
-        SESSION_STORAGE = dcc.Store(**{'id': 'RequestsStorage',
+        requests_storage = dcc.Store(**{'id': 'RequestsStorage',
                                        'storage_type': 'session'},
                                     data=self.initial_storage)
-        self.__initial_session_storage = SESSION_STORAGE
+        self.__initial_requests_storage = requests_storage
         return None
 
     def get_initial_requests_storage(self):
-        return self.__initial_session_storage
+        return self.__initial_requests_storage
 
     def __check_type(self, val: int, name: str=''):
         """Checks if the input was an int. Name is for debugging."""
@@ -88,25 +90,25 @@ class RequestsStorageManager(metaclass=SingletonMeta):
                 + str(name)
             )
 
-    def __add_op_tables(self, op_id, session_storage):
+    def __add_op_tables(self, op_id, requests_storage):
         self.__check_type(op_id, 'OperacionTabla')
         tablas = self.SSM.INE.get_tables_(op_id)
-        session_storage['Tabla'][op_id] = tablas
-        return session_storage
+        requests_storage['Tabla'][op_id] = tablas
+        return requests_storage
 
-    def __add_op_vars(self, op_id, session_storage):
+    def __add_op_vars(self, op_id, requests_storage):
         self.__check_type(op_id, 'OperacionVariable')
         variables = self.SSM.INE.get_variables_(op_id)
-        session_storage['Variable'][op_id] = variables
-        return session_storage
+        requests_storage['Variable'][op_id] = variables
+        return requests_storage
 
-    def __add_var_vals(self, var_id, session_storage):
+    def __add_var_vals(self, var_id, requests_storage):
         self.__check_type(var_id, 'VariableValor')
         valores = self.SSM.INE.get_values_(var_id)
-        session_storage['Valor'][var_id] = valores
-        return session_storage
+        requests_storage['Valor'][var_id] = valores
+        return requests_storage
 
-    def get_obj(self, obj_type: str, obj_depend: int, session_storage):
+    def get_obj(self, obj_type: str, obj_depend: int, requests_storage):
         """
         Gets the requested INE objects. Makes the request if it hadn't.
 
@@ -118,41 +120,49 @@ class RequestsStorageManager(metaclass=SingletonMeta):
             INE obj ID that it depended on.
                 * OP for Tabla and Variable.
                 * Var for Valor
-        session_storage : Type
+        requests_storage : Type
             The session storage.
 
         Returns
         -------
-        data : Tuple[List of INE objects, session_storage]
-            Tuple with the requested data and the updated session_storage
+        data : Tuple[List of INE objects, requests_storage]
+            Tuple with the requested data and the updated requests_storage
 
         """
+        if obj_type in ['Operaciones', 'Publicaciones',
+                        'Escalas', 'Unidades', 'Periodicidades']:
+            return requests_storage.get(obj_type)
+
         self.__check_type(obj_depend, 'Getting requested INE objects.')
         self.__check_literal(obj_type, 'Getting requested INE objects.')
 
-        data = session_storage.get(obj_type).get(obj_depend, None)
+        data = requests_storage.get(obj_type).get(obj_depend, None)
 
         if data is None:
             if obj_type == 'Tabla':
-                session_storage = self.__add_op_tables(
+                requests_storage = self.__add_op_tables(
                     obj_depend,
-                    session_storage
+                    requests_storage
                 )
             elif obj_type == 'Variable':
-                session_storage = self.__add_op_vars(
+                requests_storage = self.__add_op_vars(
                     obj_depend,
-                    session_storage
+                    requests_storage
                 )
             elif obj_type == 'Valor':
-                session_storage = self.__add_var_vals(
+                requests_storage = self.__add_var_vals(
                     obj_depend,
-                    session_storage
+                    requests_storage
                 )
             elif obj_type == 'Periodo':
                 raise ValueError('Pendiente de actualizar.')
 
-        data = session_storage.get(obj_type).get(obj_depend, None)
-        return data, session_storage
+            data = requests_storage.get(obj_type).get(obj_depend, None)
+        return data, requests_storage
+
+
+    # End of class
+
 
 
 

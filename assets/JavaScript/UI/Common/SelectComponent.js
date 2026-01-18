@@ -5,6 +5,9 @@ function SelectComponent(list_of_ine_obj,
                          name,
                          fila_lv1, fila_lv2=null,
                          multi=False){
+
+    if (list_of_ine_obj === null){list_of_ine_obj = [];}
+
     let placeholder_v;
     if (multi){placeholder_v = 'Selecciona una o varias ' + name_mapper(name);}
     else {placeholder = 'Selecciona una '  + name_mapper(name);}

@@ -40,7 +40,7 @@ class DummyStorageManager(metaclass=SingletonMeta):
         return dummy_storage
 
     def set_random_number(self, dummy_storage):
-        dummy_storage['last_update'] = random.randint(0, 11)
+        dummy_storage['last_update'] = random.randint(0, 1000)
         return dummy_storage
 
     def get_last_update(self, dummy_storage):

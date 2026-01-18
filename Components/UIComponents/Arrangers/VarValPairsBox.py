@@ -9,6 +9,8 @@ Created on Sun Dec  7 18:32:31 2025
 from dash import html
 from Components.UIComponents.Common.id_generator import id_generator_mapper
 from Components.UIComponents.Common.NewRowButton import NewRowButtonComp
+from Components.UIComponents.Inputs.VariableComponent import VariableComponent
+from Components.UIComponents.Inputs.ValorComponent import ValorComponent
 
 
 
@@ -55,5 +57,9 @@ def VarValPairBoxComponent(row_lv1, initial_varvalpair):
     return component
 
 
+def make_vvp(row_lv1, row_lv2, variables=list(), valores=list()):
+    VarC = VariableComponent(row_lv1, row_lv2, variables)
+    ValC = ValorComponent(row_lv1, row_lv2, valores)
+    return VarValPair(VarC, ValC, row_lv1, row_lv2)
 
 

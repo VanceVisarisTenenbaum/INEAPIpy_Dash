@@ -24,8 +24,10 @@ def initial_layout():
         children = [
             RSM.get_initial_requests_storage(),
             SSM.get_initial_state_storage(),
-            DSM.get_initial_storage(),
-            DSM.get_initial_storage(1),
+            DSM.get_initial_storage('OperacionClient'),  # Client is the dummy that activates client function
+            DSM.get_initial_storage('OperacionServer'),  # Server is the dummy that activates server function
+            DSM.get_initial_storage('VariableClient'),
+            DSM.get_initial_storage('VariableServer'),
             InputSelectionBox(make_row(1))
         ],
         **{'id': 'main'}

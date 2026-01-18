@@ -14,6 +14,9 @@ everything necessary to get a set of series.
 from dash import html
 from Components.UIComponents.Common.id_generator import id_generator_mapper
 from Components.UIComponents.Common.NewRowButton import NewRowButtonComp
+from Components.UIComponents.Inputs.OperationComponent import OperationSelectBox
+from Components.UIComponents.Inputs.TableComponent import TableSelectBox
+from Components.UIComponents.Arrangers.VarValPairsBox import make_vvp
 
 def InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp):
     """
@@ -51,4 +54,13 @@ def InputSelectionBox(initial_IGR):
         **{'id': 'ISB'}
     )
     return component
+
+
+def make_IGR(row_lv1):
+    OpC = OperationSelectBox(row_lv1)
+    TbC = TableSelectBox(row_lv1, list())
+    VVP = make_vvp(row_lv1, 1)
+    return InputsGroupRow(row_lv1, OpC, TbC, VVP)
+
+
 

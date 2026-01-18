@@ -6,7 +6,7 @@ class SessionLogWriter{
 
     push(entry){
         // Entry is expected to be a json object.
-        let logs = JSON.parse(sessionStorage.getItem(this.key)) || [];
+        let logs = this.getLogs();
         logs.push(entry);
         sessionStorage.setItem(this.key, JSON.stringify(logs));
         return null;

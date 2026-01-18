@@ -185,7 +185,7 @@ def client_event_listeners():
     # Add new row client callback
     clientside_callback(
         ClientsideFunction(
-            namespace='ui_functions',
+            namespace='add_row',
             function_name='add_new_op_row'
         ),
         io_generator('Output', 'ISB', None, None, None, 'children'),
@@ -198,7 +198,7 @@ def client_event_listeners():
     # Add options to table
     clientside_callback(
         ClientsideFunction(
-            namespace='ui_functions',
+            namespace='add_options_to_inputs',
             function_name='add_options_to_input_table'
         ),
         io_generator('Output', 'T', None, 'MATCH', None, 'options'),
@@ -211,7 +211,7 @@ def client_event_listeners():
     # Add options to variable
     clientside_callback(
         ClientsideFunction(
-            namespace='ui_functions',
+            namespace='add_options_to_inputs',
             function_name='add_options_to_input_variable'
         ),
         io_generator('Output', 'Vr', None, 'MATCH', None, 'options'),
