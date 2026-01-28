@@ -77,7 +77,7 @@ function pop(obj, key, defaultValue = null) {
     return value;
   }
   return defaultValue;
-}
+}s
 
 function update_selected_serie(row_lv1,
                                 prev_serie_id, curr_serie_id,
@@ -155,6 +155,22 @@ function get_current_value(row_lv1, row_lv2, name, state_storage){
 
 /* ------------------------------------------------------------------------- */
 
+function update_selected(input_type){
+    const actions = {
+        'Operacion': update_selected_operation,
+        'Tabla': update_selected_table,
+        'Variable': update_selected_variable,
+        'Valor': update_selected_value,
+        'Serie': update_selected_serie,
+        'Graph': update_selected_graph,
+        'Graph Axis': update_selected_graph_axis,
+        'Graph Style': update_selected_graph_style,
+    }
+
+    return actions[input_type];
+}
+
+/* ------------------------------------------------------------------------- */
 
 window.dash_clientside = Object.assign(
     {},
