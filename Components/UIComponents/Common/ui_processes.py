@@ -28,10 +28,10 @@ def STORAGE_INPUTS():
     ]
     return inputs
 
-def DUMMY_INPUT(num='', state=False):
+def DUMMY_INPUT(name='', state=False):
     if state:
-        return State('DummyStorage' + str(num), 'data')
-    return Input('DummyStorage' + str(num), 'data')
+        return State('DummyStorage' + str(name), 'data')
+    return Input('DummyStorage' + str(name), 'data')
 
 def STORAGE_OUTPUTS(duplicates_list=[True, True]):
 
@@ -43,8 +43,8 @@ def STORAGE_OUTPUTS(duplicates_list=[True, True]):
 
     return outputs
 
-def DUMMY_OUTPUT(num='', allow_duplicate=False):
-    return Output('DummyStorage'+str(num), 'data',
+def DUMMY_OUTPUT(name='', allow_duplicate=False):
+    return Output('DummyStorage'+str(name), 'data',
                   allow_duplicate=allow_duplicate)
 
 

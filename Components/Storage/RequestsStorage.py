@@ -127,6 +127,8 @@ class RequestsStorageManager(metaclass=SingletonMeta):
         -------
         data : Tuple[List of INE objects, requests_storage]
             Tuple with the requested data and the updated requests_storage
+        requests_storage: Type
+            The same session_storage with the updated values.
 
         """
         if obj_type in ['Operaciones', 'Publicaciones',
@@ -154,11 +156,45 @@ class RequestsStorageManager(metaclass=SingletonMeta):
                     obj_depend,
                     requests_storage
                 )
-            elif obj_type == 'Periodo':
+            elif obj_type in ['Periodo', 'Serie', 'Data']:
                 raise ValueError('Pendiente de actualizar.')
 
             data = requests_storage.get(obj_type).get(obj_depend, None)
         return data, requests_storage
+
+    def get_object_loop(self,
+                        obj_type_list: list, obj_depend_list: list,
+                        requests_storage):
+        """
+        Makes a requests for each obj_type and stores the result. Returns the storage.
+
+        Parameters
+        ----------
+        obj_type : list
+            The values must be same as get_obj method
+        obj_depend : list
+            The values must be same as get_obj method
+        requests_storage : TYPE
+            The requests storage to update.
+
+        Returns
+        -------
+        requests_storage : TYPE
+            The requests storage, updated.
+
+        """
+        if not isinstance(obj_type_list, list):
+            raise TypeError('obj_type_list must be a list.')
+
+        if not isinstance(obj_depend_list, list):
+            raise TypeError('obj_depend_list must be a list.')
+
+        if len(obj_type_list) != len(obj_depend_list):
+            raise ValueError('Both list must be of the same length.')
+
+        for obj_type, obj_depend in zip(obj_type_list, obj_depend_list, strict=True):
+            _, requests_storage = self.get_obj(obj_type, obj_depend, requests_storage)
+        return requests_storage
 
 
     # End of class

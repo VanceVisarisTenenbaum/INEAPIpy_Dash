@@ -8,6 +8,9 @@ import RS from '../../Storage/RequestsStorage.js';
 
 function check_requested_val_maker(input_type){
     function check_requested_val(input_val, server_dummy_storage){
+        /*
+        Checks if the val was already requested.
+        */
         const data = RS.get_from_requests_storage(input_type, input_val);
         if (data === null){return window.dash_clientside.no_update;}
         server_dummy_storage['last_update'] = Math.random() * 1000;
