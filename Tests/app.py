@@ -12,11 +12,13 @@ from dash import Dash, html, dcc, clientside_callback, Input
 
 js_f = """
 function read_drop(val){
-    console.log(val)
+    console.log(val);
+    console.log('---------------')
+    console.log(dash_clientside.callback_context.triggered_id);
 }
 """
 
-clientside_callback(js_f, Input('Drop', 'value'))
+clientside_callback(js_f, Input({'Name': 'Drop', 'prop1': 2}, 'value'))
 
 
 def main():
@@ -31,7 +33,7 @@ def main():
             dcc.Dropdown(
                 options=[1,2,3],
                 className='B',
-                **{'id': 'Drop'}
+                **{'id': {'Name': 'Drop', 'prop1': 2}}
             )
         ],
         className='A'

@@ -15,7 +15,7 @@ from Components.UIComponents.Common.ui_processes import (STORAGE_INPUTS,
 
 
 
-def event_listener_adder(input_type):
+def store_input_to_state_event_listeenr():
 
     input_function_map = {
         'Operacion': 'update_selected_operation',
@@ -28,12 +28,14 @@ def event_listener_adder(input_type):
         'Graph Style': 'update_selected_graph_style',
     }
 
-    clientside_callback(
-        ClientsideFunction(
-            namespace='state_storage',
-            function_name='update_selected_operation'
-        ),
 
-    )
+    for input_type in input_function_map.keys():
+        clientside_callback(
+            ClientsideFunction(
+                namespace='state_storage',
+                function_name=input_function_map[input_type]
+            ),
+
+        )
 
     return None

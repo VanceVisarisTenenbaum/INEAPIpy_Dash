@@ -172,18 +172,44 @@ function update_selected(input_type){
 
 /* ------------------------------------------------------------------------- */
 
+function store_input_maker(input_type){
+    function store_selected(input_val, state_storage, serie_id=null){
+        const id_ = dash_clientside.callback_context.triggered_id
+        const row_lv1 = get(id_, 'fila_lv1', null);
+        const row_lv1 = get(id_, 'fila_lv2', null);
+
+        if (['Variable', 'Valor'].includes(input_type)){
+            return update_selected(input_type)(row_lv1, row_lv2,
+                                               null, input_val,
+                                               state_storage);
+        }
+        else if (['Graph', 'Graph Axis', 'Graph Style'].includes(input_type)){
+            return update_selected(input_type)(row_lv1, serie_id,
+                                               null, input_val,
+                                               state_storage);
+        }
+        else {
+            return update_selected(input_type)(row_lv1,
+                                               null, input_val,
+                                               state_storage)
+        }
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+
 window.dash_clientside = Object.assign(
     {},
     window.dash_clientside, {
         'state_storage': {
-            'update_selected_operation': update_selected_operation,
-            'update_selected_table': update_selected_table,
-            'update_selected_variable': update_selected_variable,
-            'update_selected_value': update_selected_value,
-            'update_selected_serie': update_selected_serie,
-            'update_selected_graph': update_selected_graph,
-            'update_selected_graph_axis': update_selected_graph_axis,
-            'update_selected_graph_style': update_selected_graph_style,
+            'update_selected_operation': store_input_maker('Operacion'),
+            'update_selected_table': store_input_maker('Tabla'),
+            'update_selected_variable': store_input_maker('Variable'),
+            'update_selected_value': store_input_maker('Valor'),
+            'update_selected_serie': store_input_maker('Serie'),
+            'update_selected_graph': store_input_maker('Graph'),
+            'update_selected_graph_axis': store_input_maker('Graph Axis'),
+            'update_selected_graph_style': store_input_maker('Graph Style'),
             'get_current_value': get_current_value
         }
     }
