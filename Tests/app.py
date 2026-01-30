@@ -7,18 +7,23 @@ Created on Sun Dec 28 17:20:43 2025
 """
 
 
-from dash import Dash, html, dcc, clientside_callback, Input
+from dash import Dash, html, dcc, clientside_callback, Input, ALL, State
 
 
 js_f = """
-function read_drop(val){
+function read_drop(val, state){
     console.log(val);
     console.log('---------------')
-    console.log(dash_clientside.callback_context.triggered_id);
+    console.log(dash_clientside.callback_context);
+    console.log('---------------')
+    console.log(state)
 }
 """
 
-clientside_callback(js_f, Input({'Name': 'Drop', 'prop1': 2}, 'value'))
+clientside_callback(js_f,
+                    Input({'Name': 'Drop', 'prop1': ALL}, 'value'),
+                    State({'Name': 'DropState', 'prop2': 'ABC'}, 'value'),
+                    )
 
 
 def main():
@@ -33,7 +38,22 @@ def main():
             dcc.Dropdown(
                 options=[1,2,3],
                 className='B',
+                **{'id': {'Name': 'Drop', 'prop1': 1}}
+            ),
+            dcc.Dropdown(
+                options=[1,2,3],
+                className='B',
                 **{'id': {'Name': 'Drop', 'prop1': 2}}
+            ),
+            dcc.Dropdown(
+                options=[1,2,3],
+                className='B',
+                **{'id': {'Name': 'Drop', 'prop1': 3}}
+            ),
+            dcc.Dropdown(
+                options=['A','B','C'],
+                className='B',
+                **{'id': {'Name': 'DropState', 'prop2': 'ABC'}}
             )
         ],
         className='A'
