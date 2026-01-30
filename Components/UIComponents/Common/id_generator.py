@@ -127,7 +127,10 @@ def name_mapper(short_name):
         'T': 'Tabla',
         'Vr': 'Variable',
         'Vl': 'Valor',
-        'G': 'Grafica',
+        'S': 'Serie',
+        'G': 'Graph',
+        'GA': 'Graph Axis',
+        'GS': 'Graph Style'
     }
     long_name = map_dict.get(short_name, short_name)
     # returns the same if it is not found.

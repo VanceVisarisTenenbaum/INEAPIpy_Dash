@@ -173,10 +173,15 @@ function update_selected(input_type){
 /* ------------------------------------------------------------------------- */
 
 function store_input_maker(input_type){
-    function store_selected(input_val, state_storage, serie_id=null){
+    function store_selected(input_, state_storage, serie_=null){
         const id_ = dash_clientside.callback_context.triggered_id
         const row_lv1 = get(id_, 'fila_lv1', null);
         const row_lv1 = get(id_, 'fila_lv2', null);
+        const input_val = dash_clientside.callback_context.triggered_[0]['value']
+        let serie_id;
+        if (serie != null){
+
+        }
 
         if (['Variable', 'Valor'].includes(input_type)){
             return update_selected(input_type)(row_lv1, row_lv2,
