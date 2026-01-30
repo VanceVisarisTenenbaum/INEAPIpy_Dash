@@ -17,12 +17,21 @@ function read_drop(val, state){
     console.log(dash_clientside.callback_context);
     console.log('---------------')
     console.log(state)
+    console.log('---------------')
+    console.log(dash_clientside.callback_context.states);
+    console.log('---------------')
+    const tuVariable = dash_clientside.callback_context.states;
+    Object.entries(tuVariable).forEach(([key, value]) =>{
+        console.log('KEY:', key);
+        console.log(typeof key);
+        console.log('VALUE:', value);
+    })
 }
 """
 
 clientside_callback(js_f,
                     Input({'Name': 'Drop', 'prop1': ALL}, 'value'),
-                    State({'Name': 'DropState', 'prop2': 'ABC'}, 'value'),
+                    State({'Name': 'DropState', 'prop2': ALL}, 'value'),
                     )
 
 
@@ -53,7 +62,17 @@ def main():
             dcc.Dropdown(
                 options=['A','B','C'],
                 className='B',
-                **{'id': {'Name': 'DropState', 'prop2': 'ABC'}}
+                **{'id': {'Name': 'DropState', 'prop2': 1}}
+            ),
+            dcc.Dropdown(
+                options=['A','B','C'],
+                className='B',
+                **{'id': {'Name': 'DropState', 'prop2': 2}}
+            ),
+            dcc.Dropdown(
+                options=['A','B','C'],
+                className='B',
+                **{'id': {'Name': 'DropState', 'prop2': 3}}
             )
         ],
         className='A'

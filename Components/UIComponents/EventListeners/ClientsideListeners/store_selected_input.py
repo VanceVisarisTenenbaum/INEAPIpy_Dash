@@ -41,7 +41,7 @@ def store_input_to_state_event_listener():
                 io_generator('Input', input_type, None,
                              'ALL', None, 'value'),
                 STORAGE_INPUTS()[1],  # State storage
-                io_generator('State', 'S', None, 'ALL', None, 'id'),
+                io_generator('State', 'S', None, 'ALL', None, 'value'),
                 prevent_initial_call=True
             )
         else:
@@ -51,7 +51,7 @@ def store_input_to_state_event_listener():
                     function_name=input_function_map[input_type]
                     ),
                 io_generator('Input', input_type, None,
-                             'ALL', None),
+                             'ALL', input_row_lv2_map(input_type)),
                 STORAGE_INPUTS()[1],  # State storage
                 STORAGE_OUTPUTS()[1],  # State storage
                 prevent_initial_call=True

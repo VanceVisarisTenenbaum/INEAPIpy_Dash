@@ -1,4 +1,4 @@
-
+import ctx from '../UI/Common/Functions/ctx_processing.js';
 
 function add_selected_operation(row_lv1, op_id, state_storage){
 
@@ -174,13 +174,13 @@ function update_selected(input_type){
 
 function store_input_maker(input_type){
     function store_selected(input_, state_storage, serie_=null){
-        const id_ = dash_clientside.callback_context.triggered_id
+        const id_ = ctx.get_triggered_id();
         const row_lv1 = get(id_, 'fila_lv1', null);
-        const row_lv1 = get(id_, 'fila_lv2', null);
-        const input_val = dash_clientside.callback_context.triggered_[0]['value']
+        const row_lv2 = get(id_, 'fila_lv2', null);
+        const input_val = ctx.get_triggered_value()M
         let serie_id;
         if (serie != null){
-
+            serie_id = ctx.get_value_of_matching_state(['fila_lv1']);
         }
 
         if (['Variable', 'Valor'].includes(input_type)){
