@@ -1,9 +1,9 @@
-import dash from '../Common/dash_components.js';
-import id_generator from '../Common/Functions/id_generator.js';
-import NewRowButtonComp from '../Common/NewRowButton.js';
-import OperationComponent from '../Inputs/OperationComponent.js';
-import TableComponent from '../Inputs/TableComponent.js';
-import VVP from './VarValPairsBox.js';
+import dash from '../Common/dash_components.mjs';
+import id_generator from '../Common/Functions/id_generator.mjs';
+import NewRowButtonComp from '../Common/NewRowButton.mjs';
+import OperationComponent from '../Inputs/OperationComponent.mjs';
+import TableComponent from '../Inputs/TableComponent.mjs';
+import VVP from './VarValPairsBox.mjs';
 
 function InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp){
     const comp = dash._html.Div({

@@ -76,7 +76,7 @@ function pop(obj, key, defaultValue = null) {
     return value;
   }
   return defaultValue;
-}s
+}
 
 function update_selected_serie(row_lv1,
                                 prev_serie_id, curr_serie_id,

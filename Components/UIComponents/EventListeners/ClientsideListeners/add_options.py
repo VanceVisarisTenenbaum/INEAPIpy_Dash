@@ -18,13 +18,13 @@ def add_options_event_listener():
             namespace='add_options_to_inputs',
             function_name='add_options_to_inputs'
         ),
-        UIM.io_generator(
+        inputs=UIM.io_generator(
             'Input', 'data',
             ui_type='Storage',
             ui_name='Dummy',
-            ui_subtype='Client',
-            prevent_initial_call=True
-        )
+            ui_subtype='Client'
+        ),
+        prevent_initial_call=True
     )
 
     return None

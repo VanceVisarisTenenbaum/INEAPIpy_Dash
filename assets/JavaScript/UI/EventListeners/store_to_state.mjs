@@ -1,10 +1,10 @@
-import ctx from '../Common/Functions/ctx_processing.js';
-import update_selected from '../../Storage/StateStorage.js';
-import Logger from '../../Logger/logger.js';
-import get from '../Common/Functions/dictionary_processing.js';
+import ctx from '../Common/Functions/ctx_processing.mjs';
+import update_selected from '../../Storage/StateStorage.mjs';
+import Logger from '../../Logger/logger.mjs';
+import get from '../Common/Functions/dictionary_processing.mjs';
 
 
-const logger = Logger();
+const logger = new Logger();
 function store_selected(input_, state_storage, series_){
     // Input is any dropdown
     // series is all serie drowdowns

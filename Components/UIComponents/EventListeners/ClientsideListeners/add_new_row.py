@@ -19,14 +19,14 @@ def add_new_row_event_listener():
             namespace='add_row',
             function_name='add_new_row'
         ),
-        UIM.io_generator(
+       inputs=UIM.io_generator(
             'Input', 'n_clicks',
             ui_type='Input',
             ui_name='MATCH',
             ui_subtype='Button',
             row_lv1='MATCH'
         ),
-        UIM.io_generator(
+        output=UIM.io_generator(
             'Output', 'children',
             ui_type='Arranger',
             ui_name='MATCH',

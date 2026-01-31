@@ -1,13 +1,13 @@
-import Logger from '../../Logger/logger.js';
-import get_from_requests_storage from '../../Storage/RequestsStorage.js';
-import VVP from '../Arrangers/VarValPairsBox.js';
-import IGB from '../Arrangers/InputsBox.js';
-import id_generator from '../Common/Functions/id_generator.js';
-import doc from '../Common/Functions/document_processing.js';
-import ctx from '../Common/Functions/ctx_processing.js';
+import Logger from '../../Logger/logger.mjs';
+import get_from_requests_storage from '../../Storage/RequestsStorage.mjs';
+import VVP from '../Arrangers/VarValPairsBox.mjs';
+import IGB from '../Arrangers/InputsBox.mjs';
+import id_generator from '../Common/Functions/id_generator.mjs';
+import doc from '../Common/Functions/document_processing.mjs';
+import ctx from '../Common/Functions/ctx_processing.mjs';
 
 
-const logger = Logger();
+const logger = new Logger();
 
 function add_new_var_val_row(n_clicks, op_){
     logger.log(
@@ -51,14 +51,14 @@ function add_new_IB(n_clicks){
 function add_new_row_process(n_clicks){
     const patch = new dash_clientside.Patch;
     const button_id = ctx.get_triggered_id();
-    const parent_id = id_generator(ui_type='Arranger',
-                                   ui_name=button_id['Nombre'],
-                                   ui_subtype=null,
-                                   row_lv1=button_id['Fila Nivel 1'],
-                                   row_lv2=button_id['Fila Nivel 2'],
+    const parent_id = id_generator('Arranger',
+                                   button_id['Nombre'],
+                                   null,
+                                   button_id['Fila Nivel 1'],
+                                   button_id['Fila Nivel 2']
                                    )
-    const current_children = doc.get_element_by_id(JSON.stringify(parent_id));
-    const row_lv1 = current_children.lenght + 1;
+    const current_children = doc.get_element_by_id(parent_id).children;
+    const row_lv1 = current_children.length + 1;
     const name_new_row_map = {
         'InputSelection': IGB.make_IGR(row_lv1),
     };
@@ -70,7 +70,7 @@ window.dash_clientside = Object.assign(
     {},
     window.dash_clientside, {
         'add_row': {
-            'add_new_row': add_new_row,
+            'add_new_row': add_new_row_process,
         }
     }
 );

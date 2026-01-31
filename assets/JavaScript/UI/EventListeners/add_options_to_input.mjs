@@ -1,22 +1,12 @@
-import extract_labels_values from '../Common/Functions/ine_processing.js';
-import get_from_requests_storage from '../../Storage/RequestsStorage.js';
-import ctx from '../Common/Functions/ctx_processing.js';
-import id_generator from '../Common/Functions/id_generator.js';
+import extract_labels_values from '../Common/Functions/ine_processing.mjs';
+import get_from_requests_storage from '../../Storage/RequestsStorage.mjs';
+import ctx from '../Common/Functions/ctx_processing.mjs';
+import id_generator from '../Common/Functions/id_generator.mjs';
 
 function get_valid_options(obj_type, obj_depend){
     const data = get_from_requests_storage(obj_type, obj_depend);
     const options = extract_labels_values(data);
-    function options;
-}
-
-function get_options_maker(obj_type){
-    function get_valid_options(dummy_storage, obj_depend){
-        // dummy storage is the input that triggers this funcion;
-        const data = get_from_requests_storage(obj_type, obj_depend);
-        const options = extract_labels_values(data);
-        function options;
-    }
-    return get_valid_options;
+    return options;
 }
 
 

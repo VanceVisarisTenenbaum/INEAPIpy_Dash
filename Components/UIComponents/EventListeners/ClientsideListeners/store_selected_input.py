@@ -19,7 +19,7 @@ def store_input_to_state_event_listener():
             namespace='state_storage',
             function_name='store_selected'
         ),
-        UIM.io_generator(
+        inputs=UIM.io_generator(
             'Input', 'value',
             ui_type='Input',
             ui_name='ALL',
@@ -27,22 +27,25 @@ def store_input_to_state_event_listener():
             row_lv1='ALL',
             row_lv2='ALL'
             ),
-        UIM.io_generator(
-            'State', 'data',
-            ui_type='Storage',
-            ui_name='State',
-        ),
-        UIM.io_generator(
-            'State', 'value',
-            ui_type='Input',
-            ui_name='Serie',
-            ui_subtype='Dropdown',
-            row_lv1='ALL'
-        ),
-        UIM.io_generator(
+        state=[
+            UIM.io_generator(
+                'State', 'data',
+                ui_type='Storage',
+                ui_name='State',
+            ),
+            UIM.io_generator(
+                'State', 'value',
+                ui_type='Input',
+                ui_name='Serie',
+                ui_subtype='Dropdown',
+                row_lv1='ALL'
+            ),
+        ],
+        output=UIM.io_generator(
             'Output', 'data',
             ui_type='Storage',
             ui_name='State'
-        )
+        ),
+        prevent_initial_call=True
     )
     return None

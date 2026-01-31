@@ -1,4 +1,4 @@
-import SelectComponent from '../Common/SelectComponent.js';
+import SelectComponent from '../Common/SelectComponent.mjs';
 
 
 function TableComponent(row_lv1, tab_options){

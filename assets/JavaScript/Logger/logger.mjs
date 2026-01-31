@@ -1,10 +1,10 @@
 
-import SessionLogWriter from './LogWriter.js'
+import SessionLogWriter from './LogWriter.mjs'
 
 
 class Logger {
     constructor(Writer=SessionLogWriter){
-        this.LogWriter = Writer;
+        this.LogWriter = new Writer();
     }
 
     log(message, categories='', level='info', data=null){
@@ -19,7 +19,7 @@ class Logger {
         return null;
     }
     getLogs(){return this.LogWriter.getLogs();}
-    clear(this.LogWriter.clear();)
+    clear(){this.LogWriter.clear();}
 }
 
 export default Logger;

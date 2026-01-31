@@ -1,6 +1,6 @@
 
-import dash from './dash_components.js';
-import id_generator from './Functions/id_generators.js';
+import dash from './dash_components.mjs';
+import id_generator from './Functions/id_generator.mjs';
 
 function NewRowButtonComp(name, row_lv1=null){
 

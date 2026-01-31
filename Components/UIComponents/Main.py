@@ -6,7 +6,7 @@ Created on Fri Dec 19 16:40:05 2025
 @author: mano
 """
 
-from dash import html
+from dash import html, dcc
 from Components.UIComponents.Arrangers.InputsBox import (InputSelectionBox, make_IGR)
 
 from Components.UIComponents.Managers.UIManager import UIManager
@@ -30,6 +30,7 @@ def initial_layout():
             SSM.get_initial_state_storage(),
             DSM.get_initial_storage('Client'),  # Client is the dummy that activates client function
             DSM.get_initial_storage('Server'),  # Server is the dummy that activates server function
+            dcc.Store(UIM.id_generator('Storage', 'Log'), 'session', data=[]),
             InputSelectionBox(make_IGR(1))
         ],
         **{'id': 'main'}

@@ -1,4 +1,4 @@
-import SelectComponent from '../Common/SelectComponent.js';
+import SelectComponent from '../Common/SelectComponent.mjs';
 
 function ValorComponent(row_lv1, row_lv2, list_of_ine_val){
     return SelectComponent(list_of_ine_val, 'Valor', row_lv1, row_lv2);

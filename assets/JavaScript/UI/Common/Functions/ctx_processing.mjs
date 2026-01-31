@@ -1,6 +1,6 @@
 
 
-function get_trigerred_id(){
+function get_triggered_id(){
     return dash_clientside.callback_context.triggered_id;
 }
 
@@ -44,5 +44,5 @@ function no_update(){
     return window.dash_clientside.no_update;
 }
 
-export default {get_trigerred_id, get_triggered_value, get_states,
+export default {get_triggered_id, get_triggered_value, get_states,
                 get_value_of_matching_state, no_update};

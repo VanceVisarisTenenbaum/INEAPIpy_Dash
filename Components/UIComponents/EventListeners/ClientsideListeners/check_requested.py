@@ -18,7 +18,7 @@ def check_requested_event_listener():
             namespace='input_check',
             function_name='check_requested'
         ),
-        UIM.io_generator(
+        inputs=UIM.io_generator(
             'Input', 'value',
             ui_type='Input',
             ui_name='ALL',
@@ -26,30 +26,35 @@ def check_requested_event_listener():
             row_lv1='ALL',
             row_lv2='ALL'
         ),
-        UIM.io_generator(
-            'State', 'data',
-            ui_type='Storage',
-            ui_name='Dummy',
-            ui_subtype='Server'
-        ),
-        UIM.io_generator(
-            'State', 'data',
-            ui_type='Storage',
-            ui_name='Dummy',
-            ui_subtype='Client'
-        ),
-        UIM.io_generator(
-            'Output', 'data',
-            ui_type='Storage',
-            ui_name='Dummy',
-            ui_subtype='Server'
-        ),
-        UIM.io_generator(
-            'Output', 'data',
-            ui_type='Storage',
-            ui_name='Dummy',
-            ui_subtype='Client'
-        )
+        state=[
+            UIM.io_generator(
+                'State', 'data',
+                ui_type='Storage',
+                ui_name='Dummy',
+                ui_subtype='Server'
+                ),
+            UIM.io_generator(
+                'State', 'data',
+                ui_type='Storage',
+                ui_name='Dummy',
+                ui_subtype='Client'
+                ),
+        ],
+        output=[
+            UIM.io_generator(
+                'Output', 'data',
+                ui_type='Storage',
+                ui_name='Dummy',
+                ui_subtype='Server'
+            ),
+            UIM.io_generator(
+                'Output', 'data',
+                ui_type='Storage',
+                ui_name='Dummy',
+                ui_subtype='Client'
+            )
+        ],
+        prevent_initial_call=True
     )
 
     return None

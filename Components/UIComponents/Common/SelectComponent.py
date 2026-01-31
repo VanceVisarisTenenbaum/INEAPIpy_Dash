@@ -8,7 +8,6 @@ Created on Tue Dec 16 18:46:04 2025
 
 from dash import dcc
 from Components.UIComponents.Managers.UIManager import UIManager
-from Components.UIComponents.Common.Styles import SELECT_INPUT_STYLE
 from Components.UIComponents.Common.LabelInput import LabelInput
 from Components.SharedFunctions import extract_labels_values
 
@@ -33,7 +32,7 @@ def SelectComponent(list_of_ine_obj,
                                   ui_subtype='Dropdown',
                                   row_lv1=fila_lv1,
                                   row_lv2=fila_lv2)},
-        style=SELECT_INPUT_STYLE,
+        className='Input Dropdown',
         multi=multi,
         placeholder=placeholder
     )

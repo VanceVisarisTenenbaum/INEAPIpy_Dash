@@ -1,4 +1,4 @@
-import dash from '../Common/dash_components.js';
+import dash from '../Common/dash_components.mjs';
 
 
 function dict_value_process(val){

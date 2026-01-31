@@ -73,14 +73,15 @@ class UIManager(metaclass=SingletonMeta):
     """Class that takes care of getting IDs, names, or more about UI"""
     def __init__(self):
         self.__available_ui_types = [
-            'Arranger', 'Input'
+            'Arranger', 'Input', 'Storage'
         ]
         self.__available_subtypes = [
             None,
             'Dropdown',
             'Button',
             'Client',
-            'Server'
+            'Server',
+            'Box'
         ]
         self.__input_names = [
             'Operacion',
@@ -107,7 +108,7 @@ class UIManager(metaclass=SingletonMeta):
 
     def __check_valid_subtype(self, input_type):
         if input_type not in self.__available_subtypes:
-            raise ValueError(str(input_type) + ': Is not valid input_type.')
+            raise ValueError(str(input_type) + ': Is not valid input_subtype.')
         return True
 
     def __checks(self, ui_type, ui_subtype):
@@ -117,6 +118,8 @@ class UIManager(metaclass=SingletonMeta):
 
     def __val_to_wildcard(self, value):
         """Returns the wildcard if possible, else return the input value."""
+        if value is None:
+            value=''
         wildcard = self.__wildcards_map.get(str(value).upper(), value)
         return wildcard
 

@@ -1,4 +1,4 @@
-import dash from './dash_components.js';
+import dash from './dash_components.mjs';
 
 function LabelInput(label, inputComp, style='top'){
     if (style === 'top'){

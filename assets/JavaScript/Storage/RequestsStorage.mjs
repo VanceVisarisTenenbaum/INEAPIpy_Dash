@@ -1,15 +1,17 @@
-import SP from '../UI/Common/Functions/storage_processing.js';
-import get from '../UI/Common/Functions/dictionary_processing.js';
-import Logger from '../Logger/logger.js';
+import SP from '../UI/Common/Functions/storage_processing.mjs';
+import get from '../UI/Common/Functions/dictionary_processing.mjs';
+import Logger from '../Logger/logger.mjs';
+import id_generator from '../UI/Common/Functions/id_generator.mjs';
 
-const logger = Logger();
-function get_from_requests_storage(obj_typ, obj_depend=null){
+const logger = new Logger();
+function get_from_requests_storage(obj_type, obj_depend=null){
     logger.log('Requested data from requests storage',
                ['Fuction', 'get_from_requests_storage'],
                'Info',
                [obj_type, obj_depend]);
 
-    const requests_storage = SP.get_storage_content('RequestsStorage');
+    const storage_id = JSON.stringify(id_generator('Storage', 'Requests'));
+    const requests_storage = SP.get_storage_content(storage_id);
     const precomputed_types = ['Operaciones', 'Publicaciones', 'Unidades',
                                'Escalas', 'Periodicidades'];
     if (precomputed_types.includes(obj_type)){

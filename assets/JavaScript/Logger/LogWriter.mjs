@@ -1,7 +1,8 @@
+import id_generator from '../UI/Common/Functions/id_generator.mjs';
 
 class SessionLogWriter{
     constructor(){
-        this.key = 'LogStorage'
+        this.key = String(JSON.stringify(id_generator('Storage', 'Log')));
     }
 
     push(entry){
@@ -12,7 +13,7 @@ class SessionLogWriter{
         return null;
     }
 
-    getLogs(){JSON.parse(sessionStorage.getItem(this.key)) || [];}
+    getLogs(){return JSON.parse(sessionStorage.getItem(this.key)) || [];}
     clear(){sessionStorage.setItem(this.key, JSON.stringify([]));}
 }
 

@@ -1,8 +1,8 @@
-import dash from '../Common/dash_components.js';
-import id_generator from '../Common/Functions/id_generator.js';
-import NewRowButtonComp from '../Common/NewRowButton.js';
-import VariableComponent from '../Inputs/VariableComponent.js';
-import ValorComponent from '../Inputs/ValorComponent.js';
+import dash from '../Common/dash_components.mjs';
+import id_generator from '../Common/Functions/id_generator.mjs';
+import NewRowButtonComp from '../Common/NewRowButton.mjs';
+import VariableComponent from '../Inputs/VariableComponent.mjs';
+import ValorComponent from '../Inputs/ValorComponent.mjs';
 
 
 function VarValPair(var_comp, val_comp, row_lv1, row_lv2){
