@@ -1,0 +1,25 @@
+# Set shebang if needed
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jan 31 18:02:56 2026
+
+@author: mano
+"""
+
+from Components.UIComponents.EventListeners.ClientsideListeners.add_new_row import add_new_row_event_listener
+from Components.UIComponents.EventListeners.ClientsideListeners.store_selected_input import store_input_to_state_event_listener
+from Components.UIComponents.EventListeners.ClientsideListeners.add_options import add_options_event_listener
+from Components.UIComponents.EventListeners.ClientsideListeners.check_requested import check_requested_event_listener
+
+from Components.UIComponents.EventListeners.ServersideListeners.data_gatherer import data_request_event_listener_adder
+
+def add_event_listeners():
+    # Clientside
+    add_new_row_event_listener()
+    store_input_to_state_event_listener()
+    add_options_event_listener()
+    check_requested_event_listener()
+
+    # Serverside
+    data_request_event_listener_adder()
+    return None

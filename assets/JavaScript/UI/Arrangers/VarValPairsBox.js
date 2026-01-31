@@ -1,5 +1,5 @@
 import dash from '../Common/dash_components.js';
-import idgen from '../Common/Functions/id_generator.js';
+import id_generator from '../Common/Functions/id_generator.js';
 import NewRowButtonComp from '../Common/NewRowButton.js';
 import VariableComponent from '../Inputs/VariableComponent.js';
 import ValorComponent from '../Inputs/ValorComponent.js';
@@ -9,7 +9,7 @@ function VarValPair(var_comp, val_comp, row_lv1, row_lv2){
     const Comp = dash._html.Div({
         'children':[var_comp, val_comp],
         'className': 'ColSplitterBase',
-        'id': idgen.id_generator_mapper('VariableValor', None, row_lv1, row_lv2)
+        'id': id_generator('Arranger', 'ParVariableValor', null, row_lv1, row_lv2)
     });
     return Comp;
 }
@@ -18,11 +18,11 @@ function VarValPair(var_comp, val_comp, row_lv1, row_lv2){
 function VarValPairBoxComponent(row_lv1, initial_vvp){
     const vvp = dash._html.Div({
         'children': [initial_vvp],
-        'id': idgen.id_generator_mapper('VariableValor', 'Box', row_lv1),
+        'id': id_generator('Arranger','ParesVariableValor', null, row_lv1),
         'className': 'RowSplitterBase RowSplitterSmall'
     })
     const comp = dash._html.Div({
-        'children': [vvp, NewRowButtonComp(row_lv1)]
+        'children': [vvp, NewRowButtonComp('ParesVariableValor', row_lv1)]
     })
 }
 

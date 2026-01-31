@@ -1,4 +1,3 @@
-import ctx from '../UI/Common/Functions/ctx_processing.js';
 
 function add_selected_operation(row_lv1, op_id, state_storage){
 
@@ -172,53 +171,7 @@ function update_selected(input_type){
 
 /* ------------------------------------------------------------------------- */
 
-function store_input_maker(input_type){
-    function store_selected(input_, state_storage, serie_=null){
-        const id_ = ctx.get_triggered_id();
-        const row_lv1 = get(id_, 'fila_lv1', null);
-        const row_lv2 = get(id_, 'fila_lv2', null);
-        const input_val = ctx.get_triggered_value()M
-        let serie_id;
-        if (serie != null){
-            serie_id = ctx.get_value_of_matching_state(['fila_lv1']);
-        }
-
-        if (['Variable', 'Valor'].includes(input_type)){
-            return update_selected(input_type)(row_lv1, row_lv2,
-                                               null, input_val,
-                                               state_storage);
-        }
-        else if (['Graph', 'Graph Axis', 'Graph Style'].includes(input_type)){
-            return update_selected(input_type)(row_lv1, serie_id,
-                                               null, input_val,
-                                               state_storage);
-        }
-        else {
-            return update_selected(input_type)(row_lv1,
-                                               null, input_val,
-                                               state_storage)
-        }
-    }
-}
-
-/* ------------------------------------------------------------------------- */
-
-window.dash_clientside = Object.assign(
-    {},
-    window.dash_clientside, {
-        'state_storage': {
-            'update_selected_operation': store_input_maker('Operacion'),
-            'update_selected_table': store_input_maker('Tabla'),
-            'update_selected_variable': store_input_maker('Variable'),
-            'update_selected_value': store_input_maker('Valor'),
-            'update_selected_serie': store_input_maker('Serie'),
-            'update_selected_graph': store_input_maker('Graph'),
-            'update_selected_graph_axis': store_input_maker('Graph Axis'),
-            'update_selected_graph_style': store_input_maker('Graph Style'),
-            'get_current_value': get_current_value
-        }
-    }
-);
+export default update_selected;
 
 
 

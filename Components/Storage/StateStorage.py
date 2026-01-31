@@ -8,6 +8,7 @@ Created on Tue Dec 16 11:42:49 2025
 
 from dash import dcc
 from Components.Storage.SingletonCustom import SingletonMeta
+from Components.UIComponents.Managers.UIManager import UIManager
 
 """
 State Storage es un almacenamiento de sesión cuyo objetivo es almacenar todas
@@ -44,11 +45,15 @@ que se encuentra únicamente en la sesión del usuario, por este motivo, todos
 los métodos toman como input el session_storage y lo devuelven actualizado.
 """
 
+UIM = UIManager()
 class StateStorageManager(metaclass=SingletonMeta):
 
     def __init__(self):
         initial_state = dict()
-        STATE_STORAGE = dcc.Store(**{'id': 'StateStorage',
+        STATE_STORAGE = dcc.Store(**{'id': UIM.id_generator(
+                                        ui_type='Storage',
+                                        ui_name='State'
+                                    ),
                                      'storage_type': 'session'},
                                   data=initial_state)
         self.__initial_state_storage = STATE_STORAGE

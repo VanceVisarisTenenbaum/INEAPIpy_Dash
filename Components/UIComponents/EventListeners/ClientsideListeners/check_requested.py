@@ -1,7 +1,7 @@
 # Set shebang if needed
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jan 28 20:27:54 2026
+Created on Sat Jan 31 20:44:33 2026
 
 @author: mano
 """
@@ -9,15 +9,14 @@ Created on Wed Jan 28 20:27:54 2026
 from dash import clientside_callback, ClientsideFunction
 from Components.UIComponents.Managers.UIManager import UIManager
 
-
 UIM = UIManager()
-def store_input_to_state_event_listener():
 
+def check_requested_event_listener():
 
     clientside_callback(
         ClientsideFunction(
-            namespace='state_storage',
-            function_name='store_selected'
+            namespace='input_check',
+            function_name='check_requested'
         ),
         UIM.io_generator(
             'Input', 'value',
@@ -26,23 +25,31 @@ def store_input_to_state_event_listener():
             ui_subtype='Dropdown',
             row_lv1='ALL',
             row_lv2='ALL'
-            ),
+        ),
         UIM.io_generator(
             'State', 'data',
             ui_type='Storage',
-            ui_name='State',
+            ui_name='Dummy',
+            ui_subtype='Server'
         ),
         UIM.io_generator(
-            'State', 'value',
-            ui_type='Input',
-            ui_name='Serie',
-            ui_subtype='Dropdown',
-            row_lv1='ALL'
+            'State', 'data',
+            ui_type='Storage',
+            ui_name='Dummy',
+            ui_subtype='Client'
         ),
         UIM.io_generator(
             'Output', 'data',
             ui_type='Storage',
-            ui_name='State'
+            ui_name='Dummy',
+            ui_subtype='Server'
+        ),
+        UIM.io_generator(
+            'Output', 'data',
+            ui_type='Storage',
+            ui_name='Dummy',
+            ui_subtype='Client'
         )
     )
+
     return None

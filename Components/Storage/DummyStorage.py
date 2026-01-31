@@ -7,8 +7,11 @@ Created on Thu Dec 18 16:05:53 2025
 """
 
 from dash import dcc
-from Components.Storage.SingletonCustom import SingletonMeta
 import random
+
+from Components.Storage.SingletonCustom import SingletonMeta
+from Components.UIComponents.Managers.UIManager import UIManager
+
 
 """
 The Dummy Storage is a storage used to store if some processes has been done
@@ -21,6 +24,7 @@ instance aswell as a bunch of methods that will allow the functions to check
 if they need to be executed or not.
 """
 
+UIM = UIManager()
 class DummyStorageManager(metaclass=SingletonMeta):
 
     def __init__(self):
@@ -28,10 +32,13 @@ class DummyStorageManager(metaclass=SingletonMeta):
         # -1 Por que si usamos None dará error al hacer la comprobación.
         return None
 
-    def get_initial_storage(self, storage_num=None):
-        if storage_num is None:
-            storage_num = ''
-        storage = dcc.Store('DummyStorage' + str(storage_num), 'session',
+    def get_initial_storage(self, storage_type=None):
+        storage = dcc.Store(UIM.id_generator(
+                                ui_type='Storage',
+                                ui_name='Dummy',
+                                ui_subtype=storage_type
+                            ),
+                            'session',
                             data={'last_update': self.__default_value})
         return storage
 

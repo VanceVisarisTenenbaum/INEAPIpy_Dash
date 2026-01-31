@@ -7,7 +7,7 @@ Created on Sun Dec  7 18:32:31 2025
 """
 
 from dash import html
-from Components.UIComponents.Common.id_generator import id_generator_mapper
+from Components.UIComponents.Managers.UIManager import UIManager
 from Components.UIComponents.Common.NewRowButton import NewRowButtonComp
 from Components.UIComponents.Inputs.VariableComponent import VariableComponent
 from Components.UIComponents.Inputs.ValorComponent import ValorComponent
@@ -32,13 +32,16 @@ becomes a param.
 # Row_number hace referencia al número de fila del par variable valor
 # no al de selección de operación.
 
-
+UIM = UIManager()
 def VarValPair(var_comp, val_comp, row_lv1, row_lv2):
     """Returns a well placed pair of var-values selects."""
     component = html.Div(
         children=[var_comp, val_comp],
         className='ColSplitterBase',
-        **{'id': id_generator_mapper('VariableValor', None, row_lv1, row_lv2)}
+        **{'id': UIM.id_generator(ui_type='Arranger',
+                                  ui_name='ParVariableValor',
+                                  row_lv1=row_lv1,
+                                  row_lv2=row_lv2)}
     )
     return component
 
@@ -47,12 +50,13 @@ def VarValPairBoxComponent(row_lv1, initial_varvalpair):
     """Caja con pares Variable-Valor separados en filas."""
     vvp = html.Div(
         children=[initial_varvalpair],
-        **{'id': id_generator_mapper('VariableValor', 'Box',
-                                     row_lv1)},
+        **{'id': UIM.id_generator(ui_type='Arranger',
+                                  ui_name='ParesVariableValor',
+                                  row_lv1=row_lv1)},
         className='RowSplitterBase RowSplitterSmall'
     )
     component = html.Div(
-        children=[vvp, NewRowButtonComp(row_lv1)]
+        children=[vvp, NewRowButtonComp('ParesVariableValor', row_lv1)]
     )
     return component
 

@@ -12,11 +12,13 @@ everything necessary to get a set of series.
 """
 
 from dash import html
-from Components.UIComponents.Common.id_generator import id_generator_mapper
+from Components.UIComponents.Managers.UIManager import UIManager
 from Components.UIComponents.Common.NewRowButton import NewRowButtonComp
 from Components.UIComponents.Inputs.OperationComponent import OperationSelectBox
 from Components.UIComponents.Inputs.TableComponent import TableSelectBox
 from Components.UIComponents.Arrangers.VarValPairsBox import make_vvp
+
+UIM = UIManager()
 
 def InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp):
     """
@@ -39,19 +41,32 @@ def InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp):
                     varvalbox_comp
                 ],
                 className='ColSplitterBase ColSplitterBig',
-                **{'id': id_generator_mapper('TablaVVP', 'Box', row_lv1)}
+                **{'id': UIM.id_generator(ui_type='Arranger',
+                                          ui_name='TablaVVP',
+                                          row_lv1=row_lv1)}
             )
         ],
-        **{'id': id_generator_mapper('IG', None, row_lv1)}
+        **{'id': UIM.id_generator(ui_type='Arranger',
+                                  ui_name='InputsGroupRow',
+                                  row_lv1=row_lv1)}
     )
     return element
 
 
 def InputSelectionBox(initial_IGR):
     component = html.Div(
-        children=[initial_IGR, NewRowButtonComp(None)],
-        className='RowSplitterBase RowSplitterBig',
-        **{'id': 'ISB'}
+        children=[
+            html.Div(
+                [initial_IGR],
+                className='RowSplitterBase RowSplitterBig',
+                **{'id': UIM.id_generator(ui_type='Arranger',
+                                          ui_name='InputSelection')}
+            ),
+            NewRowButtonComp('InputSelection', None)
+        ],
+        **{'id': UIM.id_generator(ui_type='Arranger',
+                                  ui_name='InputSelection',
+                                  ui_subtype='Box')}
     )
     return component
 

@@ -40,5 +40,9 @@ function get_value_of_matching_state(matching_properties){
     return null;
 }
 
+function no_update(){
+    return window.dash_clientside.no_update;
+}
 
-export default {get_trigerred_id, get_triggered_value, get_states, get_value_of_matching_state};
+export default {get_trigerred_id, get_triggered_value, get_states,
+                get_value_of_matching_state, no_update};

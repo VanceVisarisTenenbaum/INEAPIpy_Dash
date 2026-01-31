@@ -1,4 +1,4 @@
-import idgen from './Functions/id_generator.js';
+import id_generator from './Functions/id_generator.js';
 import extract_labels_values from './Functions/ine_processing.js';
 
 function SelectComponent(list_of_ine_obj,
@@ -15,7 +15,7 @@ function SelectComponent(list_of_ine_obj,
     let IC = _dcc.Dropdown({
         'options': extract_labels_values(list_of_ine_obj),
         'value': null,
-        'id': idgen.id_generator_mapper(name, null, fila_lv1, fila_lv2),
+        'id': id_generator('Input', name, 'Dropdown', fila_lv1, fila_lv2),
         'className': 'Input Dropdown',
         'multi': multi,
         'placeholder': placeholder_v

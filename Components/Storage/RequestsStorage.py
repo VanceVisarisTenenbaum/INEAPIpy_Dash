@@ -9,6 +9,7 @@ Created on Tue Dec 16 11:42:39 2025
 from dash import dcc
 from Components.Storage.SingletonCustom import SingletonMeta
 from Components.Storage.ServerMemory import ServerMemoryManager
+from Components.UIComponents.Managers.UIManager import UIManager
 
 """
 Session Storage is a client side store meant to store all the requests made by
@@ -38,7 +39,7 @@ The session storage on the other hand have the next shape:
     }
 """
 
-
+UIM = UIManager()
 class RequestsStorageManager(metaclass=SingletonMeta):
     """Server component that manages the retrieval of data from the storage"""
 
@@ -65,7 +66,10 @@ class RequestsStorageManager(metaclass=SingletonMeta):
             'Periodicidades': self.SSM.get_metadata('Periodicidades')
         }
 
-        requests_storage = dcc.Store(**{'id': 'RequestsStorage',
+        requests_storage = dcc.Store(**{'id': UIM.id_generator(
+                                            ui_type='Storage',
+                                            ui_name='Requests',
+                                        ),
                                        'storage_type': 'session'},
                                     data=self.initial_storage)
         self.__initial_requests_storage = requests_storage

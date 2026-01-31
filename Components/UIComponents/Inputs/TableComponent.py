@@ -10,11 +10,5 @@ from Components.UIComponents.Common.SelectComponent import SelectComponent
 
 
 def TableSelectBox(row_lv1, list_of_ine_tabs):
-    return SelectComponent(list_of_ine_tabs, 'T', row_lv1)
+    return SelectComponent(list_of_ine_tabs, 'Tabla', row_lv1)
 
-
-
-
-# HAY QUE AÑADIR TODO EL PROCESO
-def table_event_listener_adder():
-    return None

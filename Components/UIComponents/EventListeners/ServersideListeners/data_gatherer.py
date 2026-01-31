@@ -12,11 +12,7 @@ from Components.Storage.RequestsStorage import RequestsStorageManager
 from Components.Storage.StateStorage import StateStorageManager
 from Components.Storage.DummyStorage import DummyStorageManager
 
-from Components.UIComponents.Common.ui_processes import (STORAGE_INPUTS,
-                                                         STORAGE_OUTPUTS,
-                                                         DUMMY_INPUT,
-                                                         DUMMY_OUTPUT,
-                                                         io_generator)
+from Components.UIComponents.Managers.UIManager import UIManager
 
 
 """
@@ -33,8 +29,8 @@ DSM = DummyStorageManager()
 SSM = StateStorageManager()
 RSM = RequestsStorageManager()
 
-
-def data_requesting_maker(input_name):
+UIM = UIManager()
+def data_requesting_maker():
     """
     Generates the callback that trigger the request of data to the INE API.
 
@@ -48,8 +44,6 @@ def data_requesting_maker(input_name):
     None
 
     """
-    dummy_server_name = str(input_name) + 'Server'
-    dummy_client_name = str(input_name) + 'Client'
 
 
     input_type_to_request_type_map = { # Map of "what I select to what i need"
@@ -58,8 +52,8 @@ def data_requesting_maker(input_name):
         # 'Tabla': ['Serie'],  # Las series se obtienen utilizando un botón
         'Serie': ['Data']
     }
-    def request_process(input_value, requests_storage,
-                        client_dummy_storage):
+    def request_process(input_name, input_value,
+                        requests_storage):
 
         obj_type = input_type_to_request_type_map[input_name]
         obj_depend = [input_value for _ in obj_type]
@@ -68,36 +62,54 @@ def data_requesting_maker(input_name):
                                                obj_depend,
                                                requests_storage)
 
-        client_dummy_storage = DSM.set_random_number(client_dummy_storage)
-
-        return requests_storage, client_dummy_storage
+        return requests_storage
 
     # El event listener espera que el dummy tenga el valor elegido.
     @callback(
-        DUMMY_INPUT(dummy_server_name),
-        STORAGE_INPUTS()[0], # Requests
-        DUMMY_INPUT(dummy_client_name, True),
-        DUMMY_OUTPUT(dummy_server_name),
-        STORAGE_OUTPUTS()[0],
-        DUMMY_OUTPUT(dummy_client_name),
+        UIM.io_generator('Input', 'data',
+                         ui_type='Storage',
+                         ui_name='Dummy',
+                         ui_subtype='Server'),
+        UIM.io_generator('State', 'data',
+                         ui_type='Storage',
+                         ui_name='Requests'),
+        UIM.io_generator('State', 'data',
+                         ui_type='Storage',
+                         ui_name='Dummy',
+                         ui_subtype='Client'),
+        UIM.io_generator('Output', 'data',
+                         ui_type='Storage',
+                         ui_name='Dummy',
+                         ui_subtype='Server'),
+        UIM.io_generator('Output', 'data',
+                         ui_type='Storage',
+                         ui_name='Requests'),
+        UIM.io_generator('Output', 'data',
+                         ui_type='Storage',
+                         ui_name='Dummy',
+                         ui_subtype='Client'),
         prevent_initial_call=True
     )
-    def event_listener(server_dummy_storage, requests_storage, client_dummy_storage):
-        input_val = DSM.get_last_update(server_dummy_storage)
+    def normal_request(server_dummy_storage, requests_storage, client_dummy_storage):
+        input_ = DSM.get_last_update(server_dummy_storage)
         server_dummy_storage = DSM.reset_default_value(server_dummy_storage)
-        requests_storage, client_dummy_storage = request_process(input_val,
-                                                                 requests_storage,
-                                                                 client_dummy_storage)
 
+        input_type = input_['Input Type']
+        input_val = input_['Valor']
+        requests_storage, client_dummy_storage = request_process(input_type, input_val,
+                                                                 requests_storage)
 
+        client_dummy_storage = DSM.add_update(
+            input_,
+            client_dummy_storage
+        )
         return server_dummy_storage, requests_storage, client_dummy_storage
 
     # TODO, aladir event listener botón series
 
+
     return None
 
 def data_request_event_listener_adder():
-    data_requesting_maker('Operacion')
-    data_requesting_maker('Variable')
-    data_requesting_maker('Serie')
+
     return None

@@ -1,5 +1,5 @@
 import dash from '../Common/dash_components.js';
-import idgen from '../Common/Functions/id_generator.js';
+import id_generator from '../Common/Functions/id_generator.js';
 import NewRowButtonComp from '../Common/NewRowButton.js';
 import OperationComponent from '../Inputs/OperationComponent.js';
 import TableComponent from '../Inputs/TableComponent.js';
@@ -12,10 +12,10 @@ function InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp){
             dash._html.Div({
                 'children': [tab_comp, varvalbox_comp],
                 'className': 'ColSplitterBase ColSplitterBig',
-                'id': idgen.id_generator_mapper('TablaVVP', 'Box', row_lv1)
+                'id': id_generator('Arranger', 'TablaVVP', null, row_lv1)
             })
         ],
-        'id': idgen.id_generator_mapper('IG', None, row_lv1)
+        'id': id_generator('Arranger', 'InputsGroupRow', null, row_lv1)
     })
 
     return comp;
@@ -23,9 +23,15 @@ function InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp){
 
 function InputSelectionBox(initial_IGR){
     const comp = dash._html.Div({
-        'children': [initial_IGR, NewRowButtonComp(null)],
-        'className': 'RowSplitterBase RowSplitterBig',
-        'id': 'ISB'
+        'children': [
+            _html.Div({
+                'children': [initial_IGR],
+                'className': 'RowSplitterBase RowSplitterBig',
+                'id': id_generator('Arranger', 'InputSelection')
+            }),
+            NewRowButtonComp('InputSelection', null)
+        ],
+        'id': id_generator('Arranger', 'InputSelection', 'Box')
     })
     return comp;
 }
