@@ -16,9 +16,9 @@ from Components.UIComponents.EventListeners.ServersideListeners.data_gatherer im
 def add_event_listeners():
     # Clientside
     add_new_row_event_listener()
-    store_input_to_state_event_listener()
-    add_options_event_listener()
-    check_requested_event_listener()
+    #store_input_to_state_event_listener()
+    #add_options_event_listener()
+    #check_requested_event_listener()
 
     # Serverside
     data_request_event_listener_adder()

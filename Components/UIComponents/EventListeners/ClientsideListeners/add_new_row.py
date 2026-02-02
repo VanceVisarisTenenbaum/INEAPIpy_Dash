@@ -24,14 +24,12 @@ def add_new_row_event_listener():
             ui_type='Input',
             ui_name='MATCH',
             ui_subtype='Button',
-            row_lv1='MATCH'
         ),
         output=UIM.io_generator(
             'Output', 'children',
             ui_type='Arranger',
             ui_name='MATCH',
             ui_subtype=None,
-            row_lv1='MATCH'
         ),
         prevent_initial_call=True
     )

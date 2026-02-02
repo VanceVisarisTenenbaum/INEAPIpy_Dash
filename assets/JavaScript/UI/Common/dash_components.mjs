@@ -36,15 +36,16 @@ const NAMESPACE_FROM_ACRONIM = {html: 'dash_html_components',
 			};
 
 const new_dash_component = function(namespace_type,
-			     children=[],
-			     style={},
-			     id='',
+			     //children=[],
+			     //style={},
+			     //id='',
 			     props={}) {
     const t = {};
     const [namespace, type] = namespace_type.split('.');
     t.namespace = NAMESPACE_FROM_ACRONIM[namespace];
     t.type = type;
-    t.props = {children, style, id, ...props};
+    //t.props = {children, style, id, ...props};
+    t.props = {...props};
     return t;
 }
 

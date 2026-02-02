@@ -16,7 +16,7 @@ function extract_labels_values(listOfINE_Objects, onlyId = false) {
     if (Array.isArray(listOfINE_Objects)) {
         return listOfINE_Objects.map(x => extract_label_value(x, onlyId));
     } else if (typeof listOfINE_Objects === 'object' && listOfINE_Objects !== null) {
-        return extract_label_value(listOfINE_Objects, onlyId);
+        return [extract_label_value(listOfINE_Objects, onlyId)];
     } else {
         throw new Error('list of INE object must be a list or object.');
     }

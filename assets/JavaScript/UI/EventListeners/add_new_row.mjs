@@ -8,7 +8,7 @@ import ctx from '../Common/Functions/ctx_processing.mjs';
 
 
 const logger = new Logger();
-
+/*
 function add_new_var_val_row(n_clicks, op_){
     logger.log(
         'Add new Variable Value Pair Row, function called',
@@ -47,7 +47,7 @@ function add_new_IB(n_clicks){
     patch.append(newIB);
     return patch;
 }
-
+*/
 function add_new_row_process(n_clicks){
     const patch = new dash_clientside.Patch;
     const button_id = ctx.get_triggered_id();
@@ -58,12 +58,13 @@ function add_new_row_process(n_clicks){
                                    button_id['Fila Nivel 2']
                                    )
     const current_children = doc.get_element_by_id(parent_id).children;
-    const row_lv1 = current_children.length + 1;
+    const row_lv1_ISB = current_children.length + 1;
+    const row_lv1_VVP = button_id['Fila Nivel 1'];
     const name_new_row_map = {
-        'InputSelection': IGB.make_IGR(row_lv1),
+        'InputSelection': IGB.make_IGR(row_lv1_ISB),
+        //'ParesVariableValor': VVP.make_vvp(row_lv1_VVP, row_lv1_ISB)
     };
-    patch.append(name_new_row_map[button_id['Nombre']]);
-    return patch;
+    return patch.append([], name_new_row_map[button_id['Nombre']]).build();
 }
 
 window.dash_clientside = Object.assign(
