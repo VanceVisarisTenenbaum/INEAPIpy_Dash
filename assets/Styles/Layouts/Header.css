@@ -9,4 +9,4 @@
     padding: 0 24px;
     z-index: 20; /* Por encima del sidebar en móvil */
 }
-.header-left { display: flex; align-items: center; gap: 16px; }
+.header-left { display: flex; align-items: center; gap: 16px;}

@@ -14,18 +14,18 @@
 }
 
 /* Ocultar texto al colapsar (PC) */
-#sidebar-toggle:not(:checked) ~ .layout-grid .sidebar .nav-link .text {
+#sidebar-toggle:not(:checked) ~ .main-layout .sidebar {
     opacity: 0;
     pointer-events: none;
     display: none; /* Quitamos del flujo para que no ensanche */
 }
 
 /* Alineación cuando está colapsado */
-#sidebar-toggle:not(:checked) ~ .layout-grid .sidebar .nav-link {
+#sidebar-toggle:not(:checked) ~ .main-layout .sidebar .nav-link {
     justify-content: center;
     padding: 12px 0;
 }
-#sidebar-toggle:not(:checked) ~ .layout-grid .sidebar .nav-link .icon {
+#sidebar-toggle:not(:checked) ~ .main-layout .sidebar .nav-link .icon {
     margin: 0;
 }
 
@@ -71,19 +71,19 @@
     */
 
     /* Si está CHECKED, mostramos sidebar en móvil */
-    #sidebar-toggle:checked ~ .layout-grid .sidebar {
+    #sidebar-toggle:checked ~ .main-layout .sidebar {
         transform: translateX(0); /* Entra en pantalla */
     }
 
     /* Si está CHECKED, mostramos el backdrop */
-    #sidebar-toggle:checked ~ .layout-grid .mobile-backdrop {
+    #sidebar-toggle:checked ~ .main-layout .mobile-backdrop {
         display: block;
         opacity: 1;
     }
 
     /* En móvil siempre mostramos el texto completo */
-    #sidebar-toggle:not(:checked) ~ .layout-grid .sidebar .nav-link .text,
-    #sidebar-toggle:checked ~ .layout-grid .sidebar .nav-link .text {
+    #sidebar-toggle:not(:checked) ~ .main-layout .sidebar .nav-link .text,
+    #sidebar-toggle:checked ~ .main-layout .sidebar .nav-link .text {
         opacity: 1;
         display: block;
         pointer-events: auto;

@@ -36,17 +36,11 @@ def main():
 
 
     """Iniciamos el servidor de dash."""
-    app = Dash()
+    app = Dash(__name__, assets_folder='../assets')
 
     app.layout = html.Div(
         children=[
-            dcc.Checklist(
-                options=[
-                    {'label': '', 'value': 'Checked'}
-                ],
-                value='Checked',
-                **{'id': 'sidebar-toggle'}
-            ),
+            dcc.Input(**{'id': 'sidebar-toggle', 'type':'checkbox'}),
             html.Div(
                 children=[
                     html.Header( ####################################
@@ -54,8 +48,12 @@ def main():
                             html.Div(
                                 children=[
                                     html.Label(
+                                        children=[
+                                            html.Div(className='hamburger-btn')
+                                        ],
                                         htmlFor='sidebar-toggle',
-                                        className='hamburger-btn'
+                                        className='hamburger-btn-label',
+                                        style={'display': 'inline'}
                                     ),
                                     html.H1('Buscador INE', className='title')
                                 ],
@@ -68,7 +66,8 @@ def main():
                         className='header'
                     ),
                     html.Label(htmlFor='sidebar-toggle',
-                               className='mobile-backdrop'),
+                               className='mobile-backdrop',
+                               style={'display': 'inline'}),
 
                     # Sidebar
                     html.Aside(
@@ -83,7 +82,6 @@ def main():
             )
         ]
     )
-    print(app.layout.to_plotly_json())
     app.run(debug=True)
     return None
 
