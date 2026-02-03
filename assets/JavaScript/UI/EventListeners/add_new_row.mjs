@@ -8,8 +8,8 @@ import ctx from '../Common/Functions/ctx_processing.mjs';
 
 
 const logger = new Logger();
-/*
-function add_new_var_val_row(n_clicks, op_){
+
+function add_new_var_val_row(n_clicks, op_id){
     logger.log(
         'Add new Variable Value Pair Row, function called',
         ['Function', 'add_new_var_val_row'],
@@ -23,12 +23,12 @@ function add_new_var_val_row(n_clicks, op_){
     const row_lv1 = triggered_id['Fila Nivel 1'];
     const row_lv2 = current_children.length + 1;
 
-    const op_id = ctx.get_value_of_matching_state(['Fila Nivel 1']);
+    //const op_id = ctx.get_value_of_matching_state(['Fila Nivel 1']);
 
     const variables = get_from_requests_storage('Variable', op_id);
     const newVVP = VVP.make_vvp(row_lv1, row_lv2 + 1, variables, null);
-    patch.append(newVVP);
-    return patch;
+
+    return patch.append([], newVVP).build();
 }
 
 function add_new_IB(n_clicks){
@@ -44,10 +44,9 @@ function add_new_IB(n_clicks){
 
     const row_lv1 = current_children.length + 1;
     const newIB = IGB.make_IGR(row_lv1);
-    patch.append(newIB);
-    return patch;
+    return patch.append([], newIB).build();
 }
-*/
+
 function add_new_row_process(n_clicks){
     const patch = new dash_clientside.Patch;
     const button_id = ctx.get_triggered_id();
@@ -71,7 +70,8 @@ window.dash_clientside = Object.assign(
     {},
     window.dash_clientside, {
         'add_row': {
-            'add_new_row': add_new_row_process,
+            'add_new_var_val': add_new_var_val_row,
+            'add_new_IB': add_new_IB
         }
     }
 );
