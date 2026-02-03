@@ -24,6 +24,7 @@ function VarValPairBoxComponent(row_lv1, initial_vvp){
     const comp = dash._html.Div({
         'children': [vvp, NewRowButtonComp('ParesVariableValor', row_lv1)]
     })
+    return comp;
 }
 
 

@@ -1,0 +1,12 @@
+/* --- HEADER --- */
+.header {
+    grid-area: header;
+    background: var(--bg-header);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 20; /* Por encima del sidebar en móvil */
+}
+.header-left { display: flex; align-items: center; gap: 16px; }

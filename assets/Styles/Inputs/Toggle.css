@@ -1,0 +1,18 @@
+/* Checkbox lógico oculto */
+#sidebar-toggle { display: none; }
+
+.hamburger-btn {
+    background: url('data:image/svg+xml;utf-8,<svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>')
+    cursor: pointer; color: var(--text-secondary);
+}
+
+/* --- BACKDROP MÓVIL (Por defecto oculto, para que al tocar fuera del sidebar, se cierre) --- */
+.mobile-backdrop {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--backdrop);
+    z-index: 15;
+    opacity: 0;
+    transition: opacity 0.3s;
+}

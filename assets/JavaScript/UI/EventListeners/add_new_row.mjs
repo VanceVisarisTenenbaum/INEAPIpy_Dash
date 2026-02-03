@@ -19,8 +19,11 @@ function add_new_var_val_row(n_clicks, op_id){
     const patch = new dash_clientside.Patch;
     const triggered_id = ctx.get_triggered_id();
 
-    const current_children = doc.get_element_by_id(triggered_id).children;
     const row_lv1 = triggered_id['Fila Nivel 1'];
+    const VVPB_id = id_generator('Arranger', 'ParesVariableValor', null, row_lv1);
+
+    const current_children = doc.get_element_by_id(VVPB_id).children;
+
     const row_lv2 = current_children.length + 1;
 
     //const op_id = ctx.get_value_of_matching_state(['Fila Nivel 1']);
@@ -40,9 +43,8 @@ function add_new_IB(n_clicks){
     )
     const patch = new dash_clientside.Patch;
     const ISB_ID = id_generator('Arranger', 'InputSelection');
-    const current_children = doc.get_element_by_id(JSON.stringify(ISB_ID));
-
-    const row_lv1 = current_children.length + 1;
+    const current_children = doc.get_element_by_id(ISB_ID);
+    const row_lv1 = current_children.children.length + 1;
     const newIB = IGB.make_IGR(row_lv1);
     return patch.append([], newIB).build();
 }

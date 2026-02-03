@@ -29,10 +29,6 @@ function read_drop(val, state){
 }
 """
 
-clientside_callback(js_f,
-                    Input({'Name': 'Drop', 'prop1': ALL}, 'value'),
-                    State({'Name': 'DropState', 'prop2': ALL}, 'value'),
-                    )
 
 
 def main():
@@ -44,38 +40,48 @@ def main():
 
     app.layout = html.Div(
         children=[
-            dcc.Dropdown(
-                options=[1,2,3],
-                className='B',
-                **{'id': {'Name': 'Drop', 'prop1': 1}}
+            dcc.Checklist(
+                options=[
+                    {'label': '', 'value': 'Checked'}
+                ],
+                value='Checked',
+                **{'id': 'sidebar-toggle'}
             ),
-            dcc.Dropdown(
-                options=[1,2,3],
-                className='B',
-                **{'id': {'Name': 'Drop', 'prop1': 2}}
-            ),
-            dcc.Dropdown(
-                options=[1,2,3],
-                className='B',
-                **{'id': {'Name': 'Drop', 'prop1': 3}}
-            ),
-            dcc.Dropdown(
-                options=['A','B','C'],
-                className='B',
-                **{'id': {'Name': 'DropState', 'prop2': 1}}
-            ),
-            dcc.Dropdown(
-                options=['A','B','C'],
-                className='B',
-                **{'id': {'Name': 'DropState', 'prop2': 2}}
-            ),
-            dcc.Dropdown(
-                options=['A','B','C'],
-                className='B',
-                **{'id': {'Name': 'DropState', 'prop2': 3}}
+            html.Div(
+                children=[
+                    html.Header( ####################################
+                        children=[
+                            html.Div(
+                                children=[
+                                    html.Label(
+                                        htmlFor='sidebar-toggle',
+                                        className='hamburger-btn'
+                                    ),
+                                    html.H1('Buscador INE', className='title')
+                                ],
+                                className='header-left'
+                            ),
+                            html.Div(
+                                className='header-right'
+                            )
+                        ],
+                        className='header'
+                    ),
+                    html.Label(htmlFor='sidebar-toggle',
+                               className='mobile-backdrop'),
+
+                    # Sidebar
+                    html.Aside(
+                        className='sidebar'
+                    ),
+                    # Main
+                    html.Main(
+                        className='main'
+                    )
+                ],
+                className='main-layout'  # Lo que layout-grid por gemini
             )
-        ],
-        className='A'
+        ]
     )
     print(app.layout.to_plotly_json())
     app.run(debug=True)

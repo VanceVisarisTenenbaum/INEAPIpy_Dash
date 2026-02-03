@@ -16,7 +16,8 @@ from Components.UIComponents.Managers.UIManager import UIManager
 from Components.UIComponents.Common.NewRowButton import NewRowButtonComp
 from Components.UIComponents.Inputs.OperationComponent import OperationSelectBox
 from Components.UIComponents.Inputs.TableComponent import TableSelectBox
-from Components.UIComponents.Arrangers.VarValPairsBox import make_vvp
+from Components.UIComponents.Arrangers.VarValPairsBox import (make_vvp,
+                                                              VarValPairBoxComponent)
 
 UIM = UIManager()
 
@@ -74,7 +75,7 @@ def InputSelectionBox(initial_IGR):
 def make_IGR(row_lv1):
     OpC = OperationSelectBox(row_lv1)
     TbC = TableSelectBox(row_lv1, list())
-    VVP = make_vvp(row_lv1, 1)
+    VVP = VarValPairBoxComponent(row_lv1, make_vvp(row_lv1, 1))
     return InputsGroupRow(row_lv1, OpC, TbC, VVP)
 
 
