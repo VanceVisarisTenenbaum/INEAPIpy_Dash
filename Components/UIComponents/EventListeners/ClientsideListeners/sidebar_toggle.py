@@ -15,8 +15,9 @@ def add_sidebar_toggle_event_listener():
             namespace='sidebar_toggle',
             function_name='toggle'
         ),
-        Output('sidebar-toggle', 'data-checked'),
+        Output('app-body', 'data-checked'),
         Input('hamburger-btn-label', 'n_clicks'),
-        State('sidebar-toggle', 'data-checked')
+        State('app-body', 'data-checked'),
+        prevent_initial_call=True
     )
     return None

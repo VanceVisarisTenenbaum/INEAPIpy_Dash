@@ -18,7 +18,8 @@
 
     --accent: #4f46e5;
 }
-/*
+
+
 @media (prefers-color-scheme: dark) {
     :root {
         /* Colores Tema Oscuro */
@@ -33,10 +34,10 @@
         --border: #334155;
     }
 }
-*/
+
 
 /*Tema oscuro cuando switch esta en oscuro.*/
-#light-dark-switch[data-switch="dark"] {
+#app-body[data-switch="dark"] {
     --bg-body: #0f172a;
     --bg-header: #1e293b;
     --bg-sidebar: #1e293b;

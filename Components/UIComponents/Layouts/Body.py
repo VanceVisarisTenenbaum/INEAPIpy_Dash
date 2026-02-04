@@ -16,14 +16,14 @@ def Body():
 
     comp = html.Div(
         children=[
-            html.Div('', **{'id':'sidebar-toggle', 'data-checked':1}),
             html.Div(
                 [
                     Header(),
                     Sidebar()
                     # Main
                 ],
-                className='main-layout'
+                className='main-layout',
+                **{'data-checked': 1, 'data-switch': 'light', 'id': 'app-body'}
             )
         ]
     )

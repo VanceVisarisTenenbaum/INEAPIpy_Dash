@@ -1,4 +1,4 @@
-import dash from './dash_components.mjs';
+import dash from '../Common/dash_components.mjs';
 
 
 

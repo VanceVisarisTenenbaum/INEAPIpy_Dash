@@ -14,7 +14,7 @@
 }
 
 /* Ocultar texto al colapsar (PC) */
-#sidebar-toggle:not([data-checked="1"]) ~ .main-layout .sidebar {
+#app-body:not([data-checked="1"]) .sidebar {
     opacity: 0;
     pointer-events: none;
     display: none; /* Quitamos del flujo para que no ensanche */
@@ -65,19 +65,19 @@
     */
 
     /* Si está CHECKED, mostramos sidebar en móvil */
-    #sidebar-toggle[data-checked="1"] ~ .main-layout .sidebar {
+    #app-body[data-checked="1"] .sidebar {
         transform: translateX(0); /* Entra en pantalla */
     }
 
     /* Si está CHECKED, mostramos el backdrop */
-    #sidebar-toggle[data-checked="1"] ~ .main-layout .mobile-backdrop {
+    #app-body[data-checked="1"] .mobile-backdrop {
         display: block;
         opacity: 1;
     }
 
     /* En móvil siempre mostramos el texto completo */
-    #sidebar-toggle:not([data-checked="1"]) ~ .main-layout .sidebar,
-    #sidebar-toggle[data-checked="1"] ~ .main-layout .sidebar {
+    #app-body:not([data-checked="1"]) .sidebar,
+    #app-body[data-checked="1"] .sidebar {
         opacity: 1;
         display: block;
         pointer-events: auto;

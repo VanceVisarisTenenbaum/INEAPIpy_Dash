@@ -12,7 +12,7 @@ from dash import html, dcc
 def ExportButton():
     comp = dcc.Button(
         children=[
-            html.Div('', className='svg-download'),
+            html.Div('', className='svg svg-download'),
             html.Span('Exportar como PNG')
         ],
         className='btn btn-secondary',
@@ -23,9 +23,9 @@ def ExportButton():
 def HelpButton():
     comp = dcc.Button(
         children=[
-            html.Div('', className='svg-help')
+            html.Div('', className='svg svg-help')
         ],
-        className='icon-btn help-btn'
+        className='icon-btn help-btn',
         **{'id': 'HelpButton'}
     )
     return comp
@@ -33,20 +33,31 @@ def HelpButton():
 def LightDarkToggle():
     comp = html.Div(
         children=[
-            html.Div('', **{'id':'light-dark-switch', 'data-switch':'light'}),
             html.Label(
                 html.Div(
                     children=[
-                        html.Span('', className='light'),
-                        html.Span('', className='dark'),
-                        html.Span('', className='swtich-thumb')
+                        html.Span('', className='svg light'),
+                        html.Span('', className='svg dark'),
+                        html.Span('', className='svg switch-thumb')
                     ],
                     className='toggle-track'
                 ),
                 className='theme-toggle',
-                htmlFor='light-dark-switch'
+                htmlFor='light-dark-switch',
+                **{'id':'light-dark-switch-label'}
             )
         ]
+    )
+    return comp
+
+
+def SidebarToggle():
+    comp = html.Label(
+        children=html.Div('', className='svg hamburger-btn'),
+        htmlFor='sidebar-toggle',
+        className='hamburger-btn-label',
+        style={'display': 'inline'},
+        **{'id':'hamburger-btn-label'}
     )
     return comp
 
@@ -55,13 +66,7 @@ def Header():
         children=[
             html.Div(
                 children=[
-                    html.Label(
-                        children=html.Div('', className='hamburger-btn'),
-                        htmlFor='sidebar-toggle',
-                        className='hamburger-btn-label',
-                        style={'display': 'inline'},
-                        **{'id':'hamburger-btn-label'}
-                    ),
+                    SidebarToggle(),
                     html.H1('Datos abiertos INE (no oficial)', className='header-title')
                 ],
                 className='header-left'

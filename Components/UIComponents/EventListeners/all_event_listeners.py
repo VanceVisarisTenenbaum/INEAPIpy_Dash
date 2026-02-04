@@ -11,8 +11,10 @@ from Components.UIComponents.EventListeners.ClientsideListeners.store_selected_i
 from Components.UIComponents.EventListeners.ClientsideListeners.add_options import add_options_event_listener
 from Components.UIComponents.EventListeners.ClientsideListeners.check_requested import check_requested_event_listener
 from Components.UIComponents.EventListeners.ClientsideListeners.sidebar_toggle import add_sidebar_toggle_event_listener
+from Components.UIComponents.EventListeners.ClientsideListeners.light_dark_switch import add_light_dark_event_listener
 
 from Components.UIComponents.EventListeners.ServersideListeners.data_gatherer import data_request_event_listener_adder
+
 
 def add_event_listeners():
     # Clientside
@@ -21,6 +23,7 @@ def add_event_listeners():
     #add_options_event_listener()
     #check_requested_event_listener()
     add_sidebar_toggle_event_listener()
+    add_light_dark_event_listener()
 
     # Serverside
     data_request_event_listener_adder()
