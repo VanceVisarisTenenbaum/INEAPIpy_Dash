@@ -17,6 +17,8 @@ from Components.Storage.DummyStorage import DummyStorageManager
 
 from Components.UIComponents.EventListeners.all_event_listeners import add_event_listeners
 
+from Components.UIComponents.Layouts.Body import Body
+
 DSM = DummyStorageManager()
 SSM = StateStorageManager()
 RSM = RequestsStorageManager()
@@ -31,7 +33,7 @@ def initial_layout():
             DSM.get_initial_storage('Client'),  # Client is the dummy that activates client function
             DSM.get_initial_storage('Server'),  # Server is the dummy that activates server function
             dcc.Store(UIM.id_generator('Storage', 'Log'), 'session', data=[]),
-            InputSelectionBox(make_IGR(1))
+            Body()
         ],
         **{'id': 'main'}
     )

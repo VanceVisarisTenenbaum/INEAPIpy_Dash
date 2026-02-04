@@ -14,19 +14,13 @@
 }
 
 /* Ocultar texto al colapsar (PC) */
-#sidebar-toggle:not(:checked) ~ .main-layout .sidebar {
+#sidebar-toggle:not([data-checked="1"]) ~ .main-layout .sidebar {
     opacity: 0;
     pointer-events: none;
     display: none; /* Quitamos del flujo para que no ensanche */
-}
-
-/* Alineación cuando está colapsado */
-#sidebar-toggle:not(:checked) ~ .main-layout .sidebar .nav-link {
+    /* Alineación cuando está colapsado */
     justify-content: center;
     padding: 12px 0;
-}
-#sidebar-toggle:not(:checked) ~ .main-layout .sidebar .nav-link .icon {
-    margin: 0;
 }
 
 /* =========================================
@@ -53,8 +47,8 @@
     }
 
     /* 3. Lógica INVERSA para móvil:
-       En PC usamos :not(:checked) para colapsar.
-       En Móvil queremos que :checked SIGNIFIQUE abrir.
+       En PC usamos :not([data-checked="1"]) para colapsar.
+       En Móvil queremos que [data-checked="1"] SIGNIFIQUE abrir.
 
        Como en el HTML pusimos 'checked' por defecto para PC,
        en móvil al cargar la página el menú saldría abierto.
@@ -71,19 +65,19 @@
     */
 
     /* Si está CHECKED, mostramos sidebar en móvil */
-    #sidebar-toggle:checked ~ .main-layout .sidebar {
+    #sidebar-toggle[data-checked="1"] ~ .main-layout .sidebar {
         transform: translateX(0); /* Entra en pantalla */
     }
 
     /* Si está CHECKED, mostramos el backdrop */
-    #sidebar-toggle:checked ~ .main-layout .mobile-backdrop {
+    #sidebar-toggle[data-checked="1"] ~ .main-layout .mobile-backdrop {
         display: block;
         opacity: 1;
     }
 
     /* En móvil siempre mostramos el texto completo */
-    #sidebar-toggle:not(:checked) ~ .main-layout .sidebar .nav-link .text,
-    #sidebar-toggle:checked ~ .main-layout .sidebar .nav-link .text {
+    #sidebar-toggle:not([data-checked="1"]) ~ .main-layout .sidebar,
+    #sidebar-toggle[data-checked="1"] ~ .main-layout .sidebar {
         opacity: 1;
         display: block;
         pointer-events: auto;

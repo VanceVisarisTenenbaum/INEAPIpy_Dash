@@ -7,7 +7,7 @@ Created on Sun Dec 28 17:20:43 2025
 """
 
 
-from dash import Dash, html, dcc, clientside_callback, Input, ALL, State
+from dash import Dash, html, dcc, clientside_callback, Input, ALL, State, ClientsideFunction, Output
 
 
 js_f = """
@@ -29,7 +29,15 @@ function read_drop(val, state){
 }
 """
 
-
+clientside_callback(
+    ClientsideFunction(
+        namespace='sidebar_toggle',
+        function_name='toggle'
+    ),
+    Output('sidebar-toggle', 'data-checked'),
+    Input('hamburger-btn-label', 'n_clicks'),
+    State('sidebar-toggle', 'data-checked')
+)
 
 def main():
     """Starts the App."""
@@ -40,7 +48,10 @@ def main():
 
     app.layout = html.Div(
         children=[
-            dcc.Input(**{'id': 'sidebar-toggle', 'type':'checkbox'}),
+            html.Div(
+                children='',
+                **{'id':'sidebar-toggle', 'data-checked':1}
+            ),
             html.Div(
                 children=[
                     html.Header( ####################################
@@ -53,7 +64,8 @@ def main():
                                         ],
                                         htmlFor='sidebar-toggle',
                                         className='hamburger-btn-label',
-                                        style={'display': 'inline'}
+                                        style={'display': 'inline'},
+                                        **{'id':'hamburger-btn-label'}
                                     ),
                                     html.H1('Buscador INE', className='title')
                                 ],

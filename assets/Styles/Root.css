@@ -15,8 +15,10 @@
     --primary-light: #eef2ff;
     --border: #e2e8f0;
     --backdrop: rgba(0, 0, 0, 0.5);
-}
 
+    --accent: #4f46e5;
+}
+/*
 @media (prefers-color-scheme: dark) {
     :root {
         /* Colores Tema Oscuro */
@@ -31,6 +33,23 @@
         --border: #334155;
     }
 }
+*/
+
+/*Tema oscuro cuando switch esta en oscuro.*/
+#light-dark-switch[data-switch="dark"] {
+    --bg-body: #0f172a;
+    --bg-header: #1e293b;
+    --bg-sidebar: #1e293b;
+    --bg-card: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --primary: #818cf8;
+    --primary-light: #312e81;
+    --border: #334155;
+
+    --accent: #818cf8;
+}
+
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
