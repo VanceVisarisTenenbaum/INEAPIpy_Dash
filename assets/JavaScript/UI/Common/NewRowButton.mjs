@@ -5,14 +5,17 @@ import id_generator from './Functions/id_generator.mjs';
 function NewRowButtonComp(name, row_lv1=null){
 
     const boton = dash._html.Button({
-        'children': 'Nueva fila',
+        'children': [
+            dash._html.Span({'children': '+', 'className':'plus-icon'}),
+            dash._html.Span({'children': 'Añadir nuevo ' + String(name)})
+        ],
         'n_clicks': 0,
         'id': id_generator('Input', name, 'Button', row_lv1),
-        'className': 'Button'
+        'className': 'btn-add-filter'
     })
     const comp = dash._html.Div({
         'children': [boton],
-        'className': 'ButtonContainer'
+        'className': 'add-filter-container'
     })
     return comp;
 }

@@ -1,0 +1,9 @@
+.filter-list {
+    flex: 1; /* Ocupa el espacio restante */
+    overflow-y: auto; /* Scroll vertical */
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* Separación entre tarjetas */
+    background-color: var(--bg-secondary);
+}

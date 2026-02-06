@@ -17,18 +17,18 @@ def add_new_row_event_listener():
     clientside_callback(
         ClientsideFunction(
             namespace='add_row',
-            function_name='add_new_IB'
+            function_name='add_new_FR'
         ),
        inputs=UIM.io_generator(
             'Input', 'n_clicks',
             ui_type='Input',
-            ui_name='InputSelection',
+            ui_name='Filtro',
             ui_subtype='Button',
         ),
         output=UIM.io_generator(
             'Output', 'children',
             ui_type='Arranger',
-            ui_name='InputSelection',
+            ui_name='FilterSelection',
             ui_subtype=None,
         ),
         prevent_initial_call=True

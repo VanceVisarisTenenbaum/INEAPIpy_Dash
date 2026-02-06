@@ -1,7 +1,7 @@
 :root {
     /* Dimensiones */
     --header-height: 64px;
-    --sidebar-width-expanded: 320px; /* Más ancho para texto largo */
+    --sidebar-width-expanded: 70vw; /* Más ancho para texto largo */
     --sidebar-width-collapsed: 78px;
 
     /* Colores Tema Claro */
@@ -17,6 +17,7 @@
     --backdrop: rgba(0, 0, 0, 0.5);
 
     --accent: #4f46e5;
+    --text-muted: #64748b;
 }
 
 
@@ -32,12 +33,15 @@
         --primary: #818cf8;
         --primary-light: #312e81;
         --border: #334155;
+
+        --accent: #818cf8;
+        --text-muted: #94a3b8;
     }
 }
 
 
 /*Tema oscuro cuando switch esta en oscuro.*/
-#app-body[data-switch="dark"] {
+[data-switch="dark"] {
     --bg-body: #0f172a;
     --bg-header: #1e293b;
     --bg-sidebar: #1e293b;
@@ -49,6 +53,7 @@
     --border: #334155;
 
     --accent: #818cf8;
+    --text-muted: #94a3b8;
 }
 
 
@@ -61,3 +66,11 @@ body {
     overflow: hidden; /* Importante para el layout */
 }
 
+/* --- RESPONSIVE ADJUST --- */
+/* En móvil, el 70% es poco práctico, mejor 100% */
+@media (max-width: 768px) {
+    :root {
+        --sidebar-width-expanded: 100%; /* Ocupa todo en móvil */
+    }
+    .filter-list, .sidebar-title { padding: 20px; }
+}

@@ -13,6 +13,17 @@
     z-index: 10;
 }
 
+/* 1. TÍTULO */
+.sidebar-title {
+    padding: 24px 32px;
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: var(--text-main);
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-secondary); /* Ligero contraste con las tarjetas */
+}
+
 /* Ocultar texto al colapsar (PC) */
 #app-body:not([data-checked="1"]) .sidebar {
     opacity: 0;

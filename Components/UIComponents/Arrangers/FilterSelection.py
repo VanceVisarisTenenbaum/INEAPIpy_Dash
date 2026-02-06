@@ -21,7 +21,7 @@ from Components.UIComponents.Arrangers.VarValPairsBox import (make_vvp,
 
 UIM = UIManager()
 
-def InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp):
+def FiltersRow(row_lv1, op_comp, tab_comp, varvalbox_comp):
     """
     This box provides the next.
         - Operation Selection
@@ -29,9 +29,6 @@ def InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp):
             * Classification Selection [Optional]
         - Table Selection
         - Variable-Value Selection
-        -- Serie Selection
-            * Graph Selection.
-            * Axis Selection.
     """
     element = html.Div(
         children=[
@@ -48,35 +45,35 @@ def InputsGroupRow(row_lv1, op_comp, tab_comp, varvalbox_comp):
             )
         ],
         **{'id': UIM.id_generator(ui_type='Arranger',
-                                  ui_name='InputsGroupRow',
+                                  ui_name='FiltersRow',
                                   row_lv1=row_lv1)}
     )
     return element
 
 
-def InputSelectionBox(initial_IGR):
+def FilterSelectionBox(initial_FR):
     component = html.Div(
         children=[
             html.Div(
-                [initial_IGR],
-                className='RowSplitterBase RowSplitterBig',
+                [initial_FR],
+                className='filter-list',
                 **{'id': UIM.id_generator(ui_type='Arranger',
-                                          ui_name='InputSelection')}
+                                          ui_name='FilterSelection')}
             ),
-            NewRowButtonComp('InputSelection', None)
+            NewRowButtonComp('Filtro', None)
         ],
         **{'id': UIM.id_generator(ui_type='Arranger',
-                                  ui_name='InputSelection',
+                                  ui_name='FilterSelection',
                                   ui_subtype='Box')}
     )
     return component
 
 
-def make_IGR(row_lv1):
+def make_FR(row_lv1):
     OpC = OperationSelectBox(row_lv1)
     TbC = TableSelectBox(row_lv1, list())
     VVP = VarValPairBoxComponent(row_lv1, make_vvp(row_lv1, 1))
-    return InputsGroupRow(row_lv1, OpC, TbC, VVP)
+    return FiltersRow(row_lv1, OpC, TbC, VVP)
 
 
 

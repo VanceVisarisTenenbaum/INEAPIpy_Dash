@@ -1,0 +1,32 @@
+/* 3. BOTÓN AÑADIR (Final de lista) */
+.add-filter-container {
+    padding: 20px 32px;
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border);
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+}
+
+.btn-add-filter {
+    width: 100%;
+    padding: 16px;
+    background-color: transparent;
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+
+.btn-add-filter:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background-color: var(--bg-secondary);
+}

@@ -14,16 +14,19 @@ UIM = UIManager()
 def NewRowButtonComp(name, row_lv1=None):
 
     boton = html.Button(
-        'Nueva fila',
+        children=[
+            html.Span('+', className='plus-icon'),
+            html.Span('Añadir Nuevo ' + name)
+        ],
         n_clicks=0,
         **{'id': UIM.id_generator(ui_type='Input',
                                   ui_name=name,
                                   ui_subtype='Button',
                                   row_lv1=row_lv1)},
-        className = 'Button'
+        className = 'btn-add-filter'
     )
     comp = html.Div(
         children = [boton],
-        className = 'ButtonContainer'
+        className = 'add-filter-container'
     )
     return comp

@@ -7,7 +7,6 @@ Created on Fri Dec 19 16:40:05 2025
 """
 
 from dash import html, dcc
-from Components.UIComponents.Arrangers.InputsBox import (InputSelectionBox, make_IGR)
 
 from Components.UIComponents.Managers.UIManager import UIManager
 

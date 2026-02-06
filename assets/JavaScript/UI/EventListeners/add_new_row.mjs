@@ -1,7 +1,7 @@
 import Logger from '../../Logger/logger.mjs';
 import get_from_requests_storage from '../../Storage/RequestsStorage.mjs';
 import VVP from '../Arrangers/VarValPairsBox.mjs';
-import IGB from '../Arrangers/InputsBox.mjs';
+import FS from '../Arrangers/FilterSelection.mjs';
 import id_generator from '../Common/Functions/id_generator.mjs';
 import doc from '../Common/Functions/document_processing.mjs';
 import ctx from '../Common/Functions/ctx_processing.mjs';
@@ -34,21 +34,21 @@ function add_new_var_val_row(n_clicks, op_id){
     return patch.append([], newVVP).build();
 }
 
-function add_new_IB(n_clicks){
+function add_new_FR(n_clicks){
     logger.log(
         'Add new Inputs Row, function called',
-        ['Function', 'add_new_IB'],
+        ['Function', 'add_new_FR'],
         'Info',
         [n_clicks]
     )
     const patch = new dash_clientside.Patch;
-    const ISB_ID = id_generator('Arranger', 'InputSelection');
-    const current_children = doc.get_element_by_id(ISB_ID);
+    const FR_ID = id_generator('Arranger', 'FilterSelection');
+    const current_children = doc.get_element_by_id(FR_ID);
     const row_lv1 = current_children.children.length + 1;
-    const newIB = IGB.make_IGR(row_lv1);
+    const newIB = FS.make_FR(row_lv1);
     return patch.append([], newIB).build();
 }
-
+/*
 function add_new_row_process(n_clicks){
     const patch = new dash_clientside.Patch;
     const button_id = ctx.get_triggered_id();
@@ -62,18 +62,18 @@ function add_new_row_process(n_clicks){
     const row_lv1_ISB = current_children.length + 1;
     const row_lv1_VVP = button_id['Fila Nivel 1'];
     const name_new_row_map = {
-        'InputSelection': IGB.make_IGR(row_lv1_ISB),
+        'InputSelection': FS.make_FR(row_lv1_ISB),
         //'ParesVariableValor': VVP.make_vvp(row_lv1_VVP, row_lv1_ISB)
     };
     return patch.append([], name_new_row_map[button_id['Nombre']]).build();
 }
-
+*/
 window.dash_clientside = Object.assign(
     {},
     window.dash_clientside, {
         'add_row': {
             'add_new_var_val': add_new_var_val_row,
-            'add_new_IB': add_new_IB
+            'add_new_FR': add_new_FR
         }
     }
 );
