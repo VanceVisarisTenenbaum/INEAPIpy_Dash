@@ -1,0 +1,49 @@
+/* --- CONTENEDOR DE LA LISTA DE PARES --- */
+.pairs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Espacio vertical entre cada par añadido */
+    margin-bottom: 16px; /* Separación con el botón de "Añadir otro par" */
+    width: 100%;
+}
+
+/* --- ESTILO DE CADA FILA DE PAR --- */
+/* Esto mejora el .pair-item que te pasé antes para que tenga fondo y borde propio */
+.pair-item {
+    display: flex;
+    align-items: center; /* Centrar verticalmente la flecha y las cajas */
+    justify-content: space-between;
+    gap: 12px;
+
+    /* Le damos un contenedor visual al par completo */
+    background-color: var(--bg-primary); /* Fondo blanco/oscuro según tema */
+    border: 1px solid var(--logic-border-step);
+    padding: 10px;
+    border-radius: 8px;
+
+    /* Sombra sutil para separar del fondo de la rama */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    transition: border-color 0.2s;
+}
+
+.pair-item:hover {
+    border-color: var(--accent); /* Resaltar todo el par al pasar el ratón */
+}
+
+/* --- RESPONSIVE INTERNO --- */
+@media (max-width: 900px) {
+    /* En pantallas estrechas, cambiamos la dirección del par a columna */
+    .pair-item {
+        flex-direction: column;
+        align-items: stretch; /* Que las cajas ocupen todo el ancho */
+        gap: 8px;
+        padding: 12px;
+    }
+
+    /* La flecha rota para apuntar hacia abajo */
+    .pair-arrow {
+        transform: rotate(90deg);
+        margin: 0 auto; /* Centrar la flecha horizontalmente */
+        height: 20px;
+    }
+}

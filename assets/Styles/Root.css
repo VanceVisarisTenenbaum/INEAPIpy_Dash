@@ -18,6 +18,16 @@
 
     --accent: #4f46e5;
     --text-muted: #64748b;
+
+
+    /* Variables de la tarjeta */
+    --card-border: #e2e8f0;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+
+
+    --logic-line-color: #cbd5e1;
+    --logic-bg-step: #f8fafc;
+    --logic-border-step: #e2e8f0;
 }
 
 
@@ -36,6 +46,12 @@
 
         --accent: #818cf8;
         --text-muted: #94a3b8;
+
+        --card-border: #334155;
+
+        --logic-line-color: #475569;
+        --logic-bg-step: #0f172a;
+        --logic-border-step: #334155;
     }
 }
 

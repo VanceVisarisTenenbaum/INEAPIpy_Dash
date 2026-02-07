@@ -6,11 +6,20 @@ import ValorComponent from '../Inputs/ValorComponent.mjs';
 
 
 function VarValPair(var_comp, val_comp, row_lv1, row_lv2){
+
     const Comp = dash._html.Div({
-        'children':[var_comp, val_comp],
-        'className': 'ColSplitterBase',
-        'id': id_generator('Arranger', 'ParVariableValor', null, row_lv1, row_lv2)
-    });
+        'children': [
+            var_comp,
+            dash._html.Div({'children': '', 'className': 'svg left-right-arrow'}),
+            val_comp
+        ],
+        'className': 'pair-item',
+        'id': id_generator('Arranger',
+                           'ParVariableValor',
+                           null,
+                           row_lv1,
+                           row_lv2)
+    })
     return Comp;
 }
 
@@ -19,7 +28,7 @@ function VarValPairBoxComponent(row_lv1, initial_vvp){
     const vvp = dash._html.Div({
         'children': [initial_vvp],
         'id': id_generator('Arranger','ParesVariableValor', null, row_lv1),
-        'className': 'RowSplitterBase RowSplitterSmall'
+        'className': 'pairs-list'
     })
     const comp = dash._html.Div({
         'children': [vvp, NewRowButtonComp('ParesVariableValor', row_lv1)]

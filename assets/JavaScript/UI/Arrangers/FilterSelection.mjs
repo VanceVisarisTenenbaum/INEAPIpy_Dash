@@ -6,22 +6,81 @@ import TableComponent from '../Inputs/TableComponent.mjs';
 import VVP from './VarValPairsBox.mjs';
 
 function FiltersRow(row_lv1, op_comp, tab_comp, varvalbox_comp){
+
+
+    const CardHeader = dash._html.Header({
+        'children':[
+            dash._html.Span({'children': 'Filtro ' + String(row_lv1)}),
+            // Remove row button
+        ],
+        'className': 'card-header'
+    })
+
+    const OperationContainer = dash._html.Section({
+        'children': [
+            dash._html.Div({'children': 'Paso 1. Obligatorio.', 'className': 'step-label'}),
+            op_comp
+        ],
+        'className':'logic-step logic-step-primary'
+    })
+
+    const TableWrapper = dash._html.Div({
+        'children': tab_comp,
+        'className': 'branch-col branch-a'
+    })
+
+    const VVPWrapper = dash._html.Div({
+        'children': varvalbox_comp,
+        'className': 'branch-col branch-b'
+    })
+
+    const TablaVariableValorGrid = dash._html.Div({
+        'children': [
+            TableWrapper,
+            dash._html.Div({'children': '', 'className': 'or-divider-vertical'}),
+            VVPWrapper
+        ],
+        'className': 'branches-grid',
+        'id': id_generator('Arranger',
+                           'TablaVVP',
+                           null,
+                           row_lv1)
+    })
+
+    const TableVariableValueWrapper = dash._html.Section({
+        'children':[
+            dash._html.Div({'children': 'Paso 2. Selecciona al menos una opción',
+                            'className': 'branch-label'}),
+            TablaVariableValorGrid
+        ],
+        'className': 'logic-branch-wrapper'
+    })
+
+    const FiltersWrapper = dash._html.Section({
+        'children': [
+            OperationContainer,
+            dash._html.Div({'children': '', 'className': 'svg top-down-arrow'}),
+            TableVariableValueWrapper
+        ],
+        'className': 'logic-flow-wrapper',
+        'id': id_generator('Arranger',
+                           'FiltersRow',
+                           null,
+                           row_lv1)
+    })
+
     const comp = dash._html.Div({
         'children': [
-            op_comp,
-            dash._html.Div({
-                'children': [tab_comp, varvalbox_comp],
-                'className': 'ColSplitterBase ColSplitterBig',
-                'id': id_generator('Arranger', 'TablaVVP', null, row_lv1)
-            })
+            CardHeader,
+            FiltersWrapper
         ],
-        'id': id_generator('Arranger', 'FiltersRow', null, row_lv1)
+        'className': 'filters-card'
     })
 
     return comp;
 }
 
-function InputSelectionBox(initial_IGR){
+function FilterSelectionBox(initial_IGR){
     const comp = dash._html.Div({
         'children': [
             _html.Div({
@@ -47,4 +106,4 @@ function make_FR(row_lv1){
 }
 
 
-export default {InputsGroupRow, InputSelectionBox, make_FR};
+export default {FiltersRow, FilterSelectionBox, make_FR};

@@ -8,21 +8,38 @@ function SelectComponent(list_of_ine_obj,
                          fila_lv1, fila_lv2='',
                          multi=false){
 
-    if (list_of_ine_obj === null){list_of_ine_obj = [];}
 
-    let placeholder_v;
-    if (multi){placeholder_v = 'Selecciona una o varias ' + name;}
-    else {placeholder_v = 'Selecciona una '  + name;}
+    let list_of_labels_values;
+    if (list_of_ine_obj === null){list_of_labels_values = [];}
+    else {list_of_labels_values = extract_labels_values(list_of_ine_obj)}
 
-    let IC = dash._dcc.Dropdown({
-        'options': extract_labels_values(list_of_ine_obj),
+
+
+    const summary = dash._html.Summary({
+        'children': [
+            dash._html.H3({'children': name}),
+            dash._html.Span({'children': '', 'className': 'svg chevron-down'})
+        ],
+        'className': 'collapse-header'
+    })
+
+    const selection = dash._dcc.RadioItems({
+        'options': list_of_labels_values,
+        'className': 'radio-custom',
         'value': null,
-        'id': id_generator('Input', name, 'Dropdown', fila_lv1, fila_lv2),
-        'className': 'Input Dropdown',
-        'multi': multi,
-        'placeholder': placeholder_v
-    });
-    return LabelInput(name, IC);
+        'id': id_generator('Input', name, 'Dropdown', fila_lv1, fila_lv2)
+    })
+
+    const component = dash._html.Details({
+        'children': [
+            summary,
+            selection
+        ],
+        'className': 'custom-collapse'
+    })
+
+
+    return component;
 }
 
 

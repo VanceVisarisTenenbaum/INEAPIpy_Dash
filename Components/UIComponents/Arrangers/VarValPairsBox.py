@@ -35,14 +35,20 @@ becomes a param.
 UIM = UIManager()
 def VarValPair(var_comp, val_comp, row_lv1, row_lv2):
     """Returns a well placed pair of var-values selects."""
+
     component = html.Div(
-        children=[var_comp, val_comp],
-        className='ColSplitterBase',
+        children=[
+            var_comp,
+            html.Div('', className='svg left-right-arrow'),
+            val_comp
+        ],
+        className='pair-item',
         **{'id': UIM.id_generator(ui_type='Arranger',
                                   ui_name='ParVariableValor',
                                   row_lv1=row_lv1,
                                   row_lv2=row_lv2)}
     )
+
     return component
 
 
@@ -53,7 +59,7 @@ def VarValPairBoxComponent(row_lv1, initial_varvalpair):
         **{'id': UIM.id_generator(ui_type='Arranger',
                                   ui_name='ParesVariableValor',
                                   row_lv1=row_lv1)},
-        className='RowSplitterBase RowSplitterSmall'
+        className='pairs-list'
     )
     component = html.Div(
         children=[vvp, NewRowButtonComp('ParesVariableValor', row_lv1)]

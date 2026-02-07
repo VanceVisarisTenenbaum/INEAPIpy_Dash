@@ -6,7 +6,7 @@ Created on Tue Dec 16 18:46:04 2025
 @author: mano
 """
 
-from dash import dcc
+from dash import dcc, html
 from Components.UIComponents.Managers.UIManager import UIManager
 from Components.UIComponents.Common.LabelInput import LabelInput
 from Components.SharedFunctions import extract_labels_values
@@ -19,6 +19,8 @@ def SelectComponent(list_of_ine_obj,
                     multi=False):
     """Returns a select for variables or values."""
     list_of_labels_values = extract_labels_values(list_of_ine_obj)
+
+    """
     if multi:
         placeholder = 'Selecciona una o varias ' + name
     else:
@@ -37,5 +39,32 @@ def SelectComponent(list_of_ine_obj,
         placeholder=placeholder
     )
 
-    component = LabelInput(name, InputComponent, 'top')
+    #component = LabelInput(name, InputComponent, 'top')
+    """
+
+    summary = html.Summary(
+        children=[
+            html.H3(name),
+            html.Span('', className='svg chevron-down')
+        ],
+        className='collapse-header'
+    )
+
+    selection = dcc.RadioItems(
+        options=list_of_labels_values,
+        className='radio-custom',
+        value=None,
+        **{'id': UIM.id_generator(ui_type='Input',
+                                  ui_name=name,
+                                  ui_subtype='Dropdown',
+                                  row_lv1=fila_lv1,
+                                  row_lv2=fila_lv2)},
+    )
+    component = html.Details(
+        children=[
+            summary,
+            selection
+        ],
+        className='custom-collapse'
+    )
     return component

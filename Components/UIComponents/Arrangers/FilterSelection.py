@@ -30,23 +30,72 @@ def FiltersRow(row_lv1, op_comp, tab_comp, varvalbox_comp):
         - Table Selection
         - Variable-Value Selection
     """
-    element = html.Div(
+
+    CardHeader = html.Div(
         children=[
-            op_comp,
-            html.Div(
-                children=[
-                    tab_comp,
-                    varvalbox_comp
-                ],
-                className='ColSplitterBase ColSplitterBig',
-                **{'id': UIM.id_generator(ui_type='Arranger',
-                                          ui_name='TablaVVP',
-                                          row_lv1=row_lv1)}
-            )
+            html.Span('Filtro ' + str(row_lv1)),
+            # Remove row button
         ],
+        className='card-header'
+    )
+
+    OperationContainer = html.Section(
+        children=[
+            html.Div('Paso 1. Obligatorio', className='step-label'),
+            op_comp
+        ],
+        className='logic-step logic-step-primary'
+    )
+
+    TableWrapper = html.Div(
+        children=tab_comp,
+        className='branch-col branch-a'
+    )
+
+    VVPWrapper = html.Div(
+        children=varvalbox_comp,
+        className='branch-col branch-b'
+    )
+
+    TablaVariableValorGrid = html.Div(
+        children=[
+            TableWrapper,
+            html.Div('', className='or-divider-vertical'),
+            VVPWrapper
+        ],
+        className='branches-grid',
+        **{'id': UIM.id_generator(ui_type='Arranger',
+                                  ui_name='TablaVVP',
+                                  row_lv1=row_lv1)}
+    )
+
+    TableVariableValueWrapper = html.Section(
+        children=[
+            html.Div('Paso 2. Selecciona al menos una opción',
+                     className='branch-label'),
+            TablaVariableValorGrid
+        ],
+        className='logic-branch-wrapper'
+    )
+
+    FiltersWrapper = html.Section(
+        children = [
+            OperationContainer,
+            html.Div('', className='svg top-down-arrow'),
+            TableVariableValueWrapper
+        ],
+        className = 'logic-flow-wrapper',
         **{'id': UIM.id_generator(ui_type='Arranger',
                                   ui_name='FiltersRow',
                                   row_lv1=row_lv1)}
+    )
+
+    element = html.Div(
+        children=[
+            CardHeader,
+            FiltersWrapper
+        ],
+        className='filters-card'
     )
     return element
 

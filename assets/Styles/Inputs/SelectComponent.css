@@ -1,0 +1,87 @@
+/* --- ESTILO DE LOS COLAPSABLES (DETAILS/SUMMARY) --- */
+.custom-collapse {
+    background: var(--bg-primary); /* Fondo blanco/oscuro */
+    border: 1px solid var(--logic-border-step);
+    border-radius: 8px;
+    width: 100%;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+/* Cuando está abierto, borde resaltado */
+.custom-collapse[open] {
+    border-color: var(--accent);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+.collapse-header {
+    list-style: none; /* Quitar triángulo por defecto */
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: var(--logic-bg-step);
+    transition: background 0.2s;
+}
+/* Hack para quitar marker en Safari/Webkit */
+.collapse-header::-webkit-details-marker { display: none; }
+
+.collapse-header:hover { background-color: var(--border-color); }
+
+.collapse-header h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+
+/* Rotar flecha al abrir */
+.custom-collapse[open] .chevron-down { transform: rotate(180deg); }
+
+.collapse-content {
+    padding: 16px;
+    border-top: 1px solid var(--logic-border-step);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--bg-primary);
+}
+
+/* --- RADIO BUTTONS PERSONALIZADOS --- */
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+.radio-option:hover { background: var(--bg-secondary); }
+
+/* Ocultar input nativo */
+.radio-option input { display: none; }
+
+.radio-custom {
+    width: 18px; height: 18px;
+    border: 2px solid var(--text-muted);
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.radio-option input:checked + .radio-custom {
+    border-color: var(--accent);
+}
+
+.radio-option input:checked + .radio-custom::after {
+    content: '';
+    position: absolute;
+    top: 3px; left: 3px; right: 3px; bottom: 3px;
+    background: var(--accent);
+    border-radius: 50%;
+}
+
+.radio-text { font-size: 0.9rem; color: var(--text-main); }

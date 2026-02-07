@@ -49,8 +49,8 @@ const new_dash_component = function(namespace_type,
     return t;
 }
 
-const html_components = 'A Br Button Canvas Div H1 H2 H3 H4 H5 H6 Hr Link P Span Table Tbody Tr Th Td';
-const dcc_components = 'Dropdown Graph Input Interval Link Slider Store Tab Tabs Textarea';
+const html_components = 'A Br Button Canvas Div H1 H2 H3 H4 H5 H6 Hr Link P Span Table Tbody Tr Th Td Header Section Summary Details';
+const dcc_components = 'Dropdown Graph Input Interval Link Slider Store Tab Tabs Textarea RadioItems';
 const daq_components = 'Slider';
 const dbc_components = 'Button Checklist Input';
 const dag_components = 'AgGrid';
