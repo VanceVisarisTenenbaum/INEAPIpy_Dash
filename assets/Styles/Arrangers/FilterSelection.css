@@ -31,6 +31,9 @@
     /* Para manejar textos muy largos */
     max-width: 100%;
     word-wrap: break-word;
+
+    max-height: 600px;
+    overflow-y: auto;
 }
 
 .filters-card:hover {
@@ -46,11 +49,17 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    gap: 5px;
 }
 
 
 /* PASO 1 (AND) */
-.logic-step { width: 100%; position: relative; }
+.logic-step {
+    width: 100%;
+    position:
+    relative;
+    min-height: 0px;
+}
 .step-label {
     font-size: 0.75rem;
     font-weight: 700;
@@ -86,11 +95,9 @@
 
 /* RAMIFICACIÓN (OR) */
 .logic-branch-wrapper {
-    width: 100%;
     border: 1px dashed var(--logic-line-color);
     border-radius: 12px;
     padding: 16px;
-    position: relative;
     background: rgba(128, 128, 128, 0.02);
 }
 
@@ -104,6 +111,7 @@
     font-size: 0.75rem;
     font-weight: 700;
     color: var(--text-muted);
+    padding-bottom: 10px;
 }
 
 .branches-grid {

@@ -28,6 +28,9 @@
     --logic-line-color: #cbd5e1;
     --logic-bg-step: #f8fafc;
     --logic-border-step: #e2e8f0;
+
+    --danger: #ef4444; /* Rojo estándar */
+    --danger-bg: rgba(239, 68, 68, 0.1); /* Rojo muy suave para hover */
 }
 
 

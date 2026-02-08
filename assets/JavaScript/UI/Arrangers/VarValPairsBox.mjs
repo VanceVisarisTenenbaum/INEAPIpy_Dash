@@ -1,6 +1,7 @@
 import dash from '../Common/dash_components.mjs';
 import id_generator from '../Common/Functions/id_generator.mjs';
 import NewRowButtonComp from '../Common/NewRowButton.mjs';
+import RemoveRowButton from '../Common/RemoveRowButton.mjs';
 import VariableComponent from '../Inputs/VariableComponent.mjs';
 import ValorComponent from '../Inputs/ValorComponent.mjs';
 
@@ -11,7 +12,8 @@ function VarValPair(var_comp, val_comp, row_lv1, row_lv2){
         'children': [
             var_comp,
             dash._html.Div({'children': '', 'className': 'svg left-right-arrow'}),
-            val_comp
+            val_comp,
+            RemoveRowButton(row_lv1, row_lv2, true)
         ],
         'className': 'pair-item',
         'id': id_generator('Arranger',

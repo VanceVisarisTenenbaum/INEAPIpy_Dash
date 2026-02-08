@@ -1,6 +1,7 @@
 import dash from '../Common/dash_components.mjs';
 import id_generator from '../Common/Functions/id_generator.mjs';
 import NewRowButtonComp from '../Common/NewRowButton.mjs';
+import RemoveRowButton from '../Common/RemoveRowButton.mjs';
 import OperationComponent from '../Inputs/OperationComponent.mjs';
 import TableComponent from '../Inputs/TableComponent.mjs';
 import VVP from './VarValPairsBox.mjs';
@@ -53,7 +54,7 @@ function FiltersRow(row_lv1, op_comp, tab_comp, varvalbox_comp){
                             'className': 'branch-label'}),
             TablaVariableValorGrid
         ],
-        'className': 'logic-branch-wrapper'
+        'className': 'logic-step logic-branch-wrapper'
     })
 
     const FiltersWrapper = dash._html.Section({
@@ -71,6 +72,7 @@ function FiltersRow(row_lv1, op_comp, tab_comp, varvalbox_comp){
 
     const comp = dash._html.Div({
         'children': [
+            RemoveRowButton(row_lv1),
             CardHeader,
             FiltersWrapper
         ],

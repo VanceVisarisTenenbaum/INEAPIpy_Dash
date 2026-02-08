@@ -9,6 +9,16 @@ import ctx from '../Common/Functions/ctx_processing.mjs';
 
 const logger = new Logger();
 
+
+function get_id_key(children, key){
+    const id_str = children.id;
+    return JSON.parse(id_str)[key];
+}
+
+function get_max_key(childrens_list, key){
+    return Math.max(...Array.from(childrens_list, el => get_id_key(el, key)))
+}
+
 function add_new_var_val_row(n_clicks, op_id){
     logger.log(
         'Add new Variable Value Pair Row, function called',
@@ -24,12 +34,13 @@ function add_new_var_val_row(n_clicks, op_id){
 
     const current_children = doc.get_element_by_id(VVPB_id).children;
 
-    const row_lv2 = current_children.length + 1;
+    const last_row = get_max_key(current_children, 'Fila Nivel 2');
+    const row_lv2 = last_row + 1;
 
     //const op_id = ctx.get_value_of_matching_state(['Fila Nivel 1']);
 
     const variables = get_from_requests_storage('Variable', op_id);
-    const newVVP = VVP.make_vvp(row_lv1, row_lv2 + 1, variables, null);
+    const newVVP = VVP.make_vvp(row_lv1, row_lv2, variables, null);
 
     return patch.append([], newVVP).build();
 }
@@ -43,8 +54,9 @@ function add_new_FR(n_clicks){
     )
     const patch = new dash_clientside.Patch;
     const FR_ID = id_generator('Arranger', 'FilterSelection');
-    const current_children = doc.get_element_by_id(FR_ID);
-    const row_lv1 = current_children.children.length + 1;
+    const current_children = doc.get_element_by_id(FR_ID).children;
+    const last_row = get_max_key(current_children, 'Fila Nivel 1');
+    const row_lv1 = last_row + 1;
     const newIB = FS.make_FR(row_lv1);
     return patch.append([], newIB).build();
 }

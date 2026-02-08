@@ -63,7 +63,10 @@ def SelectComponent(list_of_ine_obj,
     component = html.Details(
         children=[
             summary,
-            selection
+            html.Div(
+                selection,
+                className='collapse-content'
+            )
         ],
         className='custom-collapse'
     )

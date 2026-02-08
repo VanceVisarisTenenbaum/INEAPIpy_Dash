@@ -5,7 +5,9 @@
     border-radius: 8px;
     width: 100%;
     transition: all 0.3s ease;
-    overflow: hidden;
+    color: var(--text-primary);
+    mex-height: 300px;
+
 }
 
 /* Cuando está abierto, borde resaltado */
@@ -47,6 +49,8 @@
     flex-direction: column;
     gap: 10px;
     background: var(--bg-primary);
+    max-height: 250px;
+    overflow-y: auto;
 }
 
 /* --- RADIO BUTTONS PERSONALIZADOS --- */
@@ -56,20 +60,24 @@
     gap: 10px;
     cursor: pointer;
     padding: 8px;
-    border-radius: 6px;
     transition: background 0.2s;
 }
 .radio-option:hover { background: var(--bg-secondary); }
+
+/*Needed to avoid dash from setting its own color*/
+.dash-options-list-option-text span {
+    color: var(--text-primary)
+}
 
 /* Ocultar input nativo */
 .radio-option input { display: none; }
 
 .radio-custom {
-    width: 18px; height: 18px;
     border: 2px solid var(--text-muted);
-    border-radius: 50%;
     position: relative;
     flex-shrink: 0;
+    max-height: 250px;
+    overflow-y: auto;
 }
 
 .radio-option input:checked + .radio-custom {

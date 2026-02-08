@@ -1,0 +1,91 @@
+
+
+/* --- CLASE BASE PARA BOTÓN DE ELIMINAR --- */
+.btn-delete {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted); /* Gris por defecto */
+    border-radius: 6px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+}
+
+/* Efecto Hover: Fondo rojo suave e icono rojo intenso */
+.btn-delete:hover {
+    background-color: var(--danger-bg);
+    color: var(--danger);
+    transform: scale(1.05); /* Pequeño zoom */
+}
+
+.btn-delete:active {
+    transform: scale(0.95);
+}
+
+/* --- ESTILO ESPECÍFICO: TARJETA PRINCIPAL --- */
+.filters-card {
+    position: relative; /* Necesario para posicionar el botón absolute */
+}
+
+.btn-delete-card {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px; /* Un poco más grande para ser clicable fácil */
+    height: 32px;
+    z-index: 2; /* Por encima del contenido */
+    opacity: 0; /* Oculto por defecto para limpieza visual */
+    transform: translateY(5px);
+}
+
+/* Mostrar botón solo al pasar el mouse por la tarjeta */
+.filters-card:hover .btn-delete-card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* En móvil, mostrar siempre porque no hay hover */
+@media (hover: none) {
+    .btn-delete-card { opacity: 1; transform: translateY(0); }
+}
+
+
+/* --- ESTILO ESPECÍFICO: PAR (PAIR ITEM) --- */
+.btn-delete-pair {
+    flex-shrink: 0; /* Evita que el botón se aplaste */
+    width: 28px;
+    height: 28px;
+    margin-left: 4px;
+    border: 1px solid transparent; /* Para evitar saltos al hover */
+}
+
+.btn-delete-pair:hover {
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+/* Ajuste Icono Par: Usamos una "X" más simple o un cubo de basura pequeño */
+.btn-delete-pair svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* --- AJUSTE RESPONSIVE PARA EL PAR --- */
+@media (max-width: 900px) {
+    .pair-item {
+        position: relative; /* Para posicionar la X si hace falta */
+        padding-right: 40px; /* Espacio para el botón de borrar */
+    }
+
+    .btn-delete-pair {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        margin: 0;
+        background-color: var(--bg-body); /* Fondo para tapar líneas si cruza */
+        border: 1px solid var(--border-color);
+        color: var(--danger); /* En móvil, rojo siempre para identificar la acción */
+    }
+}

@@ -11,6 +11,7 @@ from Components.UIComponents.Managers.UIManager import UIManager
 from Components.UIComponents.Common.NewRowButton import NewRowButtonComp
 from Components.UIComponents.Inputs.VariableComponent import VariableComponent
 from Components.UIComponents.Inputs.ValorComponent import ValorComponent
+from Components.UIComponents.Common.DeleteRowButton import DeleteRowButton
 
 
 
@@ -40,7 +41,8 @@ def VarValPair(var_comp, val_comp, row_lv1, row_lv2):
         children=[
             var_comp,
             html.Div('', className='svg left-right-arrow'),
-            val_comp
+            val_comp,
+            DeleteRowButton(row_lv1, row_lv2, True)
         ],
         className='pair-item',
         **{'id': UIM.id_generator(ui_type='Arranger',

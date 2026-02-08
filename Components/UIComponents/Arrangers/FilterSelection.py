@@ -18,6 +18,7 @@ from Components.UIComponents.Inputs.OperationComponent import OperationSelectBox
 from Components.UIComponents.Inputs.TableComponent import TableSelectBox
 from Components.UIComponents.Arrangers.VarValPairsBox import (make_vvp,
                                                               VarValPairBoxComponent)
+from Components.UIComponents.Common.DeleteRowButton import DeleteRowButton
 
 UIM = UIManager()
 
@@ -75,7 +76,7 @@ def FiltersRow(row_lv1, op_comp, tab_comp, varvalbox_comp):
                      className='branch-label'),
             TablaVariableValorGrid
         ],
-        className='logic-branch-wrapper'
+        className='logic-step logic-branch-wrapper'
     )
 
     FiltersWrapper = html.Section(
@@ -92,6 +93,7 @@ def FiltersRow(row_lv1, op_comp, tab_comp, varvalbox_comp):
 
     element = html.Div(
         children=[
+            DeleteRowButton(row_lv1),
             CardHeader,
             FiltersWrapper
         ],

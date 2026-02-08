@@ -33,7 +33,7 @@ function SelectComponent(list_of_ine_obj,
     const component = dash._html.Details({
         'children': [
             summary,
-            selection
+            dash._html.Div({'children': selection, 'className': 'collapse-content'})
         ],
         'className': 'custom-collapse'
     })
