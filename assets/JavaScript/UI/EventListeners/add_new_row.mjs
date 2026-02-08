@@ -16,17 +16,17 @@ function get_id_key(children, key){
 }
 
 function get_max_key(childrens_list, key){
-    return Math.max(...Array.from(childrens_list, el => get_id_key(el, key)))
+    if (childrens_list.length < 1){return 0;}
+    return Math.max(...Array.from(childrens_list, el => get_id_key(el, key)));
 }
 
-function add_new_var_val_row(n_clicks, op_id){
+function add_new_var_val_row(op_id){
     logger.log(
         'Add new Variable Value Pair Row, function called',
         ['Function', 'add_new_var_val_row'],
         'Info',
-        [n_clicks, op_id]
+        [op_id]
     )
-    const patch = new dash_clientside.Patch;
     const triggered_id = ctx.get_triggered_id();
 
     const row_lv1 = triggered_id['Fila Nivel 1'];
@@ -42,23 +42,22 @@ function add_new_var_val_row(n_clicks, op_id){
     const variables = get_from_requests_storage('Variable', op_id);
     const newVVP = VVP.make_vvp(row_lv1, row_lv2, variables, null);
 
-    return patch.append([], newVVP).build();
+    return newVVP;
 }
 
-function add_new_FR(n_clicks){
+function add_new_FR(){
     logger.log(
         'Add new Inputs Row, function called',
         ['Function', 'add_new_FR'],
         'Info',
-        [n_clicks]
     )
-    const patch = new dash_clientside.Patch;
+
     const FR_ID = id_generator('Arranger', 'FilterSelection');
     const current_children = doc.get_element_by_id(FR_ID).children;
     const last_row = get_max_key(current_children, 'Fila Nivel 1');
     const row_lv1 = last_row + 1;
     const newIB = FS.make_FR(row_lv1);
-    return patch.append([], newIB).build();
+    return newIB;
 }
 /*
 function add_new_row_process(n_clicks){
@@ -80,6 +79,9 @@ function add_new_row_process(n_clicks){
     return patch.append([], name_new_row_map[button_id['Nombre']]).build();
 }
 */
+
+export default {add_new_var_val_row, add_new_FR};
+
 window.dash_clientside = Object.assign(
     {},
     window.dash_clientside, {

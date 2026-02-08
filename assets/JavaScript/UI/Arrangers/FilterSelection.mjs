@@ -76,7 +76,11 @@ function FiltersRow(row_lv1, op_comp, tab_comp, varvalbox_comp){
             CardHeader,
             FiltersWrapper
         ],
-        'className': 'filters-card'
+        'className': 'filters-card',
+        'id': id_generator('Arranger',
+                           'FiltersCardRow',
+                           null,
+                           row_lv1)
     })
 
     return comp;

@@ -97,7 +97,10 @@ def FiltersRow(row_lv1, op_comp, tab_comp, varvalbox_comp):
             CardHeader,
             FiltersWrapper
         ],
-        className='filters-card'
+        className='filters-card',
+        **{'id': UIM.id_generator(ui_type='Arranger',
+                                  ui_name='FiltersCardRow',
+                                  row_lv1=row_lv1)}
     )
     return element
 

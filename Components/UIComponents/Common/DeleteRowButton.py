@@ -16,14 +16,16 @@ def DeleteRowButton(row_lv1, row_lv2=None, is_pair=False):
     if is_pair:
         class_name = 'cross'
         class_2 = 'btn-delete-pair'
+        name = 'EliminarPar'
     else:
         class_name = 'trash-can'
         class_2 = 'btn-delete-card'
+        name = 'EliminarFiltro'
 
 
     comp = html.Button(
         children=html.Div('', className='svg ' + class_name),
         className='btn-delete ' + class_2,
-        **{'id': UIM.id_generator('Input', 'EliminarFila', 'Button', row_lv1, row_lv2)}
+        **{'id': UIM.id_generator('Input', name, 'Button', row_lv1, row_lv2)}
     )
     return comp
