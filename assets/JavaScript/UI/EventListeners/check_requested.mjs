@@ -14,9 +14,8 @@ const logger = new Logger();
 function check_requested(input_, server_dummy_storage, client_dummy_storage){
     const id_ = ctx.get_triggered_id();
     const input_type = get(id_, 'Nombre', null);
-    const input_val = ctx.get_triggered_value();
-    const data = get_from_requests_storage(input_type, input_val);
-    const valor = ctx.get_triggered_value()
+    const valor = ctx.get_triggered_value();
+
     logger.log(
         'Checking if value is already requested',
         ['Function', 'check_requested'],
@@ -24,8 +23,15 @@ function check_requested(input_, server_dummy_storage, client_dummy_storage){
         [id_, valor]
     );
 
+    const input_output_map = {
+        'Operacion': 'Variable',
+        'Variable': 'Valor'
+    }
+
+    const data = get_from_requests_storage(input_output_map[input_type], valor);
+
     const out_ = {'Input Type': input_type, 'Valor': valor, 'Id': id_};
-    if (data === null){
+    if (data != null){
         client_dummy_storage['last_update'] = out_;
         return ctx.no_update(), client_dummy_storage;
     }

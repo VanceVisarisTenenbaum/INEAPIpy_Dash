@@ -102,8 +102,8 @@ def data_requesting_maker():
 
         input_type = input_['Input Type']
         input_val = input_['Valor']
-        requests_storage, client_dummy_storage = request_process(input_type, input_val,
-                                                                 requests_storage)
+        requests_storage = request_process(input_type, input_val,
+                                           requests_storage)
 
         client_dummy_storage = DSM.add_update(
             input_,

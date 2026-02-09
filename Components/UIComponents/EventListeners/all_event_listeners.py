@@ -22,7 +22,7 @@ def add_event_listeners():
     update_row_event_listener()
     enable_buttons_event_listener()
     store_input_to_state_event_listener()
-    #add_options_event_listener()
+    add_options_event_listener()
     check_requested_event_listener()
     add_sidebar_toggle_event_listener()
     add_light_dark_event_listener()

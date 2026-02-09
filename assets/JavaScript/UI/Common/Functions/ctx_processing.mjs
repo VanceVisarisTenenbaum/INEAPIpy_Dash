@@ -41,7 +41,7 @@ function get_value_of_matching_state(matching_properties){
 }
 
 function no_update(){
-    return window.dash_clientside.no_update;
+    return dash_clientside.no_update;
 }
 
 export default {get_triggered_id, get_triggered_value, get_states,
