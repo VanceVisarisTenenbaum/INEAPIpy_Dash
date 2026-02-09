@@ -26,26 +26,12 @@ def check_requested_event_listener():
             row_lv1='ALL',
             row_lv2='ALL'
         ),
-        state=[
-            UIM.io_generator(
-                'State', 'data',
-                ui_type='Storage',
-                ui_name='Dummy',
-                ui_subtype='Server'
-                ),
-            UIM.io_generator(
-                'State', 'data',
-                ui_type='Storage',
-                ui_name='Dummy',
-                ui_subtype='Client'
-                ),
-        ],
         output=[
             UIM.io_generator(
                 'Output', 'data',
                 ui_type='Storage',
                 ui_name='Dummy',
-                ui_subtype='Server'
+                ui_subtype='Server',
             ),
             UIM.io_generator(
                 'Output', 'data',

@@ -11,7 +11,7 @@ import get from '../Common/Functions/dictionary_processing.mjs';
 const logger = new Logger();
 
 
-function check_requested(input_, server_dummy_storage, client_dummy_storage){
+function check_requested(input_){
     const id_ = ctx.get_triggered_id();
     const input_type = get(id_, 'Nombre', null);
     const valor = ctx.get_triggered_value();
@@ -28,15 +28,20 @@ function check_requested(input_, server_dummy_storage, client_dummy_storage){
         'Variable': 'Valor'
     }
 
+    if (!Object.keys(input_output_map).includes(input_type)){
+        return [ctx.no_update(), ctx.no_update()];
+    }
+
     const data = get_from_requests_storage(input_output_map[input_type], valor);
 
+    var patch = new dash_clientside.Patch;
+
     const out_ = {'Input Type': input_type, 'Valor': valor, 'Id': id_};
+    const _patch = patch.assign(['last_update'], out_).build();
     if (data != null){
-        client_dummy_storage['last_update'] = out_;
-        return ctx.no_update(), client_dummy_storage;
+        return [ctx.no_update(), _patch];
     }
-    server_dummy_storage['last_update'] = out_;
-    return server_dummy_storage, ctx.no_update();
+    return [_patch, ctx.no_update()];
 }
 
 

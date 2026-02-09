@@ -58,7 +58,7 @@ def data_requesting_maker():
         obj_type = input_type_to_request_type_map[input_name]
         obj_depend = [input_value for _ in obj_type]
         # Same value for each object to request.
-        requests_storage = RSM.get_object_loop(input_value,
+        requests_storage = RSM.get_object_loop(obj_type,
                                                obj_depend,
                                                requests_storage)
 
@@ -85,14 +85,16 @@ def data_requesting_maker():
             UIM.io_generator('Output', 'data',
                              ui_type='Storage',
                              ui_name='Dummy',
-                             ui_subtype='Server'),
+                             ui_subtype='Server',
+                             allow_duplicate=True),
             UIM.io_generator('Output', 'data',
                              ui_type='Storage',
                              ui_name='Requests'),
             UIM.io_generator('Output', 'data',
                              ui_type='Storage',
                              ui_name='Dummy',
-                             ui_subtype='Client'),
+                             ui_subtype='Client',
+                             allow_duplicate=True),
         ],
         prevent_initial_call=True
     )
@@ -117,5 +119,5 @@ def data_requesting_maker():
     return None
 
 def data_request_event_listener_adder():
-
+    data_requesting_maker()
     return None

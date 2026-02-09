@@ -15,14 +15,21 @@ def add_options_event_listener():
 
     clientside_callback(
         ClientsideFunction(
-            namespace='add_options_to_inputs',
-            function_name='add_options_to_inputs'
+            namespace='add_options_to',
+            function_name='add_options_to_input'
         ),
         inputs=UIM.io_generator(
             'Input', 'data',
             ui_type='Storage',
             ui_name='Dummy',
             ui_subtype='Client'
+        ),
+        output=UIM.io_generator(
+            'Output', 'data',
+            ui_type='Storage',
+            ui_name='Dummy',
+            ui_subtype='Client',
+            allow_duplicate=True
         ),
         prevent_initial_call=True
     )

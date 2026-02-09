@@ -24,7 +24,7 @@ function update_var_val_row(n_clicks_add, n_clicks_remove, op_id){
 }
 
 function update_filter_row(n_clicks_add, n_clicks_remove){
-    const patch = new dash_clientside.Patch;
+    var patch = new dash_clientside.Patch;
     const triggered_id = ctx.get_triggered_id();
     const triggered_id_name = triggered_id['Nombre'];
 

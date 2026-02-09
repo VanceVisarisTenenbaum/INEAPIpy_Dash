@@ -37,6 +37,7 @@ function add_options_to_input(client_dummy_storage){
     else {row_lv2 = id_['Fila Nivel 2'];}
     for (let output_type of input_output_map[input_['Input Type']]){
 
+        if (output_type === 'Tabla'){row_lv2 = '';}
         output_id = id_generator(
             'Input', output_type, 'Dropdown',
             id_['Fila Nivel 1'],
@@ -45,15 +46,16 @@ function add_options_to_input(client_dummy_storage){
         options = get_valid_options(output_type, input_['Valor']);
         dash_clientside.set_props(output_id, {'options': options});
     }
-
-    return null;
+    var patch = new dash_clientside.Patch;
+    const patch_ = patch.assign(['last_updated'], -1).build();
+    return patch_;
 }
 
 
 window.dash_clientside = Object.assign(
     {},
     window.dash_clientside, {
-        'add_options_to_inputs': {
+        'add_options_to': {
             'add_options_to_input': add_options_to_input,
         }
     }
