@@ -7,8 +7,12 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 24px;
-    z-index: 20; /* Por encima del sidebar en móvil */
+    z-index: var(--z-header); /* Por encima del sidebar en móvil */
     color: var(--text-primary)
+
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 .header-left { display: flex; align-items: center; gap: 16px;}
 

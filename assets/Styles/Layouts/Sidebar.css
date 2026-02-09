@@ -11,6 +11,12 @@
     overflow-x: hidden;
     white-space: nowrap; /* Evita saltos de línea durante la animación */
     z-index: 10;
+
+    position: fixed;
+    top: var(--header-height); /* Debajo del header */
+    left: 0;
+    bottom: 0;
+    width: var(--sidebar-width-expanded); /* Ancho inicial (80px) */
 }
 
 /* 1. TÍTULO */

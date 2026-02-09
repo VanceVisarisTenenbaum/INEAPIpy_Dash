@@ -12,7 +12,14 @@ const logger = new Logger();
 
 
 function check_requested(input_){
+
+
     const id_ = ctx.get_triggered_id();
+
+    if (id_ === null || id_ === undefined){
+        return [ctx.no_update(), ctx.no_update()];
+    }
+
     const input_type = get(id_, 'Nombre', null);
     const valor = ctx.get_triggered_value();
 

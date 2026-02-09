@@ -1,0 +1,70 @@
+/* --- LAYOUT DEL MAIN --- */
+.graph-series-container {
+    /* Ocupa el 100% del espacio disponible junto al sidebar */
+    width: 100%;
+    padding: 32px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column; /* Apila Tabla arriba, Gráficas abajo */
+    overflow: hidden; /* Evita que el body entero haga scroll */
+    padding: 20px;
+    gap: 20px;
+    background-color: var(--bg-body);
+
+    position: fixed;
+    top: var(--header-height);
+    left: var(--sidebar-collapsed); /* Empieza después del sidebar pequeño */
+    right: 0; /* Ocupa hasta el final a la derecha */
+    bottom: 0; /* Ocupa hasta abajo */
+}
+
+* --- 1. SECCIÓN SUPERIOR (TABLA) --- */
+.top-section-container {
+    flex: 1; /* Ocupa todo el espacio que no usen las gráficas */
+    min-height: 0; /* Truco vital para que el scroll interno funcione en Flexbox */
+    display: flex;
+    flex-direction: column;
+}
+
+.table-scroll-area {
+    flex: 1; /* Crece para llenar la sección */
+    overflow: auto; /* SCROLL AUTO: Aquí es donde scrollea la tabla */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-primary);
+}
+
+/* --- 2. SECCIÓN INFERIOR (GRÁFICAS) --- */
+.bottom-section-container {
+    /* Altura definida: o fija (ej: 350px) o porcentaje (ej: 40%) */
+    height: 40%;
+    flex-shrink: 0; /* No dejes que la tabla te aplaste */
+    display: flex;
+    flex-direction: column;
+}
+
+.charts-grid-wrapper {
+    display: grid;
+    /* MÁXIMO 2 COLUMNAS */
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    /* Scroll interno para las gráficas si hay muchas */
+    overflow-y: auto;
+    height: 100%;
+    padding-right: 5px; /* Espacio para el scrollbar */
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+    /* En móvil, las gráficas pasan a 1 columna */
+    .charts-grid-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+#app-body:[data-checked="1"] .graph-series-container{
+    filter: brightness(0.7) blur(1px); /* Efecto visual de "inactivo" */
+    pointer-events: none; /* Evita clicks en el main mientras gestionas el sidebar */
+}

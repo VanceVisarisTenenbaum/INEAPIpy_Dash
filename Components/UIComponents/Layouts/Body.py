@@ -10,6 +10,7 @@ from dash import html
 
 from Components.UIComponents.Layouts.Header import Header
 from Components.UIComponents.Layouts.Sidebar import Sidebar
+from Components.UIComponents.Layouts.GraphSeries import GraphSeriesContainer
 
 
 def Body():
@@ -19,8 +20,8 @@ def Body():
             html.Div(
                 [
                     Header(),
-                    Sidebar()
-                    # Main
+                    Sidebar(),
+                    GraphSeriesContainer()
                 ],
                 className='main-layout',
                 **{'data-checked': 1, 'data-switch': 'light', 'id': 'app-body'}

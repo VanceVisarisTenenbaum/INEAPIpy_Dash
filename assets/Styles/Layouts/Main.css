@@ -6,6 +6,9 @@
     grid-template-columns: var(--sidebar-width-expanded) 1fr;
     grid-template-rows: var(--header-height) calc(100vh - var(--header-height));
     transition: grid-template-columns 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    position: relative;
+    background-color: var(--bg-body);
 }
 
 /* --- MAIN CONTENT --- */
