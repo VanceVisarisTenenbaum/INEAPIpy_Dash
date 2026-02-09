@@ -28,7 +28,11 @@ function check_requested(input_){
         'Variable': 'Valor'
     }
 
-    if (!Object.keys(input_output_map).includes(input_type)){
+    if (
+        !Object.keys(input_output_map).includes(input_type)
+        ||
+        valor === null || valor === undefined
+        ){
         return [ctx.no_update(), ctx.no_update()];
     }
 
