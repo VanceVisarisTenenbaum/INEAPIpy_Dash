@@ -11,7 +11,7 @@ from Components.UIComponents.Managers.UIManager import UIManager
 
 
 UIM = UIManager()
-def NewRowButtonComp(name, row_lv1=None):
+def NewRowButtonComp(name, row_lv1=None, disabled=False):
 
     boton = html.Button(
         children=[
@@ -23,7 +23,8 @@ def NewRowButtonComp(name, row_lv1=None):
                                   ui_name=name,
                                   ui_subtype='Button',
                                   row_lv1=row_lv1)},
-        className = 'btn-add-filter'
+        className='btn-add-filter',
+        disabled=disabled
     )
     comp = html.Div(
         children = [boton],

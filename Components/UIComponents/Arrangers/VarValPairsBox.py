@@ -64,7 +64,7 @@ def VarValPairBoxComponent(row_lv1, initial_varvalpair):
         className='pairs-list'
     )
     component = html.Div(
-        children=[vvp, NewRowButtonComp('ParesVariableValor', row_lv1)]
+        children=[vvp, NewRowButtonComp('ParesVariableValor', row_lv1, True)]
     )
     return component
 

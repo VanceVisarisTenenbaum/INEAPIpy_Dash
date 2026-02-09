@@ -21,12 +21,16 @@ function get_max_key(childrens_list, key){
 }
 
 function add_new_var_val_row(op_id){
+
+    if (op_id === null || op_id === undefined){return;}
+
     logger.log(
         'Add new Variable Value Pair Row, function called',
         ['Function', 'add_new_var_val_row'],
         'Info',
         [op_id]
     )
+
     const triggered_id = ctx.get_triggered_id();
 
     const row_lv1 = triggered_id['Fila Nivel 1'];

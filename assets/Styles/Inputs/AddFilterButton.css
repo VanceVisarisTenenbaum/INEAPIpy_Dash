@@ -30,3 +30,27 @@
     color: var(--accent);
     background-color: var(--bg-secondary);
 }
+
+
+.btn-add-filter:disabled {
+    /* 1. Cambio visual a escala de grises */
+    border-color: var(--border); /* Borde gris suave en lugar del accent */
+    color: var(--text-muted); /* Texto gris */
+    background-color: rgba(0, 0, 0, 0.03); /* Fondo gris muy tenue, 'muerto' */
+
+    /* 2. Feedback de interacción */
+    cursor: not-allowed; /* Muestra el icono de prohibido 🚫 */
+    opacity: 0.6; /* Reduce la opacidad general para que parezca 'fantasma' */
+
+    /* 3. Evitar animaciones o hovers residuales */
+    transform: none !important; /* Evita cualquier movimiento */
+    box-shadow: none;
+    pointer-events: none; /* (Opcional) Asegura que JS no reciba clics, aunque 'disabled' ya lo hace */
+}
+
+/* Asegurarnos de que el hover NO funcione si está disabled */
+.btn-add-filter:disabled:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-color: var(--border);
+    color: var(--text-muted);
+}

@@ -12,6 +12,7 @@ from Components.UIComponents.EventListeners.ClientsideListeners.check_requested 
 from Components.UIComponents.EventListeners.ClientsideListeners.sidebar_toggle import add_sidebar_toggle_event_listener
 from Components.UIComponents.EventListeners.ClientsideListeners.light_dark_switch import add_light_dark_event_listener
 from Components.UIComponents.EventListeners.ClientsideListeners.add_remove_row import update_row_event_listener
+from Components.UIComponents.EventListeners.ClientsideListeners.enable_buttons import enable_buttons_event_listener
 
 from Components.UIComponents.EventListeners.ServersideListeners.data_gatherer import data_request_event_listener_adder
 
@@ -19,9 +20,10 @@ from Components.UIComponents.EventListeners.ServersideListeners.data_gatherer im
 def add_event_listeners():
     # Clientside
     update_row_event_listener()
-    #store_input_to_state_event_listener()
+    enable_buttons_event_listener()
+    store_input_to_state_event_listener()
     #add_options_event_listener()
-    #check_requested_event_listener()
+    check_requested_event_listener()
     add_sidebar_toggle_event_listener()
     add_light_dark_event_listener()
 

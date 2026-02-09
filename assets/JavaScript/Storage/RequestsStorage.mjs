@@ -18,7 +18,7 @@ function get_from_requests_storage(obj_type, obj_depend=null){
         return get(requests_storage, obj_type);
     }
 
-    if (Number.isInteger(obj_depend)){
+    if (!Number.isInteger(obj_depend)){
         logger.log('obj_depend must be a an integer',
                    ['Fuction', 'get_from_requests_storage'],
                    'Error',

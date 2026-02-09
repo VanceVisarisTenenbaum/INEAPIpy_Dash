@@ -9,6 +9,9 @@ function store_selected(input_, state_storage, series_){
     // Input is any dropdown
     // series is all serie drowdowns
     const id_ = ctx.get_triggered_id();
+
+    if (id_ === null || id_ === undefined){return state_storage;}
+
     const row_lv1 = get(id_, 'Fila Nivel 1', null);
     const row_lv2 = get(id_, 'Fila Nivel 2', null);
     const input_val = ctx.get_triggered_value();

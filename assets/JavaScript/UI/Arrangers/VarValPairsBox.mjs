@@ -33,7 +33,7 @@ function VarValPairBoxComponent(row_lv1, initial_vvp){
         'className': 'pairs-list'
     })
     const comp = dash._html.Div({
-        'children': [vvp, NewRowButtonComp('ParesVariableValor', row_lv1)]
+        'children': [vvp, NewRowButtonComp('ParesVariableValor', row_lv1, true)]
     })
     return comp;
 }
