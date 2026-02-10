@@ -1,0 +1,143 @@
+/* --- HEADER DE LA TABLA --- */
+.table-title-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.btn-refresh-table {
+    appearance: none;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 6px;
+    color: var(--text-main);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-refresh-table:hover {
+    border-color: var(--accent);
+    background-color: var(--bg-secondary);
+}
+
+.btn-refresh-table svg { width: 14px; height: 14px; }
+
+/* --- GRID DE LA TABLA --- */
+.custom-table-container {
+    flex: 1;
+    overflow: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-primary);
+}
+
+.table-row {
+    display: grid;
+    /* 10 Columnas adaptadas a datos técnicos */
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    min-width: 1100px; /* Para forzar scroll horizontal si el main se estrecha mucho */
+    border-bottom: 1px solid var(--border-color);
+    text-decoration: none;
+}
+
+.header-row {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.data-row {
+    cursor: pointer;
+    background: var(--bg-primary);
+    transition: background-color 0.15s, transform 0.1s;
+}
+
+.data-row:hover {
+    background-color: var(--bg-secondary);
+}
+
+.cell {
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+/* --- LÓGICA DE SELECCIÓN (ESTILO APP) --- */
+
+.row-checkbox {
+    display: none; /* Escondemos el check nativo */
+}
+
+.col-check {
+    justify-content: center;
+    border-right: 1px solid var(--border-color);
+}
+
+/* El icono circular de selección */
+.check-icon {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px; /* Un poco cuadrado para look técnico */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    color: transparent; /* Check invisible por defecto */
+}
+
+/* CUANDO LA FILA ESTÁ SELECCIONADA */
+.data-row:has(.row-checkbox:checked) {
+    background-color: rgba(var(--accent-rgb, 99, 102, 241), 0.05);
+}
+
+.row-checkbox:checked ~ .col-check .check-icon {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: white; /* Mostramos el check de SVG */
+}
+
+/* Línea de énfasis lateral (Igual que en las tarjetas del sidebar) */
+.data-row:has(.row-checkbox:checked)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background-color: var(--accent);
+}
+
+/* --- STATUS PILLS --- */
+.status-pill {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.status-pill.ok { background: #dcfce7; color: #166534; }
+
+/* Texto mono para IDs */
+.text-mono { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent); }
+
+.reload {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/><path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/></svg>');
+}
+
+.circle {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/></svg>');
+}
