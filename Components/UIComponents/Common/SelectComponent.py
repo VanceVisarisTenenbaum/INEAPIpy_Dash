@@ -16,9 +16,10 @@ UIM = UIManager()
 def SelectComponent(list_of_ine_obj,
                     name,
                     fila_lv1, fila_lv2=None,
-                    multi=False):
+                    multi=False,
+                    only_id=False):
     """Returns a select for variables or values."""
-    list_of_labels_values = extract_labels_values(list_of_ine_obj)
+    list_of_labels_values = extract_labels_values(list_of_ine_obj, only_id)
 
     """
     if multi:

@@ -1152,3 +1152,26 @@ Pe = [{"Id":0, "Nombre":"Al Detalle", "Codigo":"N"}
 ,
 {"Id":112, "Nombre":"Trienal Base 2003", "Codigo":"T3"}
 ]
+
+
+SeriesEjemplo = [{"Id":307289, "COD":"IPC307289", "FK_Operacion":25, "Nombre":"Madrid. Información y comunicaciones. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":120, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":307297, "COD":"IPC307297", "FK_Operacion":25, "Nombre":"Madrid. Servicios de educación. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":120, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":267935, "COD":"IPC267935", "FK_Operacion":25, "Nombre":"Madrid. Restaurantes y hoteles. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":90, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":307309, "COD":"IPC307309", "FK_Operacion":25, "Nombre":"Madrid. Cuidado personal, protección social, y bienes y servicios diversos. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":120, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":307281, "COD":"IPC307281", "FK_Operacion":25, "Nombre":"Madrid. Transporte. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":120, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":307261, "COD":"IPC307261", "FK_Operacion":25, "Nombre":"Madrid. Alimentos y bebidas no alcohólicas. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":120, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":307269, "COD":"IPC307269", "FK_Operacion":25, "Nombre":"Madrid. Vivienda, agua, electricidad, gas y otros combustibles. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":120, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":307305, "COD":"IPC307305", "FK_Operacion":25, "Nombre":"Madrid. Seguros y servicios financieros. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":120, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":267899, "COD":"IPC267899", "FK_Operacion":25, "Nombre":"Madrid. Bebidas alcohólicas y tabaco. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":90, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":307301, "COD":"IPC307301", "FK_Operacion":25, "Nombre":"Madrid. Restaurantes y servicios de alojamiento. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":120, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":267931, "COD":"IPC267931", "FK_Operacion":25, "Nombre":"Madrid. Enseñanza. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":90, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":307285, "COD":"IPC307285", "FK_Operacion":25, "Nombre":"Madrid. Bebidas alcohólicas, tabaco y estupefacientes. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":120, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":267939, "COD":"IPC267939", "FK_Operacion":25, "Nombre":"Madrid. Otros bienes y servicios. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":90, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":307273, "COD":"IPC307273", "FK_Operacion":25, "Nombre":"Madrid. Muebles, artículos del hogar y artículos para el mantenimiento corriente del hogar. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":120, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":307265, "COD":"IPC307265", "FK_Operacion":25, "Nombre":"Madrid. Vestido y calzado. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":120, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":307293, "COD":"IPC307293", "FK_Operacion":25, "Nombre":"Madrid. Actividades recreativas, deporte y cultura. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":120, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":267923, "COD":"IPC267923", "FK_Operacion":25, "Nombre":"Madrid. Comunicaciones. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":90, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":307257, "COD":"IPC307257", "FK_Operacion":25, "Nombre":"Madrid. Índice general. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":120, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":267927, "COD":"IPC267927", "FK_Operacion":25, "Nombre":"Madrid. Ocio y cultura. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":90, "FK_Escala":1, "FK_Unidad":135}
+,{"Id":307277, "COD":"IPC307277", "FK_Operacion":25, "Nombre":"Madrid. Sanidad. Variación mensual. ", "Decimales":1, "FK_Periodicidad":1, "FK_Publicacion":8, "FK_Clasificacion":120, "FK_Escala":1, "FK_Unidad":135}
+]

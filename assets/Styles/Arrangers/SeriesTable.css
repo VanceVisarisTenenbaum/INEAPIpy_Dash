@@ -41,7 +41,7 @@
 .table-row {
     display: grid;
     /* 10 Columnas adaptadas a datos técnicos */
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 50px 1fr 2fr 1fr 1fr 1fr 1fr;
     min-width: 1100px; /* Para forzar scroll horizontal si el main se estrecha mucho */
     border-bottom: 1px solid var(--border-color);
     text-decoration: none;
@@ -79,9 +79,6 @@
 
 /* --- LÓGICA DE SELECCIÓN (ESTILO APP) --- */
 
-.row-checkbox {
-    display: none; /* Escondemos el check nativo */
-}
 
 .col-check {
     justify-content: center;
@@ -102,18 +99,18 @@
 }
 
 /* CUANDO LA FILA ESTÁ SELECCIONADA */
-.data-row:has(.row-checkbox:checked) {
+.data-row:has(.row-checkbox[data-checked="1"]) {
     background-color: rgba(var(--accent-rgb, 99, 102, 241), 0.05);
 }
 
-.row-checkbox:checked ~ .col-check .check-icon {
+.row-checkbox[data-checked="1"] ~ .col-check .check-icon {
     background-color: var(--accent);
     border-color: var(--accent);
     color: white; /* Mostramos el check de SVG */
 }
 
 /* Línea de énfasis lateral (Igual que en las tarjetas del sidebar) */
-.data-row:has(.row-checkbox:checked)::before {
+.data-row:has(.row-checkbox[data-checked="1"])::before {
     content: '';
     position: absolute;
     left: 0;
