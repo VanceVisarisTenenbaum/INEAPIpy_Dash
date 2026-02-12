@@ -34,6 +34,8 @@
 
     --danger: #ef4444; /* Rojo estándar */
     --danger-bg: rgba(239, 68, 68, 0.1); /* Rojo muy suave para hover */
+
+    --bg-secondary: #f8fafc;
 }
 
 
@@ -58,6 +60,8 @@
         --logic-line-color: #475569;
         --logic-bg-step: #0f172a;
         --logic-border-step: #334155;
+
+        --bg-secondary: #1e293b;
     }
 }
 

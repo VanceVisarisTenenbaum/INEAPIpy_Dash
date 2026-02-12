@@ -8,7 +8,7 @@
 
 .btn-refresh-table {
     appearance: none;
-    background: var(--bg-primary);
+    background: var(--bg-body);
     border: 1px solid var(--border);
     padding: 6px 14px;
     border-radius: 6px;
@@ -35,13 +35,13 @@
     overflow: auto;
     border: 1px solid var(--border);
     border-radius: 10px;
-    background: var(--bg-primary);
+    background: var(--bg-body);
 }
 
 .table-row {
     display: grid;
     /* 10 Columnas adaptadas a datos técnicos */
-    grid-template-columns: 50px 1fr 2fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr;
     min-width: 1100px; /* Para forzar scroll horizontal si el main se estrecha mucho */
     border-bottom: 1px solid var(--border-color);
     text-decoration: none;
@@ -61,7 +61,7 @@
 
 .data-row {
     cursor: pointer;
-    background: var(--bg-primary);
+    background-color: var(--bg-body);
     transition: background-color 0.15s, transform 0.1s;
 }
 
@@ -82,14 +82,14 @@
 
 .col-check {
     justify-content: center;
-    border-right: 1px solid var(--border-color);
+    border-right: 1px solid var(--border);
 }
 
 /* El icono circular de selección */
 .check-icon {
     width: 20px;
     height: 20px;
-    border: 2px solid var(--border-color);
+    border: 2px solid var(--border);
     border-radius: 4px; /* Un poco cuadrado para look técnico */
     display: flex;
     align-items: center;
@@ -99,18 +99,15 @@
 }
 
 /* CUANDO LA FILA ESTÁ SELECCIONADA */
-.data-row:has(.row-checkbox[data-checked="1"]) {
-    background-color: rgba(var(--accent-rgb, 99, 102, 241), 0.05);
+.data-row[data-checked="1"] {
+    /*background-color: rgba(var(--accent), 99, 102, 241), 0.05);*/
+    border: 2px solid var(--accent);
 }
 
-.row-checkbox[data-checked="1"] ~ .col-check .check-icon {
-    background-color: var(--accent);
-    border-color: var(--accent);
-    color: white; /* Mostramos el check de SVG */
-}
 
 /* Línea de énfasis lateral (Igual que en las tarjetas del sidebar) */
-.data-row:has(.row-checkbox[data-checked="1"])::before {
+/*
+.data-row[data-checked="1"]::before {
     content: '';
     position: absolute;
     left: 0;
@@ -118,6 +115,8 @@
     height: 100%;
     background-color: var(--accent);
 }
+*/
+
 
 /* --- STATUS PILLS --- */
 .status-pill {

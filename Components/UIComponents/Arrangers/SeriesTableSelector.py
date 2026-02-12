@@ -49,7 +49,6 @@ def Cell(data):
 
 def TableHeader():
     cols = [
-        '#',
         'Operación (COD)',
         'Serie',
         'Grafica',
@@ -91,13 +90,14 @@ def serie_data_to_row(serie_data, row_lv1):
         SelectGraficaAxis(row_lv1),
     ]
 
-    cells = [SelectedCheck(serie_data['Id'], row_lv1)]
-    cells.extend([Cell(d) for d in data])
+    cells = [Cell(d) for d in data]
 
     row = html.Div(
         children=cells,
         className='table-row data-row',
-        **{'id': UIM.id_generator('Label', 'Serie', 'Row', row_lv1)}
+        **{'id': UIM.id_generator('Label', 'Serie', 'Row', row_lv1),
+           'data-checked': "0",
+           'data-serie-id': serie_data['Id']}
     )
     return row
 
