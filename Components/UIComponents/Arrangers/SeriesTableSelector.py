@@ -23,7 +23,7 @@ def ReloadDataButton():
             html.Span('Recargar Series')
         ],
         className='btn-refresh-table',
-        **{'id': 'Botón Recargar'}
+        **{'id': 'Recargar_Series'}
     )
     return comp
 

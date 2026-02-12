@@ -8,7 +8,7 @@
 
 .btn-refresh-table {
     appearance: none;
-    background: var(--bg-body);
+    background: var(--primary-light);
     border: 1px solid var(--border);
     padding: 6px 14px;
     border-radius: 6px;
