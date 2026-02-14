@@ -2,9 +2,41 @@ import Logger from '../../Logger/logger.mjs';
 import id_generator from '../Common/Functions/id_generator.mjs';
 import doc from '../Common/Functions/document_processing.mjs';
 import ctx from '../Common/Functions/ctx_processing.mjs';
+import get from '../Common/Functions/dictionary_processing.mjs';
 
 
 const logger = new Logger();
+
+
+function pop(obj, key, defaultValue = null) {
+  if (key in obj) {
+    const value = obj[key];
+    delete obj[key];
+    return value;
+  }
+  return defaultValue;
+}
+
+function remove_from_state_storage(row_lv1, row_lv2=null){
+    const ss_id = id_generator('Storage', 'State');
+    const ss_id_str = JSON.stringify(ss_id);
+    const ss = JSON.parse(sessionStorage.getItem(ss_id_str));
+
+    console.log(ss);
+    if (row_lv2 === null){
+        const curr_val = pop(ss, row_lv1);
+        if (curr_val === null){return null;}
+        dash_clientside.set_props(ss_id, {'data': ss});
+        return null;
+    }
+    const lv1 = get(ss, row_lv1);
+    const VVP = get(lv1, 'VariableValor');
+    const curr_val = pop(VVP, row_lv2);
+    if (curr_val === null){return null;}
+    dash_clientside.set_props(ss_id, {'data': ss});
+    return null;
+}
+
 
 function get_matching_row_index(childrens_list, match_row_lv1, match_row_lv2=null){
 
@@ -49,6 +81,8 @@ function remove_var_val_row(){
 
     const matching_index = get_matching_row_index(current_children, row_lv1, row_lv2);
 
+    remove_from_state_storage(row_lv1, row_lv2);
+
     return matching_index;
 }
 
@@ -70,6 +104,8 @@ function remove_filter_row(){
     const current_children = doc.get_element_by_id(FR_ID).children;
 
     const matching_index = get_matching_row_index(current_children, row_lv1);
+
+    remove_from_state_storage(row_lv1);
 
     return matching_index;
 }

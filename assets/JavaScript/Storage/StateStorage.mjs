@@ -140,9 +140,9 @@ function get_current_value(row_lv1, row_lv2, name, state_storage){
     if (lv1 === null){return null;}
 
     if (['Operacion', 'Tabla'].includes(name)){return get(lv1, name);}
-    else if (['Variable', 'Valor'.includes(name)]){
+    else if (['Variable', 'Valor'].includes(name)){
         const lv2 = get(get(lv1, 'VariableValor'), row_lv2, null);
-        if (row_lv2 === null){return null;}
+        if (lv2 === null){return null;}
         return get(lv2, name);
     }
     else if (name === 'Serie'){return get(lv1, 'Serie');}
@@ -171,7 +171,7 @@ function update_selected(input_type){
 
 /* ------------------------------------------------------------------------- */
 
-export default update_selected;
+export default {update_selected, get_current_value};
 
 
 
