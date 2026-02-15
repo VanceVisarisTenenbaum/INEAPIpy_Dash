@@ -73,7 +73,7 @@ class UIManager(metaclass=SingletonMeta):
     """Class that takes care of getting IDs, names, or more about UI"""
     def __init__(self):
         self.__available_ui_types = [
-            'Arranger', 'Input', 'Storage', 'Label'
+            'Arranger', 'Input', 'Storage', 'Label', 'Container'
         ]
         self.__available_subtypes = [
             None,

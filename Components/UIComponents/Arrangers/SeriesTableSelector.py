@@ -12,8 +12,6 @@ from Components.UIComponents.Managers.UIManager import UIManager
 
 from Components.UIComponents.Common.SelectComponent import SelectComponent
 
-from Components.Storage.temp.ResultadosPeticiones import SeriesEjemplo
-
 UIM = UIManager()
 
 def ReloadDataButton():
@@ -112,6 +110,7 @@ def TableContainer():
             TableHeader(),
             *TableOptions([])
         ],
-        className='custom-table-container'
+        className='custom-table-container',
+        **{'id': UIM.id_generator('Container', 'Table')}
     )
     return comp

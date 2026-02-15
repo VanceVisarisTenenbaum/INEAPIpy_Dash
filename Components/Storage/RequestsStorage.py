@@ -138,7 +138,7 @@ class RequestsStorageManager(metaclass=SingletonMeta):
         if metadata_filter is None:
             return list(), None
         is_empty = not bool(metadata_filter)
-        if is_empty:
+        if is_empty and tab is None:
             return list(), None
 
         if tab is not None:

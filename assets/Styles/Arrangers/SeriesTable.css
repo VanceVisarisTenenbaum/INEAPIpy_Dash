@@ -36,6 +36,7 @@
     border: 1px solid var(--border);
     border-radius: 10px;
     background: var(--bg-body);
+    max-height: 80vh;
 }
 
 .table-row {

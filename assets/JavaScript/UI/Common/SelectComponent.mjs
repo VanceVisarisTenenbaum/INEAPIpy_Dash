@@ -6,12 +6,13 @@ import LabelInput from './LabelInput.mjs';
 function SelectComponent(list_of_ine_obj,
                          name,
                          fila_lv1, fila_lv2='',
-                         multi=false){
+                         multi=false,
+                         only_id=false){
 
 
     let list_of_labels_values;
     if (list_of_ine_obj === null){list_of_labels_values = [];}
-    else {list_of_labels_values = extract_labels_values(list_of_ine_obj)}
+    else {list_of_labels_values = extract_labels_values(list_of_ine_obj, only_id)}
 
 
 
