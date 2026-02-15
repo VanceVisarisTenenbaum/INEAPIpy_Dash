@@ -7,7 +7,7 @@ Created on Tue Feb 10 13:11:57 2026
 """
 
 
-from dash import html, dcc
+from dash import html
 from Components.UIComponents.Managers.UIManager import UIManager
 
 from Components.UIComponents.Common.SelectComponent import SelectComponent
@@ -23,7 +23,7 @@ def ReloadDataButton():
             html.Span('Recargar Series')
         ],
         className='btn-refresh-table',
-        **{'id': 'Recargar_Series'}
+        **{'id': UIM.id_generator('Input', 'Recargar Series', 'Button')}
     )
     return comp
 
@@ -110,7 +110,7 @@ def TableContainer():
     comp = html.Div(
         children=[
             TableHeader(),
-            *TableOptions(SeriesEjemplo)
+            *TableOptions([])
         ],
         className='custom-table-container'
     )

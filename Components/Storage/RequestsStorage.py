@@ -84,6 +84,23 @@ class RequestsStorageManager(metaclass=SingletonMeta):
             raise TypeError('Input is not an int. Where: ' + str(name))
         return None
 
+    def __check_dict_type(self, filtering_dict: dict, name: str=''):
+        """Checks if the input was an dict. Name is for debugging."""
+        if not isinstance(filtering_dict, dict):
+            raise TypeError('Input is not an dict. Where: ' + str(name))
+        return None
+
+    def __check_metadata_filter(self, metadata: dict, name: str=''):
+        self.__check_dict_type(metadata, name)
+        for k,v in metadata.items():
+            self.__check_type(k, name)
+            if not isinstance(v, list):
+                raise TypeError('Values for metadata filtering must be a list.')
+            for val in v:
+                self.__check_type(val, name)
+        return None
+
+
     def __check_literal(self, val: str, name: str=''):
         """Checks if input val is a valid value."""
         if not val in self.initial_storage.keys():
@@ -111,6 +128,34 @@ class RequestsStorageManager(metaclass=SingletonMeta):
         valores = self.SSM.INE.get_values_(var_id)
         requests_storage['Valor'][var_id] = valores
         return requests_storage
+
+    def get_series(self, filtering_dict):
+        self.__check_dict_type(filtering_dict, 'Series')
+        op = filtering_dict.get('Operacion', None)
+        tab = filtering_dict.get('Tabla', None)
+        metadata_filter = filtering_dict.get('MetadataFiltering', None)
+
+        if metadata_filter is None:
+            return list(), None
+        is_empty = not bool(metadata_filter)
+        if is_empty:
+            return list(), None
+
+        if tab is not None:
+            self.__check_type(tab, 'Operacion Tabla')
+            series = self.SSM.INE.get_series_(tab_id=tab,
+                                              metadata_filtering=metadata_filter)
+        else:
+            self.__check_type(op, 'Operacion Serie')
+            self.__check_metadata_filter(metadata_filter, 'Metadata filters Serie')
+            series = self.SSM.INE.get_series_(op_id=op,
+                                              metadata_filtering=metadata_filter)
+
+        metadata_str = ''
+        for var, val_list in metadata_filter.items():
+            metadata_str += f'var:{var}val:{str(val_list)}'
+        store_str = f'op:{op}tab:{tab}vvp:{metadata_str}'
+        return series, store_str
 
     def get_obj(self, obj_type: str, obj_depend: int, requests_storage):
         """
@@ -160,7 +205,10 @@ class RequestsStorageManager(metaclass=SingletonMeta):
                     obj_depend,
                     requests_storage
                 )
-            elif obj_type in ['Periodo', 'Serie', 'Data']:
+            elif obj_type == 'Serie':
+                requests_storage = self.__add_series(obj_depend,
+                                                     requests_storage)
+            elif obj_type in ['Periodo', 'Data']:
                 raise ValueError('Pendiente de actualizar.')
 
             data = requests_storage.get(obj_type).get(obj_depend, None)

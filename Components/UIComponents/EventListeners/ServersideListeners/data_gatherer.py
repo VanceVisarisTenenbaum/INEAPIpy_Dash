@@ -113,8 +113,55 @@ def data_requesting_maker():
         )
         return server_dummy_storage, requests_storage, client_dummy_storage
 
-    # TODO, aladir event listener botón series
+    #añadir event listener botón series
+    def load_series(state_storage):
 
+        list_of_series = list()
+        for row_lv1, data in state_storage.items():
+            op = data['Operacion']
+            tab = data['Tabla']
+            metadata_filtering = dict()
+            for row_lv2, vvp in data['VariableValor'].items():
+                lista_valores = metadata_filtering.get(vvp['Variable'], None)
+                if lista_valores is None:
+                    metadata_filtering[vvp['Variable']] = list()
+                metadata_filtering[vvp['Variable']].append(vvp['Valor'])
+
+            metadata_filter = {
+                'Operacion': op,
+                'Tabla': tab,
+                'MetadataFiltering': metadata_filtering
+            }
+            series, _ = RSM.get_series(metadata_filter)
+            list_of_series.extend(series)
+
+        return list_of_series
+
+    @callback(
+        inputs=UIM.io_generator(
+            'Input', 'n_clicks',
+            ui_type='Input',
+            ui_name='Recargar Series',
+            ui_subtype='Button'
+        ),
+        state=UIM.io_generator(
+            'State', 'data',
+            ui_type='Storage',
+            ui_name='State'
+        ),
+        output=UIM.io_generator(
+            'Output', 'data',
+            ui_type='Storage',
+            ui_name='Dummy',
+            ui_subtype='Series'
+        ),
+        prevent_initial_call=True
+    )
+    def serie_request(n_clicks, state_storage):
+        if n_clicks == 0:
+            return None
+        series = load_series(state_storage)
+        return series
 
     return None
 
