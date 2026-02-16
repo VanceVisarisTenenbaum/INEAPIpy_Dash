@@ -6,7 +6,7 @@ Created on Mon Feb 16 16:08:04 2026
 @author: mano
 """
 
-from dash import html
+from dash import html, dcc
 
 from Components.UIComponents.Managers.UIManager import UIManager
 
@@ -35,11 +35,32 @@ def GraphTitle():
     )
     return comp
 
+
+def GraphCard(row_lv1):
+    comp = html.Div(
+        children=[
+            dcc.Graph(
+                **{'id': UIM.id_generator('Container', 'Grafica', 'Card', row_lv1)}
+            )
+        ],
+        className='chart-card-structure'
+    )
+    return comp
+
 def GraphContainer():
     comp = html.Div(
         children=[
             html.Div(
-                children=[],
+                children=[
+                    GraphCard(1),
+                    GraphCard(2),
+                    GraphCard(3),
+                    GraphCard(4),
+                    GraphCard(5),
+                    GraphCard(6),
+                    GraphCard(7),
+                    GraphCard(8),
+                ],
                 className='charts-grid-layout',
                 **{'id': UIM.id_generator('Container', 'Graphs')}
             )

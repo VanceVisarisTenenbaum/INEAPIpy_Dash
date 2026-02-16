@@ -86,7 +86,8 @@ class UIManager(metaclass=SingletonMeta):
             'Row',
             'Series',
             'Selected_Series',
-            'Requested_Data'
+            'Requested_Data',
+            'Card'
         ]
         self.__input_names = [
             'Operacion',

@@ -6,7 +6,6 @@
     overflow-y: auto;
     display: flex;
     flex-direction: column; /* Apila Tabla arriba, Gráficas abajo */
-    overflow: hidden; /* Evita que el body entero haga scroll */
     padding: 20px;
     gap: 20px;
     background-color: var(--bg-body);
@@ -16,16 +15,27 @@
     left: var(--sidebar-collapsed); /* Empieza después del sidebar pequeño */
     right: 0; /* Ocupa hasta el final a la derecha */
     bottom: 0; /* Ocupa hasta abajo */
+    min-height: 0px;
 }
 
+
+
 * --- 1. SECCIÓN SUPERIOR (TABLA) --- */
+.graph-table-common {
+    max-height: 85vh;
+    overflow-y: auto;
+    min-height: 0px;
+}
+
 .top-section-container {
     flex: 1; /* Ocupa todo el espacio que no usen las gráficas */
     min-height: 0; /* Truco vital para que el scroll interno funcione en Flexbox */
     display: flex;
     flex-direction: column;
+    /**/
     max-height: 85vh;
     overflow-y: auto;
+    min-height: 75vh;
 }
 
 .table-scroll-area {
@@ -39,10 +49,13 @@
 /* --- 2. SECCIÓN INFERIOR (GRÁFICAS) --- */
 .bottom-section-container {
     /* Altura definida: o fija (ej: 350px) o porcentaje (ej: 40%) */
-    height: 40%;
     flex-shrink: 0; /* No dejes que la tabla te aplaste */
     display: flex;
     flex-direction: column;
+    /**/
+    max-height: 85vh;
+    overflow-y: auto;
+    min-height: 0px;
 }
 
 .charts-grid-wrapper {

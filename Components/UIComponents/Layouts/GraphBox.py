@@ -18,6 +18,6 @@ def GraphSection():
             GraphTitle(),
             GraphContainer()
         ],
-        className='bottom-section-container'
+        className='graph-table-common bottom-section-container'
     )
     return comp

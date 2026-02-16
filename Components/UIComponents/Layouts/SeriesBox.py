@@ -17,6 +17,6 @@ def SeriesSection():
             TableTitle(),
             TableContainer()
         ],
-        className='top-section-container'
+        className='graph-table-common top-section-container'
     )
     return comp
