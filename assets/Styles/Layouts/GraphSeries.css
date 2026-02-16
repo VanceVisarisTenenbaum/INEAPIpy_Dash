@@ -24,7 +24,7 @@
     min-height: 0; /* Truco vital para que el scroll interno funcione en Flexbox */
     display: flex;
     flex-direction: column;
-    min-height: 85vh;
+    max-height: 85vh;
     overflow-y: auto;
 }
 

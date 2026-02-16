@@ -1,0 +1,13 @@
+/* --- PLACEHOLDERS ESTRUCTURALES (Solo para visualización temporal) --- */
+.chart-card-structure {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border); /* Borde discontinuo indicando que está "en construcción" */
+    border-radius: 12px;
+    min-height: 300px; /* Altura mínima para que no se aplasten */
+    min-width: 300px; /* Altura mínima para que no se aplasten */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}

@@ -1,0 +1,22 @@
+/* --- ÁREA DE SCROLL DE GRÁFICAS --- */
+.charts-scroll-area {
+    flex: 1; /* Ocupa el espacio restante del bottom-section-wrapper */
+    overflow-y: auto; /* Permite hacer scroll si hay muchas gráficas */
+    overflow-x: hidden;
+    padding-right: 8px; /* Pequeño margen para que la barra de scroll no pise el contenido */
+}
+
+/* --- GRID DE GRÁFICAS (Regla de oro: Máximo 2 columnas) --- */
+.charts-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas iguales */
+    gap: 20px;
+    align-content: start; /* Asegura que si hay pocas, se queden arriba y no se estiren raro */
+}
+
+/* --- RESPONSIVE (Móvil y pantallas estrechas) --- */
+@media (max-width: 900px) {
+    .charts-grid-layout {
+        grid-template-columns: 1fr; /* Pasa a 1 sola columna */
+    }
+}

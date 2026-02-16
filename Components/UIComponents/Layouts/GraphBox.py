@@ -8,13 +8,15 @@ Created on Mon Feb  9 18:57:11 2026
 
 from dash import html
 
+from Components.UIComponents.Arrangers.GraphArranger import (GraphTitle,
+                                                             GraphContainer)
+
+
 def GraphSection():
     comp = html.Div(
         children=[
-            html.Div(
-                children=[],
-                className='charts-grid-wrapper'
-            )
+            GraphTitle(),
+            GraphContainer()
         ],
         className='bottom-section-container'
     )

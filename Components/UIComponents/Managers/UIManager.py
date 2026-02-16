@@ -85,7 +85,8 @@ class UIManager(metaclass=SingletonMeta):
             'Checkbox',
             'Row',
             'Series',
-            'Selected_Series'
+            'Selected_Series',
+            'Requested_Data'
         ]
         self.__input_names = [
             'Operacion',

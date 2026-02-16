@@ -21,10 +21,12 @@ def ExportButton():
     return comp
 
 def HelpButton():
-    comp = dcc.Button(
+    comp = html.A(
         children=[
             html.Div('', className='svg svg-help')
         ],
+        href="https://github.com/VanceVisarisTenenbaum/INEAPIpy_Dash/blob/main/Documentaci%C3%B3n/ComoUsarLaAPP.md",
+        target="_blank",
         className='icon-btn help-btn',
         **{'id': 'HelpButton'}
     )
@@ -78,8 +80,13 @@ def Header():
                     LightDarkToggle(),
                     html.Div(
                         children=[
-                            html.P("Fuente de datos: www.ine.es"),
-                            html.P("Licencia: Creative Commons Attribution 4.0 (CC BY 4.0)."),
+                            html.P([html.Strong("Fuente de datos: "),
+                                    html.A("www.ine.es",
+                                           href="https://www.ine.es/",
+                                           target="_blank",
+                                           style={'color': "var(--text-primary)"})
+                                    ]),
+                            html.P([html.Strong("Licencia: "), "Creative Commons Attribution 4.0 (CC BY 4.0)."]),
                             html.P("Este sitio es un proyecto independiente y no oficial.")
                         ],
                         className="disclaimer"

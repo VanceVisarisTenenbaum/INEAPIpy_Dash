@@ -157,6 +157,14 @@ class RequestsStorageManager(metaclass=SingletonMeta):
         store_str = f'op:{op}tab:{tab}vvp:{metadata_str}'
         return series, store_str
 
+    def get_data(self, series_id_list):
+        if not isinstance(series_id_list, list):
+            return []
+        data_list = [
+            self.SSM.INE.get_data_(serie_id, count=200) for serie_id in series_id_list
+        ]
+        return data_list
+
     def get_obj(self, obj_type: str, obj_depend: int, requests_storage):
         """
         Gets the requested INE objects. Makes the request if it hadn't.

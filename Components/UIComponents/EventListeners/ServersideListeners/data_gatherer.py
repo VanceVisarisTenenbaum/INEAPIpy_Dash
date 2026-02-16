@@ -163,6 +163,38 @@ def data_requesting_maker():
         series = load_series(state_storage)
         return series
 
+
+    def load_data(series_id_list):
+        return RSM.get_data(series_id_list)
+
+
+    @callback(
+        inputs=UIM.io_generator(
+            'Input', 'n_clicks',
+            ui_type='Input',
+            ui_name='Recargar Datos',
+            ui_subtype='Button'
+        ),
+        state=UIM.io_generator(
+            'State', 'data',
+            ui_type='Storage',
+            ui_name='Dummy',
+            ui_subtype='Selected_Series'
+        ),
+        output=UIM.io_generator(
+            'Output', 'data',
+            ui_type='Storage',
+            ui_name='Dummy',
+            ui_subtype='Requested_Data'
+        ),
+        prevent_initial_call=True
+    )
+    def data_requests(n_clicks, selected_series_storage):
+        print(n_clicks, selected_series_storage)
+        if isinstance(selected_series_storage, dict):
+            return list()
+        return load_data(selected_series_storage)
+
     return None
 
 def data_request_event_listener_adder():

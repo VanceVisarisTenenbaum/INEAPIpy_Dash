@@ -101,11 +101,11 @@
     color: var(--text-secondary);
     cursor: pointer;
     display: flex;
-    padding: 8px;
+    /*padding: 8px;*/
     border-radius: 50%;
     transition: 0.2s;
-    height: 28px;
-    width: 28px;
+    /*height: 28px;
+    width: 28px;*/
 }
 
 .icon-btn:hover {

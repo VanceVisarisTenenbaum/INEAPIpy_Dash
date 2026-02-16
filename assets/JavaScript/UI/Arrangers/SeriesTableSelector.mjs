@@ -102,7 +102,7 @@ function serie_data_to_row(serie_data, row_lv1){
         'className': 'table-row data-row',
         'id': id_generator('Label', 'Serie', 'Row', row_lv1),
         'data-checked': "0",
-        'data-serie-id': serie_data['Id']
+        'data-serie-id': serie_data['COD']
     })
     return row;
 }
