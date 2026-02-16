@@ -32,6 +32,7 @@ def initial_layout():
             DSM.get_initial_storage('Client'),  # Client is the dummy that activates client function
             DSM.get_initial_storage('Server'),  # Server is the dummy that activates server function
             DSM.get_initial_storage('Series'),  # Dummy that stores the requested series.
+            DSM.get_initial_storage('Selected_Series'),  # Dummy that stores the selected series.
             dcc.Store(UIM.id_generator('Storage', 'Log'), 'session', data=[]),
             Body()
         ],

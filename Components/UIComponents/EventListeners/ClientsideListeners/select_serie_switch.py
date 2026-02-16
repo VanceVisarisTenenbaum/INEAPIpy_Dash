@@ -26,20 +26,31 @@ def select_serie_event_listener():
             ui_subtype='Row',
             row_lv1='MATCH'
         ),
-        state=UIM.io_generator(
-            'State', 'data-checked',
-            ui_type='Label',
-            ui_name='Serie',
-            ui_subtype='Row',
-            row_lv1='MATCH'
-        ),
-        output=UIM.io_generator(
-            'Output', 'data-checked',
-            ui_type='Label',
-            ui_name='Serie',
-            ui_subtype='Row',
-            row_lv1='MATCH'
-        ),
+        state=[
+            UIM.io_generator(
+                'State', 'data-checked',
+                ui_type='Label',
+                ui_name='Serie',
+                ui_subtype='Row',
+                row_lv1='MATCH'
+            ),
+            UIM.io_generator(
+                'State', 'data-serie-id',
+                ui_type='Label',
+                ui_name='Serie',
+                ui_subtype='Row',
+                row_lv1='MATCH'
+            )
+        ],
+        output=[
+            UIM.io_generator(
+                'Output', 'data-checked',
+                ui_type='Label',
+                ui_name='Serie',
+                ui_subtype='Row',
+                row_lv1='MATCH'
+            )
+        ],
         prevent_initial_call=True
     )
 

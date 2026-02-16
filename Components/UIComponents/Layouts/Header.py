@@ -67,20 +67,23 @@ def Header():
             html.Div(
                 children=[
                     SidebarToggle(),
-                    html.H1('Datos abiertos INE (no oficial)', className='header-title')
+                    html.H1('Datos abiertos INE (no oficial)', className='header-title'),
+                    HelpButton()
                 ],
                 className='header-left'
             ),
             html.Div(
                 children=[
                     ExportButton(),
-                    HelpButton(),
                     LightDarkToggle(),
-                    html.P("""
-Fuente de datos: www.ine.es
-Licencia: Creative Commons Attribution 4.0 (CC BY 4.0).
-Este sitio es un proyecto independiente y no oficial.
-                    """)
+                    html.Div(
+                        children=[
+                            html.P("Fuente de datos: www.ine.es"),
+                            html.P("Licencia: Creative Commons Attribution 4.0 (CC BY 4.0)."),
+                            html.P("Este sitio es un proyecto independiente y no oficial.")
+                        ],
+                        className="disclaimer"
+                    )
                 ],
                 className='header-right'
             ),

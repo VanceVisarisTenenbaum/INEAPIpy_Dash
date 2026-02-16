@@ -15,7 +15,21 @@ def main():
 
 
     """Iniciamos el servidor de dash."""
-    app = Dash()
+    app = Dash(
+        __name__,
+        title='Datos Abiertos INE No Oficial',
+        meta_tags=[
+            {
+            "name": "description",
+            "content": "Proyecto experimental no oficial y herramienta interactiva para facilitar el consumo de la API del INE y visualizar los resultados en gráficas."
+            },
+            {
+            "name": "keywords",
+            "content": "INE API tool, INE API visualizer, consumir INE API, dashboard INE API, visualización de datos, Dash, Python"
+            },
+        ]
+    )
+
 
     app.layout = html.Div(
         children=[
