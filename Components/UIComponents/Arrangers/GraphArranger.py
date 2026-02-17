@@ -40,10 +40,11 @@ def GraphCard(row_lv1):
     comp = html.Div(
         children=[
             dcc.Graph(
-                **{'id': UIM.id_generator('Container', 'Grafica', 'Card', row_lv1)}
+                **{'id': UIM.id_generator('Container', 'Grafica', 'Component', row_lv1)}
             )
         ],
-        className='chart-card-structure'
+        className='chart-card-structure',
+        **{'id': UIM.id_generator('Container', 'Grafica', 'Card', row_lv1)}
     )
     return comp
 

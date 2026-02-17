@@ -190,7 +190,6 @@ def data_requesting_maker():
         prevent_initial_call=True
     )
     def data_requests(n_clicks, selected_series_storage):
-        print(n_clicks, selected_series_storage)
         if isinstance(selected_series_storage, dict):
             return list()
         return load_data(selected_series_storage)

@@ -15,6 +15,7 @@ from Components.UIComponents.EventListeners.ClientsideListeners.add_remove_row i
 from Components.UIComponents.EventListeners.ClientsideListeners.enable_buttons import enable_buttons_event_listener
 from Components.UIComponents.EventListeners.ClientsideListeners.select_serie_switch import select_serie_event_listener
 from Components.UIComponents.EventListeners.ClientsideListeners.add_series_to_table import add_series_event_listener
+from Components.UIComponents.EventListeners.ClientsideListeners.plot_data import plot_graph_event_listener
 
 from Components.UIComponents.EventListeners.ServersideListeners.data_gatherer import data_request_event_listener_adder
 
@@ -30,6 +31,7 @@ def add_event_listeners():
     add_light_dark_event_listener()
     select_serie_event_listener()
     add_series_event_listener()
+    plot_graph_event_listener()
 
     # Serverside
     data_request_event_listener_adder()

@@ -6,7 +6,6 @@ function get_storage_content(storage_key, default_val=null){
 function write_to_storage(storage_key, content){
     //sessionStorage.setItem(storage_key, JSON.stringify(content));
     //dash_clientside.set_props(storage_key, JSON.stringify(content));
-    console.log(storage_key, content)
     dash_clientside.set_props(JSON.parse(storage_key), {'data': content});
     return null;
 }

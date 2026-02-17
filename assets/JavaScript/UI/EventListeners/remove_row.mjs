@@ -22,7 +22,6 @@ function remove_from_state_storage(row_lv1, row_lv2=null){
     const ss_id_str = JSON.stringify(ss_id);
     const ss = JSON.parse(sessionStorage.getItem(ss_id_str));
 
-    console.log(ss);
     if (row_lv2 === null){
         const curr_val = pop(ss, row_lv1);
         if (curr_val === null){return null;}
