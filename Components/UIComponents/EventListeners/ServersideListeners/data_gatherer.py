@@ -6,7 +6,7 @@ Created on Sun Jan 18 16:08:48 2026
 @author: mano
 """
 
-from dash import callback, ctx, no_update
+from dash import callback, ctx, no_update, Patch
 
 from Components.Storage.RequestsStorage import RequestsStorageManager
 from Components.Storage.StateStorage import StateStorageManager
@@ -191,8 +191,12 @@ def data_requesting_maker():
     )
     def data_requests(n_clicks, selected_series_storage):
         if isinstance(selected_series_storage, dict):
-            return list()
-        return load_data(selected_series_storage)
+            new_data = list()
+        else:
+            new_data = load_data(selected_series_storage)
+        patch = Patch()
+        patch['last_update'] = new_data
+        return patch
 
     return None
 

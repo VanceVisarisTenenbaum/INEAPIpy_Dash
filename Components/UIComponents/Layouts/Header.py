@@ -23,7 +23,8 @@ def ExportButton():
 def HelpButton():
     comp = html.A(
         children=[
-            html.Div('', className='svg svg-help')
+            html.Div('', className='svg svg-help'),
+            html.Span('Ayuda')
         ],
         href="https://github.com/VanceVisarisTenenbaum/INEAPIpy_Dash/blob/main/Documentaci%C3%B3n/ComoUsarLaAPP.md",
         target="_blank",

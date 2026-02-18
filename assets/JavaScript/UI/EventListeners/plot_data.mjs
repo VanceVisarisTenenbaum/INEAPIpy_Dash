@@ -5,7 +5,7 @@
 import id_generator from '../Common/Functions/id_generator.mjs';
 import ctx from '../Common/Functions/ctx_processing.mjs';
 import get from '../Common/Functions/dictionary_processing.mjs';
-
+import SP from '../Common/Functions/storage_processing.mjs';
 
 function get_graph_data(childrens){
     const data_ = {
@@ -134,7 +134,7 @@ function set_graph_data(graph_id_num, graph_data_list){
 
 
 function plot_graphs(
-        requested_data,
+        requested_data_dict,
         table_childrens,
         graphs_ids,
         graphs_values,
@@ -142,7 +142,9 @@ function plot_graphs(
         graphs_axis_values
     ){
 
+    let requested_data = requested_data_dict['last_update'];
     // First we extract the selected graph and axis
+    if (requested_data === [] || requested_data === null){return null;}
 
     const selected_data = get_selected_series_data(
         table_childrens,
@@ -151,6 +153,7 @@ function plot_graphs(
     );
 
     if (Object.keys(selected_data).length != requested_data.length){
+        console.log(selected_data, requested_data);
         throw new Error('Algún error, plot_graphs');
     }
 
@@ -179,6 +182,11 @@ function plot_graphs(
     for (let graph_id_num of Object.keys(figure_data)){
         set_graph_data(parseInt(graph_id_num), figure_data[graph_id_num]);
     }
+
+    dash_clientside.set_props(
+        id_generator('Storage', 'Dummy', 'Requested_Data'),
+        {'data': {'last_update': null}}
+    );
 
     return null;
 }
