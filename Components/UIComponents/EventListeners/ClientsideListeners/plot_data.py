@@ -42,14 +42,14 @@ def plot_graph_event_listener():
             UIM.io_generator(
                 'State', 'id',
                 ui_type='Input',
-                ui_name='Eje Grafica',
+                ui_name='Tipo Grafica',
                 ui_subtype='Dropdown',
                 row_lv1='ALL'
             ),
             UIM.io_generator(
                 'State', 'value',
                 ui_type='Input',
-                ui_name='Eje Grafica',
+                ui_name='Tipo Grafica',
                 ui_subtype='Dropdown',
                 row_lv1='ALL'
             )

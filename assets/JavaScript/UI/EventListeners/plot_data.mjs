@@ -80,8 +80,10 @@ function get_selected_series_data(table_childrens,
 
 function process_data(requested_serie_data, serie_cod, graph_axis){
     let axis;
-    if (graph_axis === 2){axis = 'y2';}
-    else {axis = 'y1';}
+    let mode;
+    let type;
+    if (graph_axis === 'Barras'){axis = 'y2'; type='bar'}
+    else {axis = 'y'; mode='line+markers', type='scatter';}
 
     let x = [];
     let y = [];
@@ -93,13 +95,18 @@ function process_data(requested_serie_data, serie_cod, graph_axis){
         'x': x,
         'y': y,
         'name': serie_cod,
-        'axis': axis
+        'yaxis': 'y',
+        'type': type,
     };
     return processed;
 }
 
 function make_layout(graph_id_num){
-    return {'title': 'Gráfica ' + String(graph_id_num)};
+    const layout = {
+        'title': 'Gráfica ' + String(graph_id_num),
+        'showLegend': true
+    }
+    return layout;
 }
 
 function set_graph_data(graph_id_num, graph_data_list){
@@ -118,8 +125,8 @@ function set_graph_data(graph_id_num, graph_data_list){
         'data': data_,
         'layout': {'title': make_layout(graph_id_num)}
     };
-    const figure_id = JSON.stringify(
-        id_generator('Container', 'Grafica', 'Component', graph_id_num)
+    const figure_id = id_generator(
+        'Container', 'Grafica', 'Component', graph_id_num
     );
     dash_clientside.set_props(figure_id, {'figure': figure_data});
     return null;
@@ -136,12 +143,6 @@ function plot_graphs(
     ){
 
     // First we extract the selected graph and axis
-    console.log(requested_data);
-    console.log(table_childrens);
-    console.log(graphs_ids);
-    console.log(graphs_values);
-    console.log(graphs_axis_ids);
-    console.log(graphs_axis_values);
 
     const selected_data = get_selected_series_data(
         table_childrens,
@@ -149,7 +150,6 @@ function plot_graphs(
         graphs_axis_ids, graphs_axis_values
     );
 
-    console.log(selected_data);
     if (Object.keys(selected_data).length != requested_data.length){
         throw new Error('Algún error, plot_graphs');
     }
@@ -177,7 +177,7 @@ function plot_graphs(
     }
 
     for (let graph_id_num of Object.keys(figure_data)){
-        set_graph_data(graph_id_num, figure_data[graph_id_num]);
+        set_graph_data(parseInt(graph_id_num), figure_data[graph_id_num]);
     }
 
     return null;

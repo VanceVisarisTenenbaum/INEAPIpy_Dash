@@ -43,7 +43,7 @@ function TableHeader(){
         'Operación (COD)',
         'Serie',
         'Grafica',
-        'Eje Grafica'
+        'Tipo Grafica'
     ];
     const cells = cols.map(col => Cell(col));
     const comp = dash._html.Div({
@@ -65,7 +65,8 @@ function SelectedCheck(serie_id, row_lv1){
 }
 
 function SelectGrafica(row_lv1){
-    const options = [{'Id': 1}];
+    const range = [1,2,3,4,5,6,7,8];
+    const options = range.map(x => ({'Id': x}));
     const comp = SelectComponent(options, 'Grafica', row_lv1, '', false, true)
     return comp;
 }
@@ -73,6 +74,12 @@ function SelectGrafica(row_lv1){
 function SelectGraficaAxis(row_lv1){
     const options = [{'Id': 1}, {'Id': 2}];
     const comp = SelectComponent(options, 'Eje Grafica', row_lv1, '', false, true);
+    return comp;
+}
+
+function SelectTipoGrafica(row_lv1){
+    const options = [{'Id': 'Lineas'}, {'Id': 'Barras'}];
+    const comp = SelectComponent(options, 'Tipo Grafica', row_lv1, '', false, true);
     return comp;
 }
 
@@ -90,9 +97,9 @@ function get_operation_name(op_id){
 function serie_data_to_row(serie_data, row_lv1){
     const data = [
         get_operation_name(serie_data['FK_Operacion']),
-        serie_data['Nombre'],
+        '(' + serie_data['COD'] + ') ' + serie_data['Nombre'],
         SelectGrafica(row_lv1),
-        SelectGraficaAxis(row_lv1),
+        SelectTipoGrafica(row_lv1),
     ];
 
     const cells = data.map(d => Cell(d));

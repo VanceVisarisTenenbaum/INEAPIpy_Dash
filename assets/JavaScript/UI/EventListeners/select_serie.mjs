@@ -8,6 +8,7 @@ function pop(lista, val){
 
 
 function select_serie_switch(n_clicks, current_state, serie_val){
+
     const storage_id = JSON.stringify(id_generator('Storage', 'Dummy', 'Selected_Series'));
     let storage = SP.get_storage_content(storage_id);
     if (storage['last_update'] === -1){storage = [];}

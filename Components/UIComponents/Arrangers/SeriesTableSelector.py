@@ -50,7 +50,7 @@ def TableHeader():
         'Operación (COD)',
         'Serie',
         'Grafica',
-        'Eje Grafica'
+        'Tipo Grafica'
     ]
     cells = [Cell(col) for col in cols]
     comp = html.Div(
@@ -71,7 +71,7 @@ def SelectedCheck(serie_id, row_lv1):
     return comp
 
 def SelectGrafica(row_lv1):
-    options = [{'Id': 1}]
+    options = [{'Id': x+1} for x in range(8)]
     comp = SelectComponent(options, 'Grafica', row_lv1, only_id=True)
     return comp
 
@@ -80,12 +80,17 @@ def SelectGraficaAxis(row_lv1):
     comp = SelectComponent(options, 'Eje Grafica', row_lv1, only_id=True)
     return comp
 
+def SelectGraficaType(row_lv1):
+    options = [{'Id': 'Lineas'}, {'Id': 'Barras'}]
+    comp = SelectComponent(options, 'Tipo Grafica', row_lv1, only_id=True)
+    return comp
+
 def serie_data_to_row(serie_data, row_lv1):
     data = [
         serie_data['FK_Operacion'],
-        serie_data['Nombre'],
+        '(' + serie_data['COD'] + ') ' + serie_data['Nombre'],
         SelectGrafica(row_lv1),
-        SelectGraficaAxis(row_lv1),
+        SelectGraficaType(row_lv1),
     ]
 
     cells = [Cell(d) for d in data]

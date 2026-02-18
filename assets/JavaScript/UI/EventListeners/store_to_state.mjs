@@ -18,7 +18,7 @@ function store_selected(input_, state_storage, series_){
     const input_type = get(id_, 'Nombre', null);
 
     // We check if the trigger was adding or removing a row.
-    if (['Grafica', 'Eje Grafica'].includes(input_type)){
+    if (['Grafica', 'Eje Grafica', 'Tipo Grafica'].includes(input_type)){
         return ctx.no_update();
     }
     if (input_val === ss.get_current_value(row_lv1, row_lv2,
